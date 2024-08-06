@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend server for handling API requests and database interactions",
+  "main": "build/server.js",
+  "scripts": {
+    "build": "tsc",
+    "serve": "node build/server.js",
+    "start": "npm run build && npm run serve --no-color"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jovanvukasinovic/Web-Application-for-Culinary-Education-and-Professional-Development.git"
+  },
+  "keywords": [
+    "backend",
+    "server",
+    "api",
+    "nodejs"
+  ],
+  "author": "Jovan Vukasinovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jovanvukasinovic/Web-Application-for-Culinary-Education-and-Professional-Development/issues"
+  },
+  "homepage": "https://github.com/jovanvukasinovic/Web-Application-for-Culinary-Education-and-Professional-Development#readme"
+}
