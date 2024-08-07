@@ -1,0 +1,16 @@
+<div *ngIf="user">
+  <h2>Profile</h2>
+  <p><strong>First Name:</strong> {{ user.firstname }}</p>
+  <p><strong>Last Name:</strong> {{ user.lastname }}</p>
+  <p><strong>Email:</strong> {{ user.email }}</p>
+  <p><strong>Phone:</strong> {{ user.phone }}</p>
+  <img *ngIf="user._id" [src]="getProfilePictureUrl()" alt="Profile Picture" />
+  <form (submit)="onSubmit()" enctype="multipart/form-data">
+    <input type="file" (change)="onFileSelected($event)" />
+    <button type="submit">Upload</button>
+  </form>
+  <button (click)="logout()">Logout</button>
+</div>
+<div *ngIf="!user">
+  <p>No user is logged in.</p>
+</div>
