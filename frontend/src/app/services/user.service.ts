@@ -10,11 +10,76 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
+  // Prijava korisnika
   login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, password });
+    return this.http.post<any>(`${this.apiUrl}/userLogin`, {
+      username,
+      password,
+    });
   }
 
+  // Prijava administratora
+  adminLogin(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/adminLogin`, {
+      username,
+      password,
+    });
+  }
+
+  // Registracija korisnika
+  registerUser(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, formData);
+  }
+
+  // Dodavanje korisnika od strane administratora
+  addUserByAdmin(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/addUserByAdmin`, formData);
+  }
+
+  // Promena lozinke
+  changePassword(username: string, password: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/changePassword`, {
+      username,
+      password,
+    });
+  }
+
+  // Aktivacija korisnika od strane administratora
+  activateUser(username: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/activateUser`, { username });
+  }
+
+  // Deaktivacija korisnika od strane administratora
+  deactivateUser(username: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/deactivateUser`, { username });
+  }
+
+  // Brisanje korisnika od strane administratora
+  deleteUser(username: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/deleteUser`, {
+      body: { username },
+    });
+  }
+
+  // Provera dostupnosti korisničkog imena
+  checkUsername(username: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/checkUsername`, { username });
+  }
+
+  // Provera dostupnosti email adrese
+  checkEmail(email: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/checkEmail`, { email });
+  }
+
+  // Upload profilne slike
   uploadProfilePicture(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/upload`, formData);
+    return this.http.post<any>(`${this.apiUrl}/uploadProfilePicture`, formData);
+  }
+
+  // Dohvatanje profilne slike korisnika
+  getProfilePicture(userId: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/profile-picture/${userId}`, {
+      responseType: 'blob',
+    });
   }
 }
