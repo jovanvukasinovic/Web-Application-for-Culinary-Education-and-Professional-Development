@@ -14,7 +14,7 @@ export class AdminLoginComponent {
 
   constructor(private userService: UserService, private router: Router) {}
 
-  adminLogin() {
+  login() {
     this.userService.adminLogin(this.username, this.password).subscribe(
       (response) => {
         // Sačuvaj podatke o prijavljenom adminu u localStorage

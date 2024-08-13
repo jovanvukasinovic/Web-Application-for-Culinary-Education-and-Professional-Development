@@ -23,7 +23,19 @@ export class UserController {
         return res.status(404).json({ message: "Admin not found" });
       }
 
-      return res.status(200).json(admin);
+      // Konvertuj Buffer u Base64 string i kreiraj novi objekat za sliku
+      let photoBase64 = null;
+      if (admin.photo && admin.photo.data) {
+        photoBase64 = {
+          data: admin.photo.data.toString("base64"),
+          contentType: admin.photo.contentType,
+        };
+      }
+
+      return res.status(200).json({
+        ...admin.toObject(),
+        photo: photoBase64,
+      });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Server error" });

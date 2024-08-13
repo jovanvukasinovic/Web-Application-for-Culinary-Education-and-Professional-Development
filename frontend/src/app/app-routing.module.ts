@@ -12,7 +12,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'adminLogin', component: AdminLoginComponent },
+  { path: 'admin-login', component: AdminLoginComponent },
   { path: 'admin-home-page', component: AdminHomePageComponent },
   { path: 'register', component: UserRegistrationComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
