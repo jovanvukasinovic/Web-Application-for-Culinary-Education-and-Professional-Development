@@ -29,22 +29,22 @@ userRouter.post("/addUserByAdmin", upload.single("photo"), (req, res) =>
 );
 
 // Ruta za promenu lozinke
-userRouter.post("/changePassword", (req, res) =>
+userRouter.patch("/changePassword", (req, res) =>
   userController.changePassword(req, res)
 );
 
 // Ruta za aktivaciju korisnika od strane administratora
-userRouter.post("/activateUser", (req, res) =>
+userRouter.patch("/activateUser", (req, res) =>
   userController.activateUserByAdmin(req, res)
 );
 
 // Ruta za deaktivaciju korisnika od strane administratora
-userRouter.post("/deactivateUser", (req, res) =>
+userRouter.patch("/deactivateUser", (req, res) =>
   userController.deactivateUserByAdmin(req, res)
 );
 
 // Ruta za brisanje korisnika od strane administratora
-userRouter.post("/deleteUser", (req, res) =>
+userRouter.delete("/deleteUser", (req, res) =>
   userController.deleteUserByUsernameByAdmin(req, res)
 );
 
