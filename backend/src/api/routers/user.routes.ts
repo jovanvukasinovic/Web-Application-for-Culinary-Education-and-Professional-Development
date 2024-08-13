@@ -1,23 +1,69 @@
 import express from "express";
-import { UserController } from "../controllers/user.controller";
 import multer from "multer";
+
+import { UserController } from "../controllers/user.controller";
 
 const userRouter = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-userRouter
-  .route("/login")
-  .post((req, res) => new UserController().login(req, res));
+// Kreiranje instance UserController
+const userController = new UserController();
 
-userRouter
-  .route("/upload")
-  .post(upload.single("photo"), (req, res) =>
-    new UserController().uploadProfilePicture(req, res)
-  );
+// Ruta za prijavu korisnika
+userRouter.post("/userLogin", (req, res) => userController.userLogin(req, res));
 
-userRouter
-  .route("/profile-picture/:userId")
-  .get((req, res) => new UserController().getProfilePicture(req, res));
+// Ruta za prijavu administratora
+userRouter.post("/adminLogin", (req, res) =>
+  userController.adminLogin(req, res)
+);
+
+// Ruta za registraciju korisnika (sa uploadom profilne slike)
+userRouter.post("/register", upload.single("photo"), (req, res) =>
+  userController.userRegistration(req, res)
+);
+
+// Ruta za dodavanje korisnika od strane administratora (sa uploadom profilne slike)
+userRouter.post("/addUserByAdmin", upload.single("photo"), (req, res) =>
+  userController.addUserByAdmin(req, res)
+);
+
+// Ruta za promenu lozinke
+userRouter.post("/changePassword", (req, res) =>
+  userController.changePassword(req, res)
+);
+
+// Ruta za aktivaciju korisnika od strane administratora
+userRouter.post("/activateUser", (req, res) =>
+  userController.activateUserByAdmin(req, res)
+);
+
+// Ruta za deaktivaciju korisnika od strane administratora
+userRouter.post("/deactivateUser", (req, res) =>
+  userController.deactivateUserByAdmin(req, res)
+);
+
+// Ruta za brisanje korisnika od strane administratora
+userRouter.post("/deleteUser", (req, res) =>
+  userController.deleteUserByUsernameByAdmin(req, res)
+);
+
+// Ruta za proveru dostupnosti korisničkog imena
+userRouter.post("/checkUsername", (req, res) =>
+  userController.findUsername(req, res)
+);
+
+// Ruta za proveru dostupnosti email adrese
+userRouter.post("/checkEmail", (req, res) => userController.findMail(req, res));
+
+// Ruta za upload profilne slike
+userRouter.post("/uploadProfilePicture", upload.single("photo"), (req, res) =>
+  userController.uploadProfilePicture(req, res)
+);
+
+// Ruta za dobijanje profilne slike korisnika
+userRouter.get("/profile-picture/:userId", (req, res) =>
+  userController.getProfilePicture(req, res)
+);
 
 export default userRouter;

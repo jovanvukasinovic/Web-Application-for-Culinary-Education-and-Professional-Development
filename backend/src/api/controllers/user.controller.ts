@@ -31,7 +31,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  login = async (req: Request, res: Response) => {
+  userLogin = async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
 
@@ -122,7 +122,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  deleteUserByUsername = async (
+  deleteUserByUsernameByAdmin = async (
     req: express.Request,
     res: express.Response
   ) => {
@@ -176,7 +176,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  activateUser = async (req: express.Request, res: express.Response) => {
+  activateUserByAdmin = async (req: express.Request, res: express.Response) => {
     try {
       const { username } = req.body;
 
@@ -203,7 +203,10 @@ export class UserController {
   };
 
   // TODO: Not used
-  deactivateUser = async (req: express.Request, res: express.Response) => {
+  deactivateUserByAdmin = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     try {
       const { username } = req.body;
 
@@ -226,6 +229,160 @@ export class UserController {
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  // TODO: Not used
+  addUserByAdmin = async (req: express.Request, res: express.Response) => {
+    try {
+      const { firstname, lastname, username, password, email, phone } =
+        req.body;
+
+      // Validacija potrebnih polja
+      if (!firstname || !lastname || !username || !password || !email) {
+        return res
+          .status(400)
+          .json({ message: "All required fields must be provided" });
+      }
+
+      // Priprema objekta za profilnu fotografiju (ako postoji)
+      let photo;
+      if (req.file) {
+        photo = {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        };
+      }
+
+      const user = new User({
+        firstname,
+        lastname,
+        photo,
+        username,
+        password,
+        email,
+        phone,
+        role: "user",
+        status: "active",
+      });
+
+      // Čuvanje korisnika sa async/await
+      const savedUser = await user.save();
+
+      return res
+        .status(201)
+        .json({ message: "Admin added new system user", user: savedUser });
+    } catch (err) {
+      if ((err as any).name === "MongoError" && (err as any).code === 11000) {
+        // 11000 je kod za duplikate ključeva u MongoDB-u (npr. unique username ili email)
+        return res
+          .status(409)
+          .json({ message: "Username or email already exists" });
+      }
+      console.error(err);
+      return res
+        .status(400)
+        .json({ message: "Error adding user", error: (err as any).message });
+    }
+  };
+
+  // TODO: Not used
+  userRegistration = async (req: express.Request, res: express.Response) => {
+    try {
+      const { firstname, lastname, username, password, email, phone } =
+        req.body;
+
+      // Validate required fields
+      if (!firstname || !lastname || !username || !password || !email) {
+        return res
+          .status(400)
+          .json({ message: "All required fields must be provided." });
+      }
+
+      // Validate that a profile picture is uploaded
+      if (!req.file) {
+        return res
+          .status(400)
+          .json({ message: "Profile picture is required." });
+      }
+
+      // Prepare the profile picture object
+      const photo = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+
+      // Create a new user
+      const user = new User({
+        firstname,
+        lastname,
+        photo,
+        username,
+        password, // The password is unencrypted - make sure this is acceptable
+        email,
+        phone,
+        role: "user",
+        status: "inactive", // User registration is inactive until approved
+      });
+
+      // Save the user with async/await
+      const savedUser = await user.save();
+
+      return res.status(201).json({
+        message:
+          "User registration successful. Please wait for request approval.",
+        user: savedUser,
+      });
+    } catch (err) {
+      if ((err as any).name === "MongoError" && (err as any).code === 11000) {
+        // Handle duplicate keys (e.g., username or email already exists)
+        return res
+          .status(409)
+          .json({ message: "Username or email already exists." });
+      }
+      console.error(err);
+      return res.status(500).json({
+        message: "Error registering user.",
+        error: (err as any).message,
+      });
+    }
+  };
+
+  // TODO: Not used
+  findUsername = async (req: express.Request, res: express.Response) => {
+    try {
+      const { username } = req.body;
+
+      // Proveravamo da li je korisničko ime već zauzeto
+      const user = await User.findOne({ username }).exec();
+
+      if (user) {
+        return res.status(200).json({ message: "Username is taken." });
+      } else {
+        return res.status(200).json({ message: "Username is available." });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error." });
+    }
+  };
+
+  // TODO: Not used
+  findMail = async (req: express.Request, res: express.Response) => {
+    try {
+      const { mail } = req.body;
+
+      // Proveravamo da li je e-mail već zauzet
+      const user = await User.findOne({ email: mail }).exec();
+
+      if (user) {
+        return res.status(200).json({ message: "E-mail is taken." });
+      } else {
+        return res.status(200).json({ message: "E-mail is available." });
+      }
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error." });
     }
   };
 }
