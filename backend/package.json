@@ -24,7 +24,7 @@
     "url": "https://github.com/jovanvukasinovic/Web-Application-for-Culinary-Education-and-Professional-Development/issues"
   },
   "dependencies": {
-    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-auto-increment": "^3.0.1",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
