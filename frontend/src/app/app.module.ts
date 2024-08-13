@@ -13,7 +13,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
-import { ProfileComponent } from './profile/profile.component'; // Izmenite putanju prema vašoj strukturi projekta
+import { ProfileComponent } from './profile/profile.component';
+import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component'; // Izmenite putanju prema vašoj strukturi projekta
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ProfileComponent } from './profile/profile.component'; // Izmenite puta
     LoginComponent,
     AdminLoginComponent,
     ProfileComponent,
+    AdminHomePageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],
