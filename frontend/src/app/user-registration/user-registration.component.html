@@ -1,0 +1,81 @@
+<div class="registration-container">
+  <h2>User Registration</h2>
+  <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+    <div class="form-group">
+      <label for="firstname">First Name</label>
+      <input
+        type="text"
+        id="firstname"
+        name="firstname"
+        [(ngModel)]="user.firstname"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="lastname">Last Name</label>
+      <input
+        type="text"
+        id="lastname"
+        name="lastname"
+        [(ngModel)]="user.lastname"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="user.username"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="user.password"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="user.email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" [(ngModel)]="user.phone" />
+    </div>
+
+    <div class="form-group">
+      <label for="photo">Profile Picture</label>
+      <input
+        type="file"
+        id="photo"
+        name="photo"
+        (change)="onFileSelected($event)"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="!registrationForm.valid">Register</button>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+</div>

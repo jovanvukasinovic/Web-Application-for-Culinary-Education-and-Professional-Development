@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
-import autoIncrement from "mongoose-auto-increment";
+// import autoIncrement from "mongoose-auto-increment";
 
 import userRouter from "./api/routers/user.routes";
 
@@ -32,7 +32,7 @@ connection.once("open", () => {
 });
 
 // Initialization of autoIncrement plugin
-autoIncrement.initialize(connection);
+// autoIncrement.initialize(connection);
 
 // Start server
 app.listen(port, () => {
