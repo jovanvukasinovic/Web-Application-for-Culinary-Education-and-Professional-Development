@@ -2,11 +2,12 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import mongoose from "mongoose";
+import autoIncrement from "mongoose-auto-increment";
 
 import userRouter from "./api/routers/user.routes";
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 const db = "proChefDB";
 
 // Middleware
@@ -29,6 +30,9 @@ const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("Database connected!");
 });
+
+// Initialization of autoIncrement plugin
+autoIncrement.initialize(connection);
 
 // Start server
 app.listen(port, () => {

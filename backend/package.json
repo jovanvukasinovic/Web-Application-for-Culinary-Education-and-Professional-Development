@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend server for handling API requests and database interactions",
-  "main": "build/server.js",
+  "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
-    "serve": "node ../build/server.js",
+    "serve": "node dist/server.js",
     "start": "npm run build && npm run serve --no-color"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "url": "https://github.com/jovanvukasinovic/Web-Application-for-Culinary-Education-and-Professional-Development/issues"
   },
   "dependencies": {
+    "mongoose-auto-increment": "^5.0.1",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
