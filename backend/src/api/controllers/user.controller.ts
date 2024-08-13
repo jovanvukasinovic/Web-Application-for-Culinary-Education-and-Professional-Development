@@ -47,6 +47,12 @@ export class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
+      if (user.status === "inactive") {
+        return res
+          .status(403)
+          .json({ message: "Account is inactive. Please contact support." });
+      }
+
       return res.status(200).json(user);
     } catch (err) {
       console.error(err);
