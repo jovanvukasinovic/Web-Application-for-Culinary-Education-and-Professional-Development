@@ -1,0 +1,70 @@
+<div class="recipe-add-container">
+  <h2>Add New Recipe</h2>
+
+  <form (submit)="onSubmit()">
+    <!-- Recipe Name -->
+    <label for="name">Recipe Name:</label>
+    <input type="text" id="name" [(ngModel)]="name" name="name" required />
+
+    <!-- Categories -->
+    <label for="category">Category:</label>
+    <select
+      id="category"
+      [(ngModel)]="category"
+      name="category"
+      multiple
+      required
+    >
+      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+    </select>
+
+    <!-- Tags -->
+    <label for="tags">Tags:</label>
+    <select id="tags" [(ngModel)]="tags" name="tags" multiple required>
+      <option *ngFor="let tag of tagsList" [value]="tag">{{ tag }}</option>
+    </select>
+
+    <!-- Description -->
+    <label for="description">Description:</label>
+    <textarea
+      id="description"
+      [(ngModel)]="description"
+      name="description"
+      required
+    ></textarea>
+
+    <!-- Ingredients -->
+    <div *ngFor="let ingredient of ingredients; let i = index">
+      <label for="ingredientName">Ingredient Name:</label>
+      <input
+        type="text"
+        [(ngModel)]="ingredient.name"
+        name="ingredientName"
+        required
+      />
+
+      <label for="ingredientQuantity">Quantity:</label>
+      <input
+        type="number"
+        [(ngModel)]="ingredient.quantity"
+        name="ingredientQuantity"
+        required
+      />
+
+      <label for="ingredientUnit">Unit:</label>
+      <input type="text" [(ngModel)]="ingredient.unit" name="ingredientUnit" />
+
+      <button type="button" (click)="removeIngredient(i)">
+        Remove Ingredient
+      </button>
+    </div>
+    <button type="button" (click)="addIngredient()">Add Ingredient</button>
+
+    <!-- Image Upload -->
+    <label for="image">Upload Image:</label>
+    <input type="file" id="image" (change)="onFileSelected($event)" />
+
+    <!-- Submit Button -->
+    <button type="submit">Add Recipe</button>
+  </form>
+</div>

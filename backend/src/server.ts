@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 // import autoIncrement from "mongoose-auto-increment";
 
 import userRouter from "./api/routers/user.routes";
+import recipeRouter from "./api/routers/recipe.routes";
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -18,6 +19,7 @@ app.use(cors());
 
 // Routes
 app.use("/api/users", userRouter);
+app.use("/api/recipes", recipeRouter);
 
 // Root route
 app.get("/", (req, res) => {

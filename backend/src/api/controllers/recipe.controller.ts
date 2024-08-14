@@ -1,7 +1,6 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Recipe from "../models/recipe";
-import { getNextSequenceValue } from "../models/counter";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
@@ -111,38 +110,30 @@ export class RecipeController {
     try {
       const { name, category, description, ingredients, tags, createdBy } =
         req.body;
-
-      // Validacija obaveznih polja
-      if (
-        !name ||
-        !category ||
-        !description ||
-        !ingredients ||
-        !tags ||
-        !createdBy
-      ) {
-        return res
-          .status(400)
-          .json({ message: "All required fields must be provided" });
-      }
-
-      // Generisanje sledećeg ID-a
-      const newId = await getNextSequenceValue("recipes");
+      // Parsiranje ingredients ako dolazi kao JSON string
+      const parsedIngredients = JSON.parse(ingredients);
 
       const newRecipe = new Recipe({
-        id: newId,
         name,
-        category,
+        category: category.split(","), // Pretvoriti string u niz ako dolazi kao string
         description,
-        ingredients,
-        tags,
+        ingredients: parsedIngredients,
+        tags: tags.split(","), // Pretvoriti string u niz ako dolazi kao string
         createdBy,
         comments: [], // Prazan niz za komentare
         ratings: [], // Prazan niz za ocene
       });
 
-      const savedRecipe = await newRecipe.save();
+      // Dodavanje slike ako postoji
+      if (req.file) {
+        newRecipe.image = {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        };
+      }
 
+      const savedRecipe = await newRecipe.save();
+      console.log(savedRecipe);
       return res
         .status(201)
         .json({ message: "Recipe added successfully", recipe: savedRecipe });

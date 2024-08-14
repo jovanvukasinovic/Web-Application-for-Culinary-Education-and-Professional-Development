@@ -15,7 +15,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
-import { UserRegistrationComponent } from './user-registration/user-registration.component'; // Izmenite putanju prema vašoj strukturi projekta
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { RecipeAddComponent } from './recipe-add/recipe-add.component'; // Izmenite putanju prema vašoj strukturi projekta
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
     ProfileComponent,
     AdminHomePageComponent,
     UserRegistrationComponent,
+    RecipeAddComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],
