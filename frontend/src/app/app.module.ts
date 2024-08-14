@@ -20,7 +20,7 @@ import { RecipeAddComponent } from './recipe-add/recipe-add.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component'; // Izmenite putanju prema vašoj strukturi projekta
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
