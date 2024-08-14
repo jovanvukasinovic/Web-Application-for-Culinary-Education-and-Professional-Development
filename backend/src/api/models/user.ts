@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-// import autoIncrement from "mongoose-auto-increment";
+import { getNextSequenceValue } from "./counter"; // Importuj funkciju iz counter.ts
 
 const Schema = mongoose.Schema;
 
-let User = new Schema(
+const UserSchema = new Schema(
   {
     id: { type: Number, unique: true },
     firstname: { type: String, required: true },
@@ -18,25 +18,26 @@ let User = new Schema(
     phone: { type: String },
     role: { type: String, default: "user" },
     status: { type: String, default: "inactive" },
-    // favourites: [Recipe] ?
-    // food_made: [Recipe] ?
-    // likes: ???
-    // comments: ???
-    // date created: ???
+    favouriteRecepies: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Recipe" },
+    ], // Referenca na omiljene recepte
+    recepiesMade: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }], // Referenca na recepte koje je korisnik napravio
+    likedRecepies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Recipe" }], // Referenca na lajkove na receptima
+    commentedRecepies: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Recipe" },
+    ], // Referenca na komentare na receptima
   },
-  { timestamps: true }
+  { timestamps: true } // Automatski dodaje createdAt i updatedAt polja
 );
 
-/** 
-User.plugin(autoIncrement.plugin, {
-  model: "User",
-  field: "id",
-  startAt: 1,
-  incrementBy: 1,
+// Pre-save hook za automatsko generisanje id-a
+UserSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    this.id = await getNextSequenceValue("users");
+  }
+  next();
 });
-*/
 
-export default mongoose.model("User", User, "users");
+const User = mongoose.model("User", UserSchema, "users");
 
-// const User = mongoose.model('User', UserSchema);
-// export default User;
+export default User;
