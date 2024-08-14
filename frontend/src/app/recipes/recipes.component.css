@@ -23,6 +23,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .recipe-card img {
@@ -48,4 +49,35 @@
 
 .recipe-content strong {
   color: #333;
+}
+
+.empty-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Paginacija */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-btn.active {
+  background-color: #0056b3;
+}
+
+.page-btn:hover {
+  background-color: #0056b3;
 }

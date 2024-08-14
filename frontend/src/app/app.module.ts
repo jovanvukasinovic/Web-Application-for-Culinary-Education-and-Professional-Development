@@ -18,7 +18,9 @@ import { AdminHomePageComponent } from './admin-home-page/admin-home-page.compon
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
 import { RecipesComponent } from './recipes/recipes.component';
-import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component'; // Izmenite putanju prema vašoj strukturi projekta
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component'; // Izmenite putanju prema vašoj strukturi projekta
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
     RecipeAddComponent,
     RecipesComponent,
     RecipeDetailComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],

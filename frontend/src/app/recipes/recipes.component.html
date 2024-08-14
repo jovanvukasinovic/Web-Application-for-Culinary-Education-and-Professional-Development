@@ -34,4 +34,16 @@
       </div>
     </div>
   </div>
+
+  <!-- Paginacija -->
+  <div class="pagination">
+    <button
+      class="page-btn"
+      *ngFor="let page of getPaginationArray()"
+      [ngClass]="{ active: page === currentPage }"
+      (click)="setPage(page)"
+    >
+      {{ page }}
+    </button>
+  </div>
 </div>

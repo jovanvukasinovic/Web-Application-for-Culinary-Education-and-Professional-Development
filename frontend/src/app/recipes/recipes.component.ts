@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
 export class RecipesComponent implements OnInit {
   recipes: any[] = [];
   originalRecipes: any[] = []; // Originalni podaci sa servera, uključujući slike
+  currentPage: number = 1; // Trenutna stranica
+  recipesPerPage: number = 9; // Broj recepata po stranici
+  totalPages: number = 1; // Ukupan broj stranica
   sortBy: string = ''; // Trenutni kriterijum sortiranja
   order: string = 'asc'; // Trenutni redosled sortiranja, podrazumevano uzlazno
 
@@ -20,16 +23,13 @@ export class RecipesComponent implements OnInit {
   }
 
   getAllRecipes(): void {
-    // Ako već imamo recepte, ne dohvataj ponovo sa servera
-    if (this.originalRecipes.length > 0) {
-      this.recipes = [...this.originalRecipes];
-      return;
-    }
-
     this.recipeService.getAllRecipes().subscribe(
       (data) => {
         this.originalRecipes = data;
-        this.recipes = [...data];
+        this.totalPages = Math.ceil(
+          this.originalRecipes.length / this.recipesPerPage
+        );
+        this.setPage(this.currentPage);
       },
       (error) => {
         console.error('Error fetching recipes:', error);
@@ -37,12 +37,19 @@ export class RecipesComponent implements OnInit {
     );
   }
 
+  setPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+
+    this.currentPage = page;
+    const startIndex = (this.currentPage - 1) * this.recipesPerPage;
+    const endIndex = startIndex + this.recipesPerPage;
+    this.recipes = this.originalRecipes.slice(startIndex, endIndex);
+  }
+
   sortRecipes(sortBy: string): void {
-    // Ako je kliknuto isto dugme, promeni redosled sortiranja
     if (this.sortBy === sortBy) {
       this.order = this.order === 'asc' ? 'desc' : 'asc';
     } else {
-      // Ako je kliknuto drugo dugme, postavi novi kriterijum sortiranja i podrazumevani redosled
       this.sortBy = sortBy;
       this.order = 'asc';
     }
@@ -52,9 +59,9 @@ export class RecipesComponent implements OnInit {
       this.sortBy,
       this.order
     );
+    this.setPage(1); // Resetuj na prvu stranicu nakon sortiranja
   }
 
-  // Funkcija za sortiranje niza recepata
   sortArray(array: any[], sortBy: string, order: string): any[] {
     return array.sort((a, b) => {
       if (order === 'asc') {
@@ -65,11 +72,12 @@ export class RecipesComponent implements OnInit {
     });
   }
 
-  // Funkcija za navigaciju na stranicu sa detaljima recepta
   viewRecipe(recipe: any): void {
-    // Sačuvaj recept u localStorage
     localStorage.setItem('currentRecipe', JSON.stringify(recipe));
-    // Preusmeri na stranicu sa detaljima recepta
     this.router.navigate([`/recipe/${recipe._id}`]);
+  }
+
+  getPaginationArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

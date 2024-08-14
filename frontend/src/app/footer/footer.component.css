@@ -1,0 +1,17 @@
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+  /* Podrazumevano je skriven */
+}
+
+footer.visible {
+  display: block;
+  /* Prikaži kada se skrola do dna */
+}
