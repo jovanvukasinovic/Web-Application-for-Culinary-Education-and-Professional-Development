@@ -104,7 +104,7 @@ export class RecipeAddComponent {
     this.recipeService.addRecipe(formData).subscribe(
       (response: any) => {
         console.log('Recipe added successfully', response);
-        this.router.navigate(['/profile']);
+        this.router.navigate(['/recipes']);
       },
       (error: any) => {
         console.error('Failed to add recipe', error);

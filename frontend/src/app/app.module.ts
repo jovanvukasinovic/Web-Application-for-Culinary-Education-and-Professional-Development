@@ -16,7 +16,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import { RecipeAddComponent } from './recipe-add/recipe-add.component'; // Izmenite putanju prema vašoj strukturi projekta
+import { RecipeAddComponent } from './recipe-add/recipe-add.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component'; // Izmenite putanju prema vašoj strukturi projekta
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { RecipeAddComponent } from './recipe-add/recipe-add.component'; // Izmen
     AdminHomePageComponent,
     UserRegistrationComponent,
     RecipeAddComponent,
+    RecipesComponent,
+    RecipeDetailComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],

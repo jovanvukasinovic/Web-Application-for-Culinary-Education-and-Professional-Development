@@ -1,0 +1,16 @@
+<div class="recipe-detail-container">
+  <h1>{{ recipe.name }}</h1>
+  <img
+    *ngIf="recipe.image"
+    [src]="'data:' + recipe.image.contentType + ';base64,' + recipe.image.data"
+    alt="{{ recipe.name }}"
+  />
+  <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
+  <p><strong>Description:</strong> {{ recipe.description }}</p>
+  <p><strong>Average Rating:</strong> {{ recipe.averageRating || "N/A" }}</p>
+  <div *ngFor="let ingredient of recipe.ingredients">
+    <p>
+      {{ ingredient.name }}: {{ ingredient.quantity }} {{ ingredient.unit }}
+    </p>
+  </div>
+</div>

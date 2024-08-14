@@ -133,7 +133,7 @@ export class RecipeController {
       }
 
       const savedRecipe = await newRecipe.save();
-      console.log(savedRecipe);
+
       return res
         .status(201)
         .json({ message: "Recipe added successfully", recipe: savedRecipe });

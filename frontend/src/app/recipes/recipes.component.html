@@ -1,0 +1,37 @@
+<div class="recipes-container">
+  <h1>All Recipes</h1>
+
+  <div class="sort-buttons">
+    <button (click)="sortRecipes('averageRating')">Sort by Rating</button>
+    <button (click)="sortRecipes('createdAt')">Sort by Newest</button>
+    <button (click)="sortRecipes('name')">Sort by Name (A-Z/Z-A)</button>
+  </div>
+
+  <div *ngIf="recipes.length === 0">
+    <p>No recipes available.</p>
+  </div>
+
+  <div *ngIf="recipes.length > 0" class="recipe-list">
+    <div
+      class="recipe-card"
+      *ngFor="let recipe of recipes"
+      (click)="viewRecipe(recipe)"
+    >
+      <img
+        *ngIf="recipe.image"
+        [src]="
+          'data:' + recipe.image.contentType + ';base64,' + recipe.image.data
+        "
+        alt="{{ recipe.name }}"
+      />
+      <div class="recipe-content">
+        <h2>{{ recipe.name }}</h2>
+        <p>{{ recipe.description }}</p>
+        <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
+        <p>
+          <strong>Average Rating:</strong> {{ recipe.averageRating || "N/A" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

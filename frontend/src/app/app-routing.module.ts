@@ -9,6 +9,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
+import { RecipesComponent } from './recipes/recipes.component';
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +19,8 @@ const routes: Routes = [
   { path: 'admin-home-page', component: AdminHomePageComponent },
   { path: 'register', component: UserRegistrationComponent },
   { path: 'recipe-add', component: RecipeAddComponent },
+  { path: 'recipes', component: RecipesComponent },
+  { path: 'recipe/:id', component: RecipeDetailComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];
 

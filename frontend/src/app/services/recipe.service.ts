@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,13 +12,23 @@ export class RecipeService {
 
   // Dodavanje novog recepta
   addRecipe(formData: FormData): Observable<any> {
-    console.log('name:' + formData.get('name'));
-    console.log('category:' + formData.get('category'));
-    console.log('description:' + formData.get('description'));
-    console.log('ingredients:' + formData.get('ingredients'));
-    console.log('tags:' + formData.get('tags'));
-    console.log('createdBy:' + formData.get('createdBy'));
-    console.log('image:' + formData.get('image'));
     return this.http.post<any>(`${this.apiUrl}/add`, formData);
+  }
+
+  // Dohvatanje svih recepata
+  getAllRecipes(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
+
+  // Pretraga i sortiranje recepata
+  searchRecipes(sortBy: string, order: string): Observable<any[]> {
+    let params = new HttpParams().set('sortBy', sortBy).set('order', order);
+
+    return this.http.get<any[]>(`${this.apiUrl}/search`, { params });
+  }
+
+  // Funkcija za dohvatanje recepta po ID-u
+  getRecipeById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/recipe/${id}`);
   }
 }

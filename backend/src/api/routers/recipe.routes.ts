@@ -15,7 +15,7 @@ recipeRouter.get("/search", (req, res) =>
   recipeController.searchRecipes(req, res)
 );
 
-recipeRouter.get("/:id", (req, res) =>
+recipeRouter.get("/recipe:id", (req, res) =>
   recipeController.getRecipeById(req, res)
 );
 
