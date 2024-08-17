@@ -19,7 +19,7 @@ export class AdminLoginComponent {
       (response) => {
         // Sačuvaj podatke o prijavljenom adminu u localStorage
         localStorage.setItem('admin', JSON.stringify(response));
-        this.router.navigate(['/admin-home-page']);
+        this.router.navigate(['/']);
       },
       (error: any) => {
         console.error('Admin login failed', error);

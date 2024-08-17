@@ -8,44 +8,33 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
-  user: any;
-  selectedFile: File | null = null;
+  user: any = null;
+  photoUrl: string | null = null;
+  isEditing: { [key: string]: boolean } = {}; // Track editing state for each field
+  editValues: { [key: string]: any } = {}; // Store edited values
+
+  oldPassword: string = '';
+  newPassword: string = '';
+  confirmNewPassword: string = '';
+  passwordForSave: string = ''; // Password required to confirm any save action
+
+  passwordError: string | null = null; // Error message for password issues
 
   constructor(private router: Router, private userService: UserService) {}
 
-  ngOnInit() {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      this.user = JSON.parse(currentUser);
-    }
-  }
+  ngOnInit(): void {
+    const adminData = localStorage.getItem('admin');
+    const userData = localStorage.getItem('currentUser');
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      this.selectedFile = input.files[0];
-    }
-  }
-
-  onSubmit() {
-    if (!this.selectedFile) {
-      return;
+    if (adminData) {
+      this.user = JSON.parse(adminData);
+    } else if (userData) {
+      this.user = JSON.parse(userData);
     }
 
-    const formData = new FormData();
-    formData.append('photo', this.selectedFile);
-    formData.append('userId', this.user._id); // Pretpostavljam da koristite _id za identifikaciju korisnika
-
-    this.userService.uploadProfilePicture(formData).subscribe((response) => {
-      console.log(response);
-      localStorage.setItem('currentUser', JSON.stringify(response));
-      this.user = response;
-    });
-  }
-
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.router.navigate(['/login']);
+    if (this.user && this.user.photo && this.user.photo.data) {
+      this.photoUrl = this.getProfilePictureUrl();
+    }
   }
 
   getProfilePictureUrl() {
@@ -53,5 +42,94 @@ export class ProfileComponent implements OnInit {
       return `http://localhost:4000/api/users/profile-picture/${this.user._id}`;
     }
     return '';
+  }
+
+  startEdit(field: string): void {
+    this.isEditing[field] = true;
+    this.editValues[field] = this.user[field];
+  }
+
+  cancelEdit(field: string): void {
+    this.isEditing[field] = false;
+    this.editValues[field] = this.user[field];
+  }
+
+  validateNewPassword(): boolean {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!regex.test(this.newPassword)) {
+      this.passwordError =
+        'Password must contain at least 8 characters, including uppercase, lowercase, numbers, and special characters.';
+      return false;
+    }
+    if (this.newPassword !== this.confirmNewPassword) {
+      this.passwordError = 'New passwords do not match.';
+      return false;
+    }
+    this.passwordError = null;
+    return true;
+  }
+
+  saveEdit(field: string): void {
+    if (!this.passwordForSave) {
+      alert('Please enter your current password to confirm changes.');
+      return;
+    }
+
+    this.userService
+      .verifyPassword(this.user.username, this.passwordForSave)
+      .subscribe(
+        (isVerified) => {
+          if (isVerified) {
+            this.user[field] = this.editValues[field];
+            this.isEditing[field] = false;
+            // Make API call to save changes in the backend
+            // this.userService.updateUserProfile(this.user).subscribe(() => {
+            alert('Profile updated successfully.');
+            // });
+          } else {
+            alert('Incorrect current password.');
+          }
+        },
+        (error) => {
+          console.error('Password verification failed:', error);
+          alert('An error occurred while verifying your password.');
+        }
+      );
+  }
+
+  savePasswordChange(): void {
+    if (!this.oldPassword) {
+      alert('Please enter your current password.');
+      return;
+    }
+
+    if (!this.validateNewPassword()) {
+      return;
+    }
+
+    this.userService
+      .changePassword(this.user.username, this.oldPassword, this.newPassword)
+      .subscribe(
+        () => {
+          alert('Password changed successfully.');
+          this.oldPassword = '';
+          this.newPassword = '';
+          this.confirmNewPassword = '';
+        },
+        (error) => {
+          console.error('Password change failed:', error);
+          alert('Failed to change password. Please try again.');
+        }
+      );
+  }
+
+  logout(): void {
+    if (this.user.role === 'admin') {
+      localStorage.removeItem('admin');
+    } else {
+      localStorage.removeItem('currentUser');
+    }
+    this.router.navigate(['/']);
   }
 }

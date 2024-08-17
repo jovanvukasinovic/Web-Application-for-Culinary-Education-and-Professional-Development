@@ -28,6 +28,11 @@ userRouter.post("/addUserByAdmin", upload.single("photo"), (req, res) =>
   userController.addUserByAdmin(req, res)
 );
 
+// Ruta za verifikaciju lozinke
+userRouter.post("/verifyPassword", (req, res) =>
+  userController.verifyPassword(req, res)
+);
+
 // Ruta za promenu lozinke
 userRouter.patch("/changePassword", (req, res) =>
   userController.changePassword(req, res)

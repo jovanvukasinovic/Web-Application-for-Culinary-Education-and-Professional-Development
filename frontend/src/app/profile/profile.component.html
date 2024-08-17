@@ -1,16 +1,52 @@
-<div *ngIf="user">
-  <h2>Profile</h2>
-  <p><strong>First Name:</strong> {{ user.firstname }}</p>
-  <p><strong>Last Name:</strong> {{ user.lastname }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  <p><strong>Phone:</strong> {{ user.phone }}</p>
-  <img *ngIf="user._id" [src]="getProfilePictureUrl()" alt="Profile Picture" />
-  <form (submit)="onSubmit()" enctype="multipart/form-data">
-    <input type="file" (change)="onFileSelected($event)" />
-    <button type="submit">Upload</button>
-  </form>
-  <button (click)="logout()">Logout</button>
-</div>
-<div *ngIf="!user">
-  <p>No user is logged in.</p>
+<div class="profile-container">
+  <h2>Profile Information</h2>
+
+  <div *ngIf="user" class="profile-info">
+    <div
+      *ngFor="
+        let field of ['firstname', 'lastname', 'username', 'email', 'phone']
+      "
+    >
+      <p *ngIf="!isEditing[field]">
+        <strong>{{ field | titlecase }}:</strong> {{ user[field] }}
+        <button (click)="startEdit(field)">Edit</button>
+      </p>
+      <div *ngIf="isEditing[field]">
+        <label>{{ field | titlecase }}:</label>
+        <input [(ngModel)]="editValues[field]" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+        <button (click)="saveEdit(field)">Save</button>
+        <button (click)="cancelEdit(field)">Cancel</button>
+      </div>
+    </div>
+
+    <div>
+      <h3>Change Password</h3>
+      <label>Current Password:</label>
+      <input type="password" [(ngModel)]="oldPassword" />
+
+      <label>New Password:</label>
+      <input
+        type="password"
+        [(ngModel)]="newPassword"
+        (input)="validateNewPassword()"
+      />
+
+      <label>Confirm New Password:</label>
+      <input
+        type="password"
+        [(ngModel)]="confirmNewPassword"
+        (input)="validateNewPassword()"
+      />
+
+      <div *ngIf="passwordError" class="error-message">{{ passwordError }}</div>
+
+      <button (click)="savePasswordChange()">Change Password</button>
+    </div>
+  </div>
+
+  <img *ngIf="photoUrl" [src]="photoUrl" alt="Profile Picture" />
+
+  <button (click)="logout()" class="logout-button">Logout</button>
 </div>

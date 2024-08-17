@@ -172,29 +172,47 @@ export class UserController {
     }
   };
 
-  // TODO: Not used
-  changePassword = async (req: express.Request, res: express.Response) => {
+  // Verifikacija lozinke korisnika
+  verifyPassword = async (req: Request, res: Response) => {
     try {
       const { username, password } = req.body;
 
-      if (!username || !password) {
-        return res
-          .status(400)
-          .json({ message: "Username and password are required" });
+      const user = await User.findOne({ username }).exec();
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
       }
 
-      const updateResult = await User.updateOne(
-        { username },
-        { $set: { password } }
-      ).exec();
-
-      if (updateResult.matchedCount === 0) {
-        return res
-          .status(404)
-          .json({ message: "User not found or password unchanged" });
+      if (user.password !== password) {
+        return res.status(401).json({ message: "Incorrect password" });
       }
 
-      return res.status(200).json({ message: "Password changed" });
+      return res
+        .status(200)
+        .json({ message: "Password verified successfully" });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error: verifyPassword" });
+    }
+  };
+
+  // Promena lozinke korisnika
+  changePassword = async (req: Request, res: Response) => {
+    try {
+      const { username, oldPassword, newPassword } = req.body;
+
+      const user = await User.findOne({ username }).exec();
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      if (user.password !== oldPassword) {
+        return res.status(401).json({ message: "Old password is incorrect" });
+      }
+
+      user.password = newPassword;
+      await user.save();
+
+      return res.status(200).json({ message: "Password changed successfully" });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Server error: changePassword" });

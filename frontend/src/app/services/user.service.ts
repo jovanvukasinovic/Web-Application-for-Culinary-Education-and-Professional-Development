@@ -37,8 +37,21 @@ export class UserService {
   }
 
   // Promena lozinke
-  changePassword(username: string, password: string): Observable<any> {
+  changePassword(
+    username: string,
+    oldPassword: string,
+    newPassword: string
+  ): Observable<any> {
     return this.http.patch<any>(`${this.apiUrl}/changePassword`, {
+      username,
+      oldPassword,
+      newPassword,
+    });
+  }
+
+  // Verifikacija lozinke korisnika
+  verifyPassword(username: string, password: string): Observable<boolean> {
+    return this.http.post<boolean>(`${this.apiUrl}/verifyPassword`, {
       username,
       password,
     });
