@@ -54,7 +54,9 @@ userRouter.post("/checkUsername", (req, res) =>
 );
 
 // Ruta za proveru dostupnosti email adrese
-userRouter.post("/checkEmail", (req, res) => userController.findMail(req, res));
+userRouter.post("/checkEmail", (req, res) =>
+  userController.findEmail(req, res)
+);
 
 // Ruta za upload profilne slike
 userRouter.post("/uploadProfilePicture", upload.single("photo"), (req, res) =>

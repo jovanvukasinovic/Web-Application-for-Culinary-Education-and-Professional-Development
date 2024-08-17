@@ -21,6 +21,7 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { Top9RecipesComponent } from './top-9-recipes/top-9-recipes.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { FooterComponent } from './footer/footer.component';
     RecipeDetailComponent,
     HeaderComponent,
     FooterComponent,
+    Top9RecipesComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],

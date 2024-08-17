@@ -3,11 +3,12 @@ footer {
   left: 0;
   bottom: 0;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: #007bff;
   text-align: left;
   padding: 10px;
   box-sizing: border-box;
   display: none;
+  color: #ffdd57;
   /* Footer je inicijalno skriven */
 }
 

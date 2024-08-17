@@ -77,6 +77,7 @@ const RecipeSchema = new Schema(
       type: [RatingSchema],
       default: [],
     },
+    favourites: { type: Number, default: 0 },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

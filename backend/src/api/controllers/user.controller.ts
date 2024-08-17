@@ -38,7 +38,7 @@ export class UserController {
       });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res.status(500).json({ message: "Server error: adminLogin" });
     }
   };
 
@@ -68,7 +68,7 @@ export class UserController {
       return res.status(200).json(user);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res.status(500).json({ message: "Server error: userLogin" });
     }
   };
 
@@ -99,7 +99,9 @@ export class UserController {
       return res.status(200).json(user);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: uploadProfilePicture" });
     }
   };
 
@@ -117,7 +119,9 @@ export class UserController {
       res.send(user.photo.data);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: getProfilePicture" });
     }
   };
 
@@ -135,7 +139,9 @@ export class UserController {
       return res.status(200).json(user);
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: getUserByUsername" });
     }
   };
 
@@ -160,7 +166,9 @@ export class UserController {
         .json({ message: "User and associated recipes deleted" });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: deleteUserByUsernameByAdmin" });
     }
   };
 
@@ -189,7 +197,7 @@ export class UserController {
       return res.status(200).json({ message: "Password changed" });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res.status(500).json({ message: "Server error: changePassword" });
     }
   };
 
@@ -216,7 +224,9 @@ export class UserController {
         .json({ message: `Admin has activated the user: ${username}` });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: activateUserByAdmin" });
     }
   };
 
@@ -246,7 +256,9 @@ export class UserController {
         .json({ message: `Admin has deactivated the user: ${username}` });
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error" });
+      return res
+        .status(500)
+        .json({ message: "Server error: deactivateUserByAdmin" });
     }
   };
 
@@ -298,9 +310,10 @@ export class UserController {
           .json({ message: "Username or email already exists" });
       }
       console.error(err);
-      return res
-        .status(400)
-        .json({ message: "Error adding user", error: (err as any).message });
+      return res.status(500).json({
+        message: "Server error: addUserByAdmin",
+        error: (err as any).message,
+      });
     }
   };
 
@@ -309,6 +322,18 @@ export class UserController {
     try {
       const { firstname, lastname, username, password, email, phone } =
         req.body;
+
+      // Proveri da li već postoji korisnik sa istim korisničkim imenom ili e-mail adresom
+      const existingUser = await User.findOne({
+        $or: [{ username }, { email }],
+      });
+      if (existingUser) {
+        return res.status(409).json({
+          message: "Username or email already exists.",
+          conflictField:
+            existingUser.username === username ? "username" : "email",
+        });
+      }
 
       // Validate required fields
       if (!firstname || !lastname || !username || !password || !email) {
@@ -360,7 +385,7 @@ export class UserController {
       }
       console.error(err);
       return res.status(500).json({
-        message: "Error registering user.",
+        message: "Server error: userRegistration",
         error: (err as any).message,
       });
     }
@@ -381,12 +406,12 @@ export class UserController {
       }
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error." });
+      return res.status(500).json({ message: "Server error: findUsername" });
     }
   };
 
   // TODO: Not used
-  findMail = async (req: express.Request, res: express.Response) => {
+  findEmail = async (req: express.Request, res: express.Response) => {
     try {
       const { mail } = req.body;
 
@@ -400,7 +425,7 @@ export class UserController {
       }
     } catch (err) {
       console.error(err);
-      return res.status(500).json({ message: "Server error." });
+      return res.status(500).json({ message: "Server error: findEmail" });
     }
   };
 }

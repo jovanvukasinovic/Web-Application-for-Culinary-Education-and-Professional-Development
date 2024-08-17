@@ -1,6 +1,7 @@
 <div class="registration-container">
   <h2>User Registration</h2>
   <form (ngSubmit)="onSubmit()" #registrationForm="ngForm">
+    <!-- First Name Field -->
     <div class="form-group">
       <label for="firstname">First Name</label>
       <input
@@ -12,6 +13,7 @@
       />
     </div>
 
+    <!-- Last Name Field -->
     <div class="form-group">
       <label for="lastname">Last Name</label>
       <input
@@ -23,6 +25,7 @@
       />
     </div>
 
+    <!-- Username Field -->
     <div class="form-group">
       <label for="username">Username</label>
       <input
@@ -31,9 +34,12 @@
         name="username"
         [(ngModel)]="user.username"
         required
+        (input)="checkUsernameAvailability()"
       />
+      <div *ngIf="usernameError" class="error-message">{{ usernameError }}</div>
     </div>
 
+    <!-- Password Field -->
     <div class="form-group">
       <label for="password">Password</label>
       <input
@@ -42,9 +48,30 @@
         name="password"
         [(ngModel)]="user.password"
         required
+        (input)="validatePassword()"
       />
+      <div *ngIf="passwordError" class="error-message">{{ passwordError }}</div>
     </div>
 
+    <!-- Confirm Password Field -->
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        [(ngModel)]="confirmPassword"
+        required
+      />
+      <div
+        *ngIf="confirmPassword && confirmPassword !== user.password"
+        class="error-message"
+      >
+        Passwords do not match.
+      </div>
+    </div>
+
+    <!-- Email Field -->
     <div class="form-group">
       <label for="email">Email</label>
       <input
@@ -53,14 +80,18 @@
         name="email"
         [(ngModel)]="user.email"
         required
+        (input)="checkEmailAvailability()"
       />
+      <div *ngIf="emailError" class="error-message">{{ emailError }}</div>
     </div>
 
+    <!-- Phone Field -->
     <div class="form-group">
       <label for="phone">Phone Number</label>
       <input type="tel" id="phone" name="phone" [(ngModel)]="user.phone" />
     </div>
 
+    <!-- Profile Picture Field -->
     <div class="form-group">
       <label for="photo">Profile Picture</label>
       <input
@@ -72,10 +103,23 @@
       />
     </div>
 
-    <button type="submit" [disabled]="!registrationForm.valid">Register</button>
+    <!-- Register Button -->
+    <button
+      type="submit"
+      [disabled]="!registrationForm.valid || !isPasswordValid()"
+    >
+      Register
+    </button>
   </form>
 
+  <!-- Error Message -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
+
+  <!-- Registration Link -->
+  <p>
+    Already have an account?
+    <a routerLink="/login">Login here</a>
+  </p>
 </div>
