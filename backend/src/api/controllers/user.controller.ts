@@ -17,7 +17,11 @@ export class UserController {
           .json({ message: "Username and password are required" });
       }
 
-      const admin = await User.findOne({ username, role: "admin" }).exec();
+      const admin = await User.findOne({
+        username,
+        password,
+        role: "admin",
+      }).exec();
 
       if (!admin) {
         return res.status(404).json({ message: "Admin not found" });
@@ -55,7 +59,7 @@ export class UserController {
 
       const user = await User.findOne({ username, password }).exec();
 
-      if (!user) {
+      if (!user || user.role === "admin") {
         return res.status(404).json({ message: "User not found" });
       }
 
@@ -65,7 +69,19 @@ export class UserController {
           .json({ message: "Account is inactive. Please contact support." });
       }
 
-      return res.status(200).json(user);
+      // Konvertuj Buffer u Base64 string i kreiraj novi objekat za sliku
+      let photoBase64 = null;
+      if (user.photo && user.photo.data) {
+        photoBase64 = {
+          data: user.photo.data.toString("base64"),
+          contentType: user.photo.contentType,
+        };
+      }
+
+      return res.status(200).json({
+        ...user.toObject(),
+        photo: photoBase64,
+      });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Server error: userLogin" });

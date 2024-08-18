@@ -1,18 +1,98 @@
 <header>
   <nav class="navbar">
     <div class="logo">
-      <a routerLink="/"><strong>Top Chefs</strong></a>
+      <a routerLink="/"><strong>Be a Chef</strong></a>
     </div>
-    <div>
-      <ul class="nav-links">
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/top-9-recipes">Top 9 Recipes</a></li>
-        <li *ngIf="isLoggedIn()"><a routerLink="/profile">Profile</a></li>
-        <li *ngIf="!isLoggedIn() && !isLoginRoute()">
-          <a routerLink="/login">Login</a>
-        </li>
-        <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
-      </ul>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="loading-indicator">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!isLoading && !isAdminLoginRoute()">
+      <!-- Guest -->
+      <div *ngIf="isGuess()">
+        <ul class="nav-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li *ngIf="!isLoggedIn() && !isLoginRoute()">
+            <a routerLink="/login">Login</a>
+          </li>
+          <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
+        </ul>
+      </div>
+
+      <!-- User -->
+      <div *ngIf="isUser()">
+        <ul class="nav-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li>
+            <a>Recipes</a>
+            <ul class="sub-links">
+              <li><a routerLink="/favorites">Favorites</a></li>
+            </ul>
+          </li>
+          <li><a routerLink="/become-a-chef">Become a Chef</a></li>
+          <li *ngIf="!isProfileRoute()">
+            <a>More</a>
+            <ul class="sub-links">
+              <li><a routerLink="/profile">Profile</a></li>
+              <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+          <li *ngIf="isProfileRoute()">
+            <a (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Chef -->
+      <div *ngIf="isChef()">
+        <ul class="nav-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li>
+            <a>Recipes</a>
+            <ul class="sub-links">
+              <li><a routerLink="/my-recipes">My Recipes</a></li>
+              <li><a routerLink="/recipe-add">Add Recipe</a></li>
+              <li><a routerLink="/favorites">Favorites</a></li>
+            </ul>
+          </li>
+          <li><a routerLink="/candidates">Candidates</a></li>
+          <li *ngIf="!isProfileRoute()">
+            <a>More</a>
+            <ul class="sub-links">
+              <li><a routerLink="/profile">Profile</a></li>
+              <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+          <li *ngIf="isProfileRoute()">
+            <a (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Admin -->
+      <div *ngIf="isAdmin()">
+        <ul class="nav-links">
+          <li><a routerLink="/">Home</a></li>
+          <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li><a routerLink="/admin-dashboard">Dashboard</a></li>
+          <li *ngIf="!isProfileRoute()">
+            <a>More</a>
+            <ul class="sub-links">
+              <li><a routerLink="/profile">Profile</a></li>
+              <li *ngIf="isLoggedIn()"><a (click)="logout()">Logout</a></li>
+            </ul>
+          </li>
+          <li *ngIf="isProfileRoute()">
+            <a (click)="logout()">Logout</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 </header>

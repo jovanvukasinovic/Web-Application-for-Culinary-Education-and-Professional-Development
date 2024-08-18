@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
   isEditing: { [key: string]: boolean } = {}; // Track editing state for each field
   editValues: { [key: string]: any } = {}; // Store edited values
 
+  isEditingPassword: boolean = false; // Prati stanje uređivanja lozinke
   oldPassword: string = '';
   newPassword: string = '';
   confirmNewPassword: string = '';
@@ -23,26 +24,23 @@ export class ProfileComponent implements OnInit {
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
-    const adminData = localStorage.getItem('admin');
     const userData = localStorage.getItem('currentUser');
 
-    if (adminData) {
-      this.user = JSON.parse(adminData);
-    } else if (userData) {
+    if (userData) {
       this.user = JSON.parse(userData);
     }
 
     if (this.user && this.user.photo && this.user.photo.data) {
-      this.photoUrl = this.getProfilePictureUrl();
+      this.photoUrl = `data:${this.user.photo.contentType};base64,${this.user.photo.data}`;
     }
   }
 
-  getProfilePictureUrl() {
-    if (this.user && this.user._id) {
-      return `http://localhost:4000/api/users/profile-picture/${this.user._id}`;
-    }
-    return '';
-  }
+  // getProfilePictureUrl() {
+  //   if (this.user && this.user._id) {
+  //     return `http://localhost:4000/api/users/profile-picture/${this.user._id}`;
+  //   }
+  //   return '';
+  // }
 
   startEdit(field: string): void {
     this.isEditing[field] = true;
@@ -52,6 +50,18 @@ export class ProfileComponent implements OnInit {
   cancelEdit(field: string): void {
     this.isEditing[field] = false;
     this.editValues[field] = this.user[field];
+  }
+
+  startPasswordChange(): void {
+    this.isEditingPassword = true;
+  }
+
+  cancelPasswordChange(): void {
+    this.isEditingPassword = false;
+    this.oldPassword = '';
+    this.newPassword = '';
+    this.confirmNewPassword = '';
+    this.passwordError = null;
   }
 
   validateNewPassword(): boolean {
@@ -83,10 +93,7 @@ export class ProfileComponent implements OnInit {
           if (isVerified) {
             this.user[field] = this.editValues[field];
             this.isEditing[field] = false;
-            // Make API call to save changes in the backend
-            // this.userService.updateUserProfile(this.user).subscribe(() => {
             alert('Profile updated successfully.');
-            // });
           } else {
             alert('Incorrect current password.');
           }
@@ -113,9 +120,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         () => {
           alert('Password changed successfully.');
-          this.oldPassword = '';
-          this.newPassword = '';
-          this.confirmNewPassword = '';
+          this.cancelPasswordChange();
         },
         (error) => {
           console.error('Password change failed:', error);
@@ -125,11 +130,7 @@ export class ProfileComponent implements OnInit {
   }
 
   logout(): void {
-    if (this.user.role === 'admin') {
-      localStorage.removeItem('admin');
-    } else {
-      localStorage.removeItem('currentUser');
-    }
+    localStorage.removeItem('currentUser');
     this.router.navigate(['/']);
   }
 }

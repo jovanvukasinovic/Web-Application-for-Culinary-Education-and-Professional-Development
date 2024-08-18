@@ -17,9 +17,10 @@ export class AdminLoginComponent {
   login() {
     this.userService.adminLogin(this.username, this.password).subscribe(
       (response) => {
-        // Sačuvaj podatke o prijavljenom adminu u localStorage
-        localStorage.setItem('admin', JSON.stringify(response));
-        this.router.navigate(['/']);
+        localStorage.setItem('currentUser', JSON.stringify(response));
+        this.router.navigate(['/']).then(() => {
+          location.reload(); // Automatski osvežava stranicu
+        });
       },
       (error: any) => {
         console.error('Admin login failed', error);

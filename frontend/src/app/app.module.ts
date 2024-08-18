@@ -14,7 +14,6 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { ProfileComponent } from './profile/profile.component';
-import { AdminHomePageComponent } from './admin-home-page/admin-home-page.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
 import { RecipesComponent } from './recipes/recipes.component';
@@ -22,6 +21,11 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { Top9RecipesComponent } from './top-9-recipes/top-9-recipes.component';
+import { FavoritesComponent } from './favorites/favorites.component';
+import { BecomeAChefComponent } from './become-a-chef/become-a-chef.component';
+import { MyRecipesComponent } from './my-recipes/my-recipes.component';
+import { CandidatesComponent } from './candidates/candidates.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,6 @@ import { Top9RecipesComponent } from './top-9-recipes/top-9-recipes.component';
     LoginComponent,
     AdminLoginComponent,
     ProfileComponent,
-    AdminHomePageComponent,
     UserRegistrationComponent,
     RecipeAddComponent,
     RecipesComponent,
@@ -37,6 +40,11 @@ import { Top9RecipesComponent } from './top-9-recipes/top-9-recipes.component';
     HeaderComponent,
     FooterComponent,
     Top9RecipesComponent,
+    FavoritesComponent,
+    BecomeAChefComponent,
+    MyRecipesComponent,
+    CandidatesComponent,
+    AdminDashboardComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [AuthGuard, UserService],

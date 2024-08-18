@@ -2,6 +2,9 @@
   <h2>Profile Information</h2>
 
   <div *ngIf="user" class="profile-info">
+    <div>
+      <img *ngIf="photoUrl" [src]="photoUrl" alt="Profile Picture" />
+    </div>
     <div
       *ngFor="
         let field of ['firstname', 'lastname', 'username', 'email', 'phone']
@@ -21,8 +24,13 @@
       </div>
     </div>
 
-    <div>
+    <!-- Sekcija za promenu lozinke -->
+    <div *ngIf="!isEditingPassword">
       <h3>Change Password</h3>
+      <button (click)="startPasswordChange()">Edit Password</button>
+    </div>
+
+    <div *ngIf="isEditingPassword">
       <label>Current Password:</label>
       <input type="password" [(ngModel)]="oldPassword" />
 
@@ -43,10 +51,7 @@
       <div *ngIf="passwordError" class="error-message">{{ passwordError }}</div>
 
       <button (click)="savePasswordChange()">Change Password</button>
+      <button (click)="cancelPasswordChange()">Cancel</button>
     </div>
   </div>
-
-  <img *ngIf="photoUrl" [src]="photoUrl" alt="Profile Picture" />
-
-  <button (click)="logout()" class="logout-button">Logout</button>
 </div>

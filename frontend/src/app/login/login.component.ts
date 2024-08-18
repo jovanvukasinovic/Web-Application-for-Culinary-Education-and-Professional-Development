@@ -18,7 +18,9 @@ export class LoginComponent {
     this.userService.login(this.username, this.password).subscribe(
       (response: any) => {
         localStorage.setItem('currentUser', JSON.stringify(response));
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => {
+          location.reload(); // Automatski osvežava stranicu
+        });
       },
       (error: any) => {
         console.error('Login failed', error);
