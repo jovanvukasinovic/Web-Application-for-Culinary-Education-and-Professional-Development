@@ -50,7 +50,7 @@
             min="1"
             max="5"
           />
-          <button (click)="saveCommentAndRating()">Save</button>
+          <button (click)="saveCommentAndRating(false)">Save</button>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         <div *ngIf="editing">
           <textarea [(ngModel)]="newComment"></textarea>
           <input type="number" [(ngModel)]="newRating" min="1" max="5" />
-          <button (click)="saveCommentAndRating()">Update</button>
+          <button (click)="saveCommentAndRating(true)">Update</button>
         </div>
       </div>
     </div>

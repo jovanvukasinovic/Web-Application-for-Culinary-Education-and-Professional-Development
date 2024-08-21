@@ -73,7 +73,7 @@ export class RecipeDetailComponent implements OnInit {
     );
   }
 
-  saveCommentAndRating() {
+  saveCommentAndRating(isUpdate: boolean) {
     if (!this.newComment && !this.newRating) {
       alert('Please provide a comment or rating.');
       return;
@@ -110,6 +110,17 @@ export class RecipeDetailComponent implements OnInit {
           this.recipe.comments.length > 0
             ? totalRating / this.recipe.comments.length
             : 'N/A';
+
+        // Ponovo učitaj stranicu ako je urađeno ažuriranje komentara/ocene
+        if (isUpdate) {
+          // Prikaži komentare nakon dodavanja/azuriranja
+          const recipeId = JSON.parse(
+            localStorage.getItem('currentRecipe')!
+          )._id;
+          this.router.navigate([`/recipe/${recipeId}`]).then(() => {
+            location.reload(); // Automatski osvežava stranicu
+          });
+        }
       },
       (error) => {
         console.error('Error updating comment and rating:', error);
