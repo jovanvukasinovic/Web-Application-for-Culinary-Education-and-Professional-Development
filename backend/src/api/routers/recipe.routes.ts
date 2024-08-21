@@ -15,12 +15,19 @@ recipeRouter.get("/search", (req, res) =>
   recipeController.searchRecipes(req, res)
 );
 
-recipeRouter.get("/recipe:id", (req, res) =>
+recipeRouter.get("/recipe/:id", (req, res) =>
   recipeController.getRecipeById(req, res)
 );
 
 recipeRouter.post("/add", upload.single("image"), (req, res) =>
   recipeController.addNewRecipe(req, res)
+);
+
+recipeRouter.post("/recipe/comment", (req, res) =>
+  recipeController.addCommentAndRating(req, res)
+);
+recipeRouter.put("/recipe/edit-comment", (req, res) =>
+  recipeController.updateCommentAndRating(req, res)
 );
 
 export default recipeRouter;

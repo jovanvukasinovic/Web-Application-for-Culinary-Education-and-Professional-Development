@@ -1,12 +1,13 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Recipe from "../models/recipe";
+import Comment from "../models/comment";
+import Rating from "../models/rating";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
   getAllRecipes = async (req: Request, res: Response) => {
     try {
-      // Podrazumevano sortiranje po prosečnoj oceni, od najviše ka najnižoj
       const recipes = await Recipe.aggregate([
         {
           $lookup: {
@@ -19,6 +20,7 @@ export class RecipeController {
         {
           $addFields: {
             averageRating: { $avg: "$ratings.rating" },
+            commentCount: { $size: "$comments" },
           },
         },
         {
@@ -46,7 +48,18 @@ export class RecipeController {
         return res.status(400).json({ message: "Invalid recipe ID" });
       }
 
-      const recipe = await Recipe.findById(id).exec();
+      // Pronalaženje recepta po ID-u i povlačenje povezanih komentara i ocena
+      const recipe = await Recipe.findById(id)
+        .populate({
+          path: "comments",
+          select: "username comment createdAt", // Povlači samo potrebna polja
+        })
+        .populate({
+          path: "ratings",
+          select: "username rating createdAt", // Povlači samo potrebna polja
+        })
+        .lean() // Optimizacija performansi
+        .exec();
 
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
@@ -143,6 +156,173 @@ export class RecipeController {
       return res
         .status(500)
         .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  // addCommentAndRating = async (req: Request, res: Response) => {
+  //   try {
+  //     const { recipeId, userId, username, commentText, ratingValue } = req.body;
+
+  //     // Validacija ID-a recepta
+  //     if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+  //       return res.status(400).json({ message: "Invalid recipe ID" });
+  //     }
+
+  //     // Pronalaženje recepta
+  //     const recipe = await Recipe.findById(recipeId);
+  //     if (!recipe) {
+  //       return res.status(404).json({ message: "Recipe not found" });
+  //     }
+
+  //     // Kreiranje komentara
+  //     if (commentText) {
+  //       const newComment = new Comment({
+  //         recipeId,
+  //         username,
+  //         comment: commentText,
+  //       });
+  //       await newComment.save();
+  //       recipe.comments.push(newComment);
+  //     }
+
+  //     // Kreiranje ocene
+  //     if (ratingValue) {
+  //       const newRating = new Rating({
+  //         recipeId,
+  //         username,
+  //         rating: ratingValue,
+  //       });
+  //       await newRating.save();
+  //       recipe.ratings.push(newRating);
+  //     }
+
+  //     // Ažuriranje recepta sa novim komentarima i ocenama
+  //     await recipe.save();
+
+  //     return res
+  //       .status(200)
+  //       .json({ message: "Comment and rating added successfully." });
+  //   } catch (err) {
+  //     const error = err as Error; // Kastovanje na tip Error
+  //     console.error(error.message);
+  //     return res
+  //       .status(500)
+  //       .json({ message: "Server error", error: error.message });
+  //   }
+  // };
+
+  // Dodavanje komentara i ocene
+  addCommentAndRating = async (req: Request, res: Response) => {
+    try {
+      const { recipeId, userId, username, commentText, ratingValue } = req.body;
+
+      if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+        return res.status(400).json({ message: "Invalid recipe ID" });
+      }
+
+      const recipe = await Recipe.findById(recipeId);
+      if (!recipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      // Kreiranje komentara
+      if (commentText) {
+        const newComment = new Comment({
+          recipeId,
+          userId,
+          username, // Uveri se da je `username` prosleđen ovde
+          comment: commentText,
+        });
+        await newComment.save();
+        recipe.comments.push(newComment._id); // Sačuvaj samo ID komentara
+      }
+
+      // Kreiranje ocene
+      if (ratingValue) {
+        const newRating = new Rating({
+          recipeId,
+          userId,
+          username, // Uveri se da je `username` prosleđen ovde
+          rating: ratingValue,
+        });
+        await newRating.save();
+        recipe.ratings.push(newRating._id); // Sačuvaj samo ID ocene
+      }
+
+      await recipe.save(); // Sačuvaj referencu na komentare i ocene
+      return res
+        .status(200)
+        .json({ message: "Comment and rating added successfully." });
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  // Update user comment and rating
+  updateCommentAndRating = async (req: Request, res: Response) => {
+    const { recipeId, username, userId, commentText, ratingValue } = req.body;
+
+    try {
+      // Pronađi recept
+      const recipe = await Recipe.findById(recipeId).exec();
+
+      if (!recipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      // Nađi postojeći komentar i ocenu korisnika
+      const existingComment = await Comment.findOne({
+        recipeId,
+        username,
+      }).exec();
+      const existingRating = await Rating.findOne({
+        recipeId,
+        username,
+      }).exec();
+
+      // Ažuriraj postojeći komentar ako postoji
+      if (existingComment && commentText) {
+        existingComment.comment = commentText;
+        await existingComment.save();
+      } else if (commentText) {
+        // Ako komentar ne postoji, kreiraj novi
+        const newComment = new Comment({
+          recipeId,
+          username,
+          comment: commentText,
+        });
+        await newComment.save();
+        recipe.comments.push(newComment._id);
+      }
+
+      // Ažuriraj postojeću ocenu ako postoji
+      if (existingRating && ratingValue) {
+        existingRating.rating = ratingValue;
+        await existingRating.save();
+      } else if (ratingValue) {
+        // Ako ocena ne postoji, kreiraj novu
+        const newRating = new Rating({
+          recipeId,
+          username,
+          rating: ratingValue,
+        });
+        await newRating.save();
+        recipe.ratings.push(newRating._id);
+      }
+
+      // Sačuvaj referencu na komentare i ocene u receptu
+      await recipe.save();
+
+      return res.status(200).json({
+        message: "Comment and rating updated successfully",
+        recipe,
+      });
+    } catch (error) {
+      return res.status(500).json({ message: "Server error", error });
     }
   };
 }

@@ -31,4 +31,14 @@ export class RecipeService {
   getRecipeById(id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/recipe/${id}`);
   }
+
+  // Dodavanje komentara i ocene receptu
+  addCommentAndRating(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/recipe/comment`, data);
+  }
+
+  // Editovanje komentara i ocene recepta
+  updateCommentAndRating(data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/recipe/edit-comment`, data);
+  }
 }

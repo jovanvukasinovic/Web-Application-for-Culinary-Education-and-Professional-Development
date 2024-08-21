@@ -9,12 +9,9 @@ import { Router } from '@angular/router';
 })
 export class RecipesComponent implements OnInit {
   recipes: any[] = [];
-  originalRecipes: any[] = []; // Originalni podaci sa servera, uključujući slike
-  currentPage: number = 1; // Trenutna stranica
-  recipesPerPage: number = 9; // Broj recepata po stranici
-  totalPages: number = 1; // Ukupan broj stranica
-  sortBy: string = ''; // Trenutni kriterijum sortiranja
-  order: string = 'asc'; // Trenutni redosled sortiranja, podrazumevano uzlazno
+  currentPage: number = 1;
+  recipesPerPage: number = 9;
+  totalPages: number = 1;
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
@@ -25,10 +22,8 @@ export class RecipesComponent implements OnInit {
   getAllRecipes(): void {
     this.recipeService.getAllRecipes().subscribe(
       (data) => {
-        this.originalRecipes = data;
-        this.totalPages = Math.ceil(
-          this.originalRecipes.length / this.recipesPerPage
-        );
+        this.recipes = data;
+        this.totalPages = Math.ceil(this.recipes.length / this.recipesPerPage);
         this.setPage(this.currentPage);
       },
       (error) => {
@@ -39,37 +34,10 @@ export class RecipesComponent implements OnInit {
 
   setPage(page: number): void {
     if (page < 1 || page > this.totalPages) return;
-
     this.currentPage = page;
     const startIndex = (this.currentPage - 1) * this.recipesPerPage;
     const endIndex = startIndex + this.recipesPerPage;
-    this.recipes = this.originalRecipes.slice(startIndex, endIndex);
-  }
-
-  sortRecipes(sortBy: string): void {
-    if (this.sortBy === sortBy) {
-      this.order = this.order === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortBy = sortBy;
-      this.order = 'asc';
-    }
-
-    this.recipes = this.sortArray(
-      this.originalRecipes,
-      this.sortBy,
-      this.order
-    );
-    this.setPage(1); // Resetuj na prvu stranicu nakon sortiranja
-  }
-
-  sortArray(array: any[], sortBy: string, order: string): any[] {
-    return array.sort((a, b) => {
-      if (order === 'asc') {
-        return a[sortBy] > b[sortBy] ? 1 : -1;
-      } else {
-        return a[sortBy] < b[sortBy] ? 1 : -1;
-      }
-    });
+    this.recipes = this.recipes.slice(startIndex, endIndex);
   }
 
   viewRecipe(recipe: any): void {

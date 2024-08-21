@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { CommentSchema } from "./comment";
-import { RatingSchema } from "./rating";
 
 enum Tags {
   Vegetarian = "Vegetarian",
@@ -69,14 +67,18 @@ const RecipeSchema = new Schema(
       type: [{ type: String, enum: Object.values(Tags) }],
       required: true,
     },
-    comments: {
-      type: [CommentSchema],
-      default: [],
-    },
-    ratings: {
-      type: [RatingSchema],
-      default: [],
-    },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment", // Referenca na Comment model
+      },
+    ],
+    ratings: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Rating", // Referenca na Rating model
+      },
+    ],
     status: { type: String, default: "inactive" },
     favourites: { type: Number, default: 0 },
     createdBy: {
