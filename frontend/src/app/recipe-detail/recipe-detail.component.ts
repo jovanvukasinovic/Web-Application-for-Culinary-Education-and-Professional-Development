@@ -36,14 +36,14 @@ export class RecipeDetailComponent implements OnInit {
     return rating ? rating.rating : null;
   }
 
-  getStars(rating: number | null): number[] {
-    return rating ? Array(rating).fill(0) : [];
-  }
-
   getStarArray(rating: number | null): number[] {
     return Array(5)
       .fill(1)
       .map((_, i) => i + 1); // Niz od 1 do 5
+  }
+
+  getStarFillPercentage(): number {
+    return (this.recipe.averageRating / 5) * 100;
   }
 
   ngOnInit(): void {
@@ -87,6 +87,14 @@ export class RecipeDetailComponent implements OnInit {
         if (userRating) {
           this.newRating = userRating.rating; // Proveriti...
         }
+
+        // Calculate the average rating
+        const totalRating = this.recipe.ratings.reduce(
+          (sum: number, rating: any) => sum + rating.rating,
+          0
+        );
+        this.recipe.averageRating =
+          totalRating / this.recipe.ratings.length || 0;
       },
       (error) => {
         console.error('Error fetching recipe:', error);

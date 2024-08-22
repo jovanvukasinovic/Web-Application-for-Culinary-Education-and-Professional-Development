@@ -48,17 +48,25 @@
       <div class="summary-content">
         <div>
           <p>
-            <!-- TODO ovde ovo treba da ispravis da bude Rating: 5 zvezdica, a ako je ocena 3.2 onda se ofarba tacno 3 cele zvezdice i 2/10 zvezdice u zuto, a ostalih 1.8 zvezdica je sivo -->
-            <strong>Rating:</strong> {{ recipe.averageRating || "N/A" }} ({{
-              recipe.comments.length
-            }}
-            comments)
+            <strong>Rating: </strong>
+            <span class="rating-stars">
+              <span class="star-wrapper">
+                <span
+                  class="filled-stars"
+                  [style.width.%]="getStarFillPercentage()"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+                <span class="empty-stars"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+              </span>
+            </span>
           </p>
           <p *ngIf="!showComments" class="show-more" (click)="toggleComments()">
-            Show more
+            {{ recipe.comments.length }} comments
           </p>
           <p *ngIf="showComments" class="show-less" (click)="toggleComments()">
-            Show less
+            Hide
           </p>
         </div>
         <p class="author-info">

@@ -82,12 +82,28 @@
   flex-direction: column;
 }
 
-.show-more,
-.show-less {
-  color: #007bff;
+.show-more {
+  text-align: left;
+  color: black;
   cursor: pointer;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   margin-top: 5px;
+}
+
+.show-less {
+  text-align: center;
+  color: #ffc107;
+  cursor: pointer;
+  /* text-decoration: underline; */
+  margin-top: 5px;
+}
+
+.show-less:hover {
+  color: #ffc107;
+}
+
+.show-more:hover {
+  color: #ffc107;
 }
 
 .author-info {
@@ -153,4 +169,37 @@ button:hover {
 .star.filled {
   color: #ffc107;
   /* Zlatna boja za popunjene zvezdice */
+}
+
+/**/
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+}
+
+.empty-stars {
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
 }
