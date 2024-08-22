@@ -48,6 +48,7 @@
       <div class="summary-content">
         <div>
           <p>
+            <!-- TODO ovde ovo treba da ispravis da bude Rating: 5 zvezdica, a ako je ocena 3.2 onda se ofarba tacno 3 cele zvezdice i 2/10 zvezdice u zuto, a ostalih 1.8 zvezdica je sivo -->
             <strong>Rating:</strong> {{ recipe.averageRating || "N/A" }} ({{
               recipe.comments.length
             }}
@@ -70,10 +71,28 @@
 
     <div *ngIf="showComments" class="comments">
       <div *ngFor="let comment of recipe.comments" class="comment">
+        <p></p>
         <p>
-          <strong>{{ comment.username }}:</strong> "{{ comment.comment }}"
+          {{ comment.createdAt | date : "d.M.yyyy. HH:mm" }}
+          <span class="stars">
+            <ng-container
+              *ngFor="let star of getStarArray(getUserRating(comment.username))"
+            >
+              <span
+                class="star"
+                [ngClass]="{
+                  filled: star <= (getUserRating(comment.username) || 0)
+                }"
+                >&#9733;</span
+              >
+            </ng-container>
+          </span>
         </p>
-        <p>{{ comment.createdAt | date : "short" }}</p>
+
+        <p>
+          <strong>{{ comment.username }}: </strong> <i>{{ comment.comment }}</i>
+        </p>
+
         <div
           *ngIf="comment.username === currentUser.username"
           class="comment-actions"

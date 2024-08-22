@@ -138,3 +138,19 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.stars {
+  margin-left: 5px;
+}
+
+.star {
+  font-size: 20px;
+  margin-right: 2px;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+}
+
+.star.filled {
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+}

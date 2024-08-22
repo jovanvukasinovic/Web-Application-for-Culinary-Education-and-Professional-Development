@@ -29,6 +29,23 @@ export class RecipeDetailComponent implements OnInit {
     return localDate.toLocaleString(); // Ovo prikazuje lokalno vreme
   }
 
+  getUserRating(username: string): number | null {
+    const rating = this.recipe.ratings.find(
+      (r: any) => r.username === username
+    );
+    return rating ? rating.rating : null;
+  }
+
+  getStars(rating: number | null): number[] {
+    return rating ? Array(rating).fill(0) : [];
+  }
+
+  getStarArray(rating: number | null): number[] {
+    return Array(5)
+      .fill(1)
+      .map((_, i) => i + 1); // Niz od 1 do 5
+  }
+
   ngOnInit(): void {
     if (localStorage.getItem('currentUser')) {
       this.showComments = true;
@@ -160,6 +177,7 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   deleteComment(commentId: string) {
+    this.toggleEdit();
     if (confirm('Are you sure you want to delete your comment?')) {
       this.recipeService.deleteComment(this.recipe._id, commentId).subscribe(
         (response) => {
