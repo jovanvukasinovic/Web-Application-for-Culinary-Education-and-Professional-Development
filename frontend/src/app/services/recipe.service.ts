@@ -41,4 +41,11 @@ export class RecipeService {
   updateCommentAndRating(data: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/recipe/edit-comment`, data);
   }
+
+  deleteComment(recipeId: string, commentId: string): Observable<any> {
+    const data = { recipeId, commentId }; // Spakuj podatke u telo zahteva
+    return this.http.delete(`${this.apiUrl}/recipe-delete-comment`, {
+      body: data,
+    });
+  }
 }

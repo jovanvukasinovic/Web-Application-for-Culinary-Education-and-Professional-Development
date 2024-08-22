@@ -11,6 +11,7 @@ export const CommentSchema = new Schema(
     username: { type: String, required: true },
     comment: { type: String, required: true },
     createdAt: { type: Date, default: Date.now },
+    updateAt: { type: Date, default: Date.now },
   },
   { versionKey: false }
 );

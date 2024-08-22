@@ -18,6 +18,16 @@ userRouter.post("/adminLogin", (req, res) =>
   userController.adminLogin(req, res)
 );
 
+// Ruta za dohvatanje korisnika po korisnickom imenu
+userRouter.get("/:username", (req, res) =>
+  userController.getUserByUsername(req, res)
+);
+
+userRouter.get("/:_id", (req, res) => {
+  console.log(req.params); // This should log the _id
+  userController.getUserById(req, res);
+});
+
 // Ruta za registraciju korisnika (sa uploadom profilne slike)
 userRouter.post("/register", upload.single("photo"), (req, res) =>
   userController.userRegistration(req, res)

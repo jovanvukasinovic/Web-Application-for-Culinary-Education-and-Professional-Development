@@ -1,12 +1,85 @@
-.comments-section {
+.recipe-detail-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recipe-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.favourites {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.favourite-icon {
+  color: #e74c3c;
+  margin-right: 5px;
+}
+
+.recipe-content {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.recipe-image {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.recipe-details {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.ingredients-section,
+.category-section,
+.tags-section {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.description-section {
   margin-top: 20px;
+}
+
+.comments-section {
+  margin-top: 30px;
   border-top: 1px solid #ccc;
-  padding-top: 10px;
+  padding-top: 20px;
 }
 
 .summary {
-  cursor: pointer;
   font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.summary-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-content>div {
+  display: flex;
+  flex-direction: column;
 }
 
 .show-more,
@@ -14,6 +87,12 @@
   color: #007bff;
   cursor: pointer;
   text-decoration: underline;
+  margin-top: 5px;
+}
+
+.author-info {
+  margin-left: auto;
+  text-align: right;
 }
 
 .comments {
@@ -21,9 +100,41 @@
 }
 
 .comment {
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #f9f9f9;
+}
+
+.comment-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.comment-input,
+.edit-input {
+  margin-top: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
 }

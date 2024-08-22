@@ -95,4 +95,15 @@ export class UserService {
       responseType: 'blob',
     });
   }
+
+  // Dohvatanje korisnika sa _id
+  getUserById(_id: string): Observable<any> {
+    console.log(_id);
+    return this.http.get(`${this.apiUrl}/${_id}`);
+  }
+
+  // Dohvatanje korisnika po korisnickom imenu
+  getUserByUsername(username: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${username}`);
+  }
 }

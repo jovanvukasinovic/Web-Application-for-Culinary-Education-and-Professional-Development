@@ -30,4 +30,8 @@ recipeRouter.put("/recipe/edit-comment", (req, res) =>
   recipeController.updateCommentAndRating(req, res)
 );
 
+recipeRouter.delete("/recipe-delete-comment", (req, res) => {
+  recipeController.deleteComment(req, res);
+});
+
 export default recipeRouter;

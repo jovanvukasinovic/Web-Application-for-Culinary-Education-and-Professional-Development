@@ -144,7 +144,7 @@ export class UserController {
   // TODO: Not used
   getUserByUsername = async (req: express.Request, res: express.Response) => {
     try {
-      const { username } = req.body;
+      const { username } = req.params;
 
       const user = await User.findOne({ username }).exec();
 
@@ -158,6 +158,25 @@ export class UserController {
       return res
         .status(500)
         .json({ message: "Server error: getUserByUsername" });
+    }
+  };
+
+  // TODO: Not used
+  getUserById = async (req: express.Request, res: express.Response) => {
+    try {
+      const { _id } = req.params; // Correctly destructure _id
+      console.log("User ID received:", _id);
+
+      const user = await User.findById(_id).exec(); // Use _id to find the user
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res.status(200).json(user);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error: getUserById" });
     }
   };
 

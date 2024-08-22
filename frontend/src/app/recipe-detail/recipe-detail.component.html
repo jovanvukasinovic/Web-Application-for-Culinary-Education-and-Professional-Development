@@ -1,65 +1,114 @@
-<div class="recipe-detail-container">
-  <h1>{{ recipe.name }}</h1>
-  <img
-    *ngIf="recipe.image"
-    [src]="'data:' + recipe.image.contentType + ';base64,' + recipe.image.data"
-    alt="{{ recipe.name }}"
-  />
-  <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
-  <p><strong>Description:</strong> {{ recipe.description }}</p>
-  <p><strong>Average Rating:</strong> {{ recipe.averageRating || "N/A" }}</p>
-  <div *ngFor="let ingredient of recipe.ingredients">
-    <p>
-      {{ ingredient.name }}: {{ ingredient.quantity }} {{ ingredient.unit }}
-    </p>
+<div class="recipe-detail-container" *ngIf="recipe">
+  <div class="recipe-header">
+    <h1 class="recipe-title">{{ recipe.name }}</h1>
+    <div class="favourites">
+      <span class="favourite-icon">&#10084;</span>
+      <span>{{ recipe.favourites }}</span>
+    </div>
   </div>
 
-  <!-- Komentari i ocene -->
+  <div class="recipe-content">
+    <img
+      *ngIf="recipe.image"
+      [src]="
+        'data:' + recipe.image.contentType + ';base64,' + recipe.image.data
+      "
+      alt="{{ recipe.name }}"
+      class="recipe-image"
+    />
+    <div class="recipe-details">
+      <div class="ingredients-section">
+        <h2>Ingredients</h2>
+        <div *ngFor="let ingredient of recipe.ingredients" class="ingredient">
+          <p>
+            {{ ingredient.name }}: {{ ingredient.quantity }}
+            {{ ingredient.unit }}
+          </p>
+        </div>
+      </div>
+      <div class="category-section">
+        <h2>Category</h2>
+        <p>{{ recipe.category.join(", ") }}</p>
+      </div>
+      <div class="tags-section">
+        <h2>Tags</h2>
+        <p>{{ recipe.tags.join(", ") }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="description-section">
+    <h2>Description</h2>
+    <p>{{ recipe.description }}</p>
+  </div>
+
+  <!-- Comments and Ratings -->
   <div class="comments-section">
-    <div class="summary" (click)="toggleComments()">
-      <p>
-        <strong>Rating:</strong> {{ recipe.averageRating || "N/A" }} ({{
-          recipe.comments.length
-        }}
-        comments)
-      </p>
-      <p *ngIf="!showComments" class="show-more">Show more</p>
-      <p *ngIf="showComments" class="show-less">Show less</p>
+    <div class="summary">
+      <div class="summary-content">
+        <div>
+          <p>
+            <strong>Rating:</strong> {{ recipe.averageRating || "N/A" }} ({{
+              recipe.comments.length
+            }}
+            comments)
+          </p>
+          <p *ngIf="!showComments" class="show-more" (click)="toggleComments()">
+            Show more
+          </p>
+          <p *ngIf="showComments" class="show-less" (click)="toggleComments()">
+            Show less
+          </p>
+        </div>
+        <p class="author-info">
+          Author:
+          <br />
+          <strong style="color: red">{{ recipe.createdBy }}</strong>
+        </p>
+      </div>
     </div>
 
-    <!-- Prikaz trenutnih komentara -->
     <div *ngIf="showComments" class="comments">
       <div *ngFor="let comment of recipe.comments" class="comment">
         <p>
-          <strong>{{ comment.username }}:</strong> {{ comment.comment }}
+          <strong>{{ comment.username }}:</strong> "{{ comment.comment }}"
         </p>
-      </div>
-
-      <!-- Unos novog komentara i ocene ako korisnik nema već komentar -->
-      <div *ngIf="!hasUserComment() || !hasUserRating()">
-        <div class="comment-input">
-          <textarea
-            [(ngModel)]="newComment"
-            placeholder="Enter your comment"
-          ></textarea>
-          <label for="rating">Rating:</label>
-          <input
-            type="number"
-            id="rating"
-            [(ngModel)]="newRating"
-            min="1"
-            max="5"
-          />
-          <button (click)="saveCommentAndRating(false)">Save</button>
+        <p>{{ comment.createdAt | date : "short" }}</p>
+        <div
+          *ngIf="comment.username === currentUser.username"
+          class="comment-actions"
+        >
+          <button (click)="toggleEdit()">Edit your comment</button>
+          <button (click)="deleteComment(comment._id)">
+            Delete your comment
+          </button>
         </div>
       </div>
 
-      <!-- Uređivanje postojećeg komentara i ocene ako korisnik već ima komentar -->
+      <!-- New Comment Input -->
+      <div *ngIf="!hasUserComment() || !hasUserRating()" class="comment-input">
+        <textarea
+          [(ngModel)]="newComment"
+          placeholder="Enter your comment"
+        ></textarea>
+        <label for="rating">Rating:</label>
+        <input
+          type="number"
+          id="rating"
+          [(ngModel)]="newRating"
+          min="1"
+          max="5"
+        />
+        <br />
+        <button (click)="saveCommentAndRating(false)">Save</button>
+      </div>
+
+      <!-- Edit Comment Input -->
       <div *ngIf="hasUserComment() || hasUserRating()">
-        <button (click)="toggleEdit()">Edit your comment</button>
-        <div *ngIf="editing">
+        <div *ngIf="editing" class="edit-input">
           <textarea [(ngModel)]="newComment"></textarea>
           <input type="number" [(ngModel)]="newRating" min="1" max="5" />
+          <br />
           <button (click)="saveCommentAndRating(true)">Update</button>
         </div>
       </div>

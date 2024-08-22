@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,16 +10,45 @@ import { Router } from '@angular/router';
 })
 export class RecipeDetailComponent implements OnInit {
   recipe: any;
+  author: any;
   showComments = false;
   editing = false;
+  updating = false;
   newComment: string = '';
   newRating: number = 0;
   currentUser = JSON.parse(localStorage.getItem('currentUser')!);
 
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(
+    private recipeService: RecipeService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  getLocalTime(utcTime: string): string {
+    const localDate = new Date(utcTime);
+    return localDate.toLocaleString(); // Ovo prikazuje lokalno vreme
+  }
 
   ngOnInit(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.showComments = true;
+    } else {
+      this.showComments = false;
+    }
+
     const recipeId = JSON.parse(localStorage.getItem('currentRecipe')!)._id;
+
+    const userId = JSON.parse(localStorage.getItem('currentRecipe')!).createdBy;
+    if (userId) {
+      this.userService.getUserById(userId).subscribe(
+        (data) => {
+          this.author = data;
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
+        }
+      );
+    }
 
     this.recipeService.getRecipeById(recipeId).subscribe(
       (data) => {
@@ -101,6 +131,7 @@ export class RecipeDetailComponent implements OnInit {
         }
         this.newComment = '';
         this.newRating = 0;
+
         // Recalculate average rating
         const totalRating = this.recipe.comments.reduce(
           (sum: number, comment: any) => sum + comment.ratingValue,
@@ -112,7 +143,42 @@ export class RecipeDetailComponent implements OnInit {
             : 'N/A';
 
         // Ponovo učitaj stranicu ako je urađeno ažuriranje komentara/ocene
+        // Prikaži komentare nakon dodavanja/azuriranja
+        const recipeId = JSON.parse(localStorage.getItem('currentRecipe')!)._id;
+        this.router.navigate([`/recipe/${recipeId}`]).then(() => {
+          location.reload(); // Automatski osvežava stranicu
+        });
+
         if (isUpdate) {
+          // TODO: ovde treba nekako da azuriram updatedAt polje komentara, odnosno ocene.. kako bih to mogao?
+        }
+      },
+      (error) => {
+        console.error('Error updating comment and rating:', error);
+      }
+    );
+  }
+
+  deleteComment(commentId: string) {
+    if (confirm('Are you sure you want to delete your comment?')) {
+      this.recipeService.deleteComment(this.recipe._id, commentId).subscribe(
+        (response) => {
+          // Ukloni obrisani komentar iz lokalne kopije recepta
+          this.recipe.comments = this.recipe.comments.filter(
+            (comment: any) => comment._id !== commentId
+          );
+
+          // Ponovo izračunaj prosečnu ocenu ako je potrebno
+          const totalRating = this.recipe.ratings.reduce(
+            (sum: number, rating: any) => sum + rating.rating,
+            0
+          );
+          this.recipe.averageRating =
+            this.recipe.ratings.length > 0
+              ? totalRating / this.recipe.ratings.length
+              : 'N/A';
+
+          this.showComments = true;
           // Prikaži komentare nakon dodavanja/azuriranja
           const recipeId = JSON.parse(
             localStorage.getItem('currentRecipe')!
@@ -120,11 +186,11 @@ export class RecipeDetailComponent implements OnInit {
           this.router.navigate([`/recipe/${recipeId}`]).then(() => {
             location.reload(); // Automatski osvežava stranicu
           });
+        },
+        (error) => {
+          console.error('Error deleting comment:', error);
         }
-      },
-      (error) => {
-        console.error('Error updating comment and rating:', error);
-      }
-    );
+      );
+    }
   }
 }

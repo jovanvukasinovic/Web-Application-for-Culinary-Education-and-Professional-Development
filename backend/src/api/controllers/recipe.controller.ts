@@ -325,4 +325,35 @@ export class RecipeController {
       return res.status(500).json({ message: "Server error", error });
     }
   };
+
+  // Brisanje komentara
+  deleteComment = async (req: Request, res: Response) => {
+    const { recipeId, commentId } = req.body;
+
+    try {
+      // Ukloni komentar iz recepta
+      const recipe = await Recipe.findByIdAndUpdate(
+        recipeId,
+        { $pull: { comments: commentId } },
+        { new: true }
+      ).exec();
+
+      if (!recipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      // Ukloni komentar iz kolekcije komentara
+      await Comment.findByIdAndDelete(commentId).exec();
+
+      return res
+        .status(200)
+        .json({ message: "Comment deleted successfully", recipe });
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
 }
