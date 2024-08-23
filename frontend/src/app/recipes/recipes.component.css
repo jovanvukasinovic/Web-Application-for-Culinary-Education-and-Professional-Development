@@ -81,3 +81,119 @@
 .page-btn:hover {
   background-color: #0056b3;
 }
+
+.recipe-content p strong {
+  color: black;
+  /* Originalna boja teksta */
+  cursor: pointer;
+  /* Promena kursora na pointer kada je hover */
+  transition: color 0.3s ease;
+  /* Dodavanje glatke tranzicije za promenu boje */
+}
+
+.recipe-content p strong:hover {
+  color: #ffdd57;
+  /* Boja teksta pri hover-u */
+  text-decoration: underline;
+  /* Dodavanje podvlačenja teksta pri hover-u */
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  /* Poravnava sadržaj levo i desno */
+  align-items: center;
+  /* Vertikalno centriranje */
+}
+
+.recipe-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+  /* Stilizuje naziv recepta */
+}
+
+.recipe-author {
+  font-size: 0.9em;
+  /* Malo manji font za autora, može biti i bez promene */
+  color: red;
+  /* Dodavanje neutralne boje za autora */
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.empty-stars {
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+}
+
+.comments-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon {
+  margin-left: auto;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.comment-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon .bi-chat-dots {
+  padding-right: 5px;
+  margin-left: auto;
+  font-size: 1.2rem;
+  /* Razmak između ikone i broja komentara */
+  color: black;
+  /* Plava boja ikone */
+}
+
+.ellipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.ellipsis strong {
+  font-size: 1.2rem;
+  /* Podesite veličinu fonta po želji */
+}

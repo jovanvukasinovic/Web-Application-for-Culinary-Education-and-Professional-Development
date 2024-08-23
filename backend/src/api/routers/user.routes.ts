@@ -23,10 +23,15 @@ userRouter.get("/:username", (req, res) =>
   userController.getUserByUsername(req, res)
 );
 
-userRouter.get("/:_id", (req, res) => {
-  console.log(req.params); // This should log the _id
+userRouter.get("/:id", (req, res) => {
+  console.log(req.params); // Ovo treba da prikazuje _id
   userController.getUserById(req, res);
 });
+
+// Ruta za verifikaciju lozinke
+userRouter.post("/getUserByIdPost", (req, res) =>
+  userController.getUserByIdPost(req, res)
+);
 
 // Ruta za registraciju korisnika (sa uploadom profilne slike)
 userRouter.post("/register", upload.single("photo"), (req, res) =>

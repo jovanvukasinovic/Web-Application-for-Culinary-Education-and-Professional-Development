@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import mongoose from "mongoose";
 import multer from "multer";
 import User from "../models/user";
 import Recipe from "../models/recipe";
@@ -147,6 +148,11 @@ export class UserController {
     try {
       const { username } = req.params;
 
+      // Validacija Username-a
+      if (!mongoose.Types.ObjectId.isValid(username)) {
+        return res.status(400).json({ message: "Invalid user username" });
+      }
+
       const user = await User.findOne({ username }).exec();
 
       if (!user) {
@@ -163,21 +169,45 @@ export class UserController {
   };
 
   // TODO: Not used
-  getUserById = async (req: express.Request, res: express.Response) => {
+  getUserById = async (req: Request, res: Response) => {
     try {
-      const { _id } = req.params; // Correctly destructure _id
-      console.log("User ID received:", _id);
+      const { id } = req.params;
 
-      const user = await User.findById(_id).exec(); // Use _id to find the user
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const user = await User.findById(id).exec();
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
       return res.status(200).json(user);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: "Server error: getUserById" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  getUserByIdPost = async (req: Request, res: Response) => {
+    try {
+      const { id } = req.body; // Ako koristite POST
+
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const user = await User.findById(id).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res.status(200).json(user);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Server error" });
     }
   };
 

@@ -1,1 +1,5 @@
-<p>top-9-recipes works!</p>
+<div *ngIf="author">
+  <h2>Author Details</h2>
+  <p><strong>First Name:</strong> {{ author.firstname }}</p>
+  <p><strong>Last Name:</strong> {{ author.lastname }}</p>
+</div>

@@ -71,4 +71,10 @@ export class HeaderComponent implements OnInit {
   isAdmin(): boolean {
     return this.role === 'admin';
   }
+
+  goHome(): void {
+    this.router.navigate(['/']).then(() => {
+      location.reload(); // Automatski osvežava stranicu
+    });
+  }
 }

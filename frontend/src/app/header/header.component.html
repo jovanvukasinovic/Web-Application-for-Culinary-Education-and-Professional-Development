@@ -1,7 +1,7 @@
 <header>
   <nav class="navbar">
     <div class="logo">
-      <a routerLink="/"><strong>Be a Chef</strong></a>
+      <a (click)="goHome()"><strong>Be a Chef</strong></a>
     </div>
 
     <!-- Loading Indicator -->
@@ -14,7 +14,7 @@
       <!-- Guest -->
       <div *ngIf="isGuess()">
         <ul class="nav-links">
-          <li><a routerLink="/">Home</a></li>
+          <li><a (click)="goHome()">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
           <li *ngIf="!isLoggedIn() && !isLoginRoute()">
             <a routerLink="/login">Login</a>
@@ -51,7 +51,7 @@
       <!-- Chef -->
       <div *ngIf="isChef()">
         <ul class="nav-links">
-          <li><a routerLink="/">Home</a></li>
+          <li><a (click)="goHome()">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
           <li>
             <a>Recipes</a>
@@ -78,7 +78,7 @@
       <!-- Admin -->
       <div *ngIf="isAdmin()">
         <ul class="nav-links">
-          <li><a routerLink="/">Home</a></li>
+          <li><a (click)="goHome()">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
           <li><a routerLink="/admin-dashboard">Dashboard</a></li>
           <li *ngIf="!isProfileRoute()">

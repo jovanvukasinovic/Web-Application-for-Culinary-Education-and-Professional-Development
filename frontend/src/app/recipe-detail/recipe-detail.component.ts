@@ -78,7 +78,7 @@ export class RecipeDetailComponent implements OnInit {
 
     const userId = JSON.parse(localStorage.getItem('currentRecipe')!).createdBy;
     if (userId) {
-      this.userService.getUserById(userId).subscribe(
+      this.userService.getUserByIdPost(userId).subscribe(
         (data) => {
           this.author = data;
         },

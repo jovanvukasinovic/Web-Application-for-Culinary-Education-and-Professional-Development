@@ -1,5 +1,4 @@
 <div class="recipes-container">
-  <h1>All Recipes</h1>
   <div class="sort-buttons">
     <button (click)="sortRecipes('averageRating')">Sort by Rating</button>
     <button (click)="sortRecipes('createdAt')">Sort by Newest</button>
@@ -22,11 +21,32 @@
         alt="{{ recipe.name }}"
       />
       <div class="recipe-content">
-        <h2>{{ recipe.name }}</h2>
-        <p>{{ recipe.description }}</p>
+        <h2 class="recipe-header">
+          <span class="recipe-name"> {{ recipe.name }} </span>
+          <span class="recipe-author"> &#10084; {{ recipe.favourites }} </span>
+        </h2>
         <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
-        <p>
-          <strong>Average Rating:</strong> {{ recipe.averageRating || "N/A" }}
+        <p><strong>Tags:</strong> {{ recipe.tags.join(", ") }}</p>
+        <p class="comments-section">
+          <span class="rating-stars">
+            <span class="star-wrapper">
+              <span
+                class="filled-stars"
+                [style.width.%]="(recipe.averageRating / 5) * 100"
+                >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+              >
+              <span class="empty-stars"
+                >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+              >
+            </span>
+          </span>
+          <span class="comment-icon">
+            <i class="bi bi-chat-dots"></i>{{ recipe.comments.length }}
+          </span>
+          <span></span>
+        </p>
+        <p (click)="viewRecipe(recipe)">
+          <span class="ellipsis"><strong>. . .</strong></span>
         </p>
       </div>
     </div>

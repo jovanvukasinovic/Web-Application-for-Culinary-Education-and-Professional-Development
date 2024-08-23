@@ -26,6 +26,21 @@ export class UserService {
     });
   }
 
+  // Dohvatanje korisnika sa _id
+  getUserByIdGet(_id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${_id}`);
+  }
+
+  getUserByIdPost(id: string): Observable<any> {
+    // POST zahtev ako je GET problematičan
+    return this.http.post<any>(`${this.apiUrl}/getUserByIdPost`, { id });
+  }
+
+  // Dohvatanje korisnika po korisnickom imenu
+  getUserByUsername(username: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/:${username}`);
+  }
+
   // Registracija korisnika
   registerUser(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/register`, formData);
@@ -94,17 +109,6 @@ export class UserService {
     return this.http.get(`${this.apiUrl}/profile-picture/${userId}`, {
       responseType: 'blob',
     });
-  }
-
-  // Dohvatanje korisnika sa _id
-  getUserById(_id: string): Observable<any> {
-    console.log(_id);
-    return this.http.get(`${this.apiUrl}/${_id}`);
-  }
-
-  // Dohvatanje korisnika po korisnickom imenu
-  getUserByUsername(username: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${username}`);
   }
 
   toggleFavouriteRecipe(userId: string, recipeId: string): Observable<any> {
