@@ -2,7 +2,12 @@
   <div class="recipe-header">
     <h1 class="recipe-title">{{ recipe.name }}</h1>
     <div class="favourites">
-      <span class="favourite-icon">&#10084;</span>
+      <span
+        class="favourite-icon"
+        [ngClass]="{ 'is-favourite': isFavourite }"
+        (click)="toggleFavourite()"
+        >&#10084;</span
+      >
       <span>{{ recipe.favourites }}</span>
     </div>
   </div>

@@ -26,8 +26,20 @@
 }
 
 .favourite-icon {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ccc;
+  /* Siva boja za default */
+  transition: color 0.3s;
+}
+
+.favourite-icon.is-favourite {
   color: #e74c3c;
-  margin-right: 5px;
+  /* Crvena boja za omiljene */
+}
+
+.favourite-icon:hover {
+  color: #ff6f61;
 }
 
 .recipe-content {
@@ -256,7 +268,7 @@ button:hover {
 
 .cancel-button,
 .delete-button {
-  padding: 10px 20px;
+  padding: 10px 40px;
   border-radius: 4px;
   border: none;
   cursor: pointer;

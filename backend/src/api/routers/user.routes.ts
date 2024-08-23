@@ -83,4 +83,8 @@ userRouter.get("/profile-picture/:userId", (req, res) =>
   userController.getProfilePicture(req, res)
 );
 
+userRouter.post("/toggle-favourite", (req, res) =>
+  userController.toggleFavouriteRecipe(req, res)
+);
+
 export default userRouter;

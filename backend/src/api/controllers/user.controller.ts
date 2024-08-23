@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import multer from "multer";
 import User from "../models/user";
+import Recipe from "../models/recipe";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -479,6 +480,42 @@ export class UserController {
     } catch (err) {
       console.error(err);
       return res.status(500).json({ message: "Server error: findEmail" });
+    }
+  };
+
+  toggleFavouriteRecipe = async (req: Request, res: Response) => {
+    const { userId, recipeId } = req.body;
+
+    try {
+      const user = await User.findById(userId);
+      const recipe = await Recipe.findById(recipeId);
+
+      if (!user || !recipe) {
+        return res.status(404).json({ message: "User or recipe not found" });
+      }
+
+      const isFavourite = user.favouriteRecepies.includes(recipeId);
+
+      if (isFavourite) {
+        user.favouriteRecepies = user.favouriteRecepies.filter(
+          (id) => id.toString() !== recipeId
+        );
+        recipe.favourites = Math.max(0, recipe.favourites - 1); // Smanji broj omiljenih
+      } else {
+        user.favouriteRecepies.push(recipeId);
+        recipe.favourites += 1; // Povećaj broj omiljenih
+      }
+
+      await user.save();
+      await recipe.save();
+
+      return res.status(200).json({
+        isFavourite: !isFavourite,
+        favouritesCount: recipe.favourites,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error" });
     }
   };
 }

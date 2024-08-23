@@ -17,6 +17,7 @@ export class RecipeDetailComponent implements OnInit {
   newComment: string = '';
   newRating: number = 0;
   currentUser = JSON.parse(localStorage.getItem('currentUser')!);
+  isFavourite: boolean = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -46,8 +47,28 @@ export class RecipeDetailComponent implements OnInit {
     return (this.recipe.averageRating / 5) * 100;
   }
 
+  loadRecipe(): void {
+    const recipeId = JSON.parse(localStorage.getItem('currentRecipe')!)._id;
+
+    this.recipeService.getRecipeById(recipeId).subscribe(
+      (data) => {
+        this.recipe = data;
+
+        // Provera da li je recept omiljen
+        this.isFavourite =
+          this.currentUser.favouriteRecepies.includes(recipeId);
+
+        // Dalje logike za komentar i ocenu...
+      },
+      (error) => {
+        console.error('Error fetching recipe:', error);
+      }
+    );
+  }
+
   ngOnInit(): void {
     if (localStorage.getItem('currentUser')) {
+      this.loadRecipe();
       this.showComments = true;
     } else {
       this.showComments = false;
@@ -70,6 +91,8 @@ export class RecipeDetailComponent implements OnInit {
     this.recipeService.getRecipeById(recipeId).subscribe(
       (data) => {
         this.recipe = data;
+        this.isFavourite =
+          this.currentUser.favouriteRecepies.includes(recipeId);
 
         // Provera da li korisnik već ima komentar
         const userComment = this.recipe.comments.find(
@@ -98,6 +121,32 @@ export class RecipeDetailComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching recipe:', error);
+      }
+    );
+  }
+
+  toggleFavourite(): void {
+    const userId = this.currentUser._id;
+    const recipeId = this.recipe._id;
+
+    this.userService.toggleFavouriteRecipe(userId, recipeId).subscribe(
+      (response: any) => {
+        this.isFavourite = response.isFavourite;
+        this.recipe.favourites = response.favouritesCount;
+
+        // Ažuriraj `currentUser` u localStorage nakon promene omiljenog recepta
+        if (this.isFavourite) {
+          this.currentUser.favouriteRecepies.push(recipeId);
+        } else {
+          this.currentUser.favouriteRecepies =
+            this.currentUser.favouriteRecepies.filter(
+              (id: string) => id !== recipeId
+            );
+        }
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+      },
+      (error) => {
+        console.error('Error toggling favourite:', error);
       }
     );
   }

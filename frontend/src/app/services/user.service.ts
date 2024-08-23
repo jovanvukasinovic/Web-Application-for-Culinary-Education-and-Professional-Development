@@ -106,4 +106,11 @@ export class UserService {
   getUserByUsername(username: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/${username}`);
   }
+
+  toggleFavouriteRecipe(userId: string, recipeId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/toggle-favourite`, {
+      userId,
+      recipeId,
+    });
+  }
 }
