@@ -56,6 +56,24 @@
   margin-left: 20px;
 }
 
+.ingredient,
+.category,
+.tag {
+  /* display: inline-block; */
+  /* background-color: #f0e4e4; */
+  color: black;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.ingredient p,
+.category p,
+.tag p {
+  margin: 5px 0;
+  padding: 5px 0;
+  /* line-height: 1.2; */
+}
+
 .description-section {
   margin-top: 20px;
 }
@@ -202,4 +220,62 @@ button:hover {
 .empty-stars {
   color: #e0e0e0;
   /* Siva boja za prazne zvezdice */
+}
+
+/* Modal styling */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button,
+.delete-button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
 }

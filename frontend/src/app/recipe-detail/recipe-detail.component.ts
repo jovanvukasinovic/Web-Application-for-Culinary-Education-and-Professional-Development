@@ -219,4 +219,45 @@ export class RecipeDetailComponent implements OnInit {
       );
     }
   }
+
+  showDeleteModal = false;
+  commentToDelete: string | null = null;
+
+  // Metoda za otvaranje modala
+  openDeleteModal(commentId: string) {
+    this.showDeleteModal = true;
+    this.commentToDelete = commentId;
+  }
+
+  // Metoda za zatvaranje modala
+  closeDeleteModal() {
+    this.showDeleteModal = false;
+    this.commentToDelete = null;
+  }
+
+  // Potvrda brisanja
+  confirmDeleteComment() {
+    if (this.commentToDelete) {
+      this.recipeService
+        .deleteComment(this.recipe._id, this.commentToDelete)
+        .subscribe(
+          (response) => {
+            this.recipe.comments = this.recipe.comments.filter(
+              (comment: any) => comment._id !== this.commentToDelete
+            );
+            this.closeDeleteModal();
+            const recipeId = JSON.parse(
+              localStorage.getItem('currentRecipe')!
+            )._id;
+            this.router.navigate([`/recipe/${recipeId}`]).then(() => {
+              location.reload(); // Automatski osvežava stranicu
+            });
+          },
+          (error) => {
+            console.error('Error deleting comment:', error);
+            this.closeDeleteModal();
+          }
+        );
+    }
+  }
 }
