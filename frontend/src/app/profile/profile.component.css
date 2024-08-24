@@ -35,7 +35,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #652c15;
 }
 
 .logout-button {
@@ -47,6 +47,6 @@ button:hover {
 }
 
 .error-message {
-  color: red;
+  color: #cc1b00;
   margin-top: 5px;
 }

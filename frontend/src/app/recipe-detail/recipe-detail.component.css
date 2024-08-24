@@ -34,12 +34,13 @@
 }
 
 .favourite-icon.is-favourite {
-  color: #e74c3c;
+  color: #cc1b00;
   /* Crvena boja za omiljene */
 }
 
 .favourite-icon:hover {
-  color: #ff6f61;
+  color: #cc1b00;
+  ;
 }
 
 .recipe-content {
@@ -182,7 +183,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #652c15;
 }
 
 .stars {

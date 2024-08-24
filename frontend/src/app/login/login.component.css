@@ -1,10 +1,10 @@
 .login-container {
+  margin-top: 100px;
   max-width: 400px;
-  margin: 0 auto;
-  padding: 1rem;
+  padding: 3rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .login-container h2 {
@@ -37,11 +37,11 @@
 }
 
 .login-container form button:hover {
-  background-color: #0056b3;
+  background-color: #652c15;
 }
 
 .error {
-  color: red;
+  color: #cc1b00;
   text-align: center;
 }
 

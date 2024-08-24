@@ -114,13 +114,35 @@ export class RecipeController {
         filter.ingredients = { $all: (ingredients as string).split(",") };
 
       let sort: any = {};
-      if (sortBy) {
-        sort[sortBy as string] = order === "asc" ? 1 : -1;
+      if (sortBy === "rating") {
+        sort = { averageRating: order === "asc" ? 1 : -1 };
+      } else if (sortBy === "newest") {
+        sort = { createdAt: order === "asc" ? 1 : -1 };
+      } else if (sortBy === "favourites") {
+        sort = { favourites: order === "asc" ? 1 : -1 };
       } else {
-        sort["createdAt"] = -1;
+        sort[sortBy as string] = order === "asc" ? 1 : -1;
       }
 
-      const recipes = await Recipe.find(filter).sort(sort).exec();
+      const recipes = await Recipe.aggregate([
+        { $match: filter },
+        {
+          $lookup: {
+            from: "ratings",
+            localField: "_id",
+            foreignField: "recipeId",
+            as: "ratings",
+          },
+        },
+        {
+          $addFields: {
+            averageRating: { $avg: "$ratings.rating" },
+          },
+        },
+        {
+          $sort: sort,
+        },
+      ]).exec();
 
       return res.status(200).json(recipes);
     } catch (err) {

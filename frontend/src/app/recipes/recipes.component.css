@@ -6,8 +6,44 @@
 
 .sort-buttons {
   display: flex;
-  gap: 10px;
+  justify-content: center;
+  /* Centriranje horizontalno */
+  align-items: center;
+  /* Centriranje vertikalno */
+  gap: 25px;
+  /* Razmak između dugmića */
   margin-bottom: 20px;
+  height: 100%;
+  /* Ovo osigurava da se koristi ceo vertikalni prostor unutar roditelja */
+}
+
+.sort-buttons button {
+  background-color: #f8f8f8;
+  border: 2px solid #bb9c7f;
+  color: #652c15;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sort-buttons button:hover {
+  background-color: #652c15;
+  color: white;
+}
+
+.sort-buttons i {
+  margin-left: 8px;
+  font-size: 1.2rem;
+}
+
+.sort-buttons button.active-sort {
+  background-color: #bc9c7f;
+  color: white;
+  border-color: #652c15;
 }
 
 .recipe-list {
@@ -19,11 +55,16 @@
 .recipe-card {
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
 }
 
 .recipe-card img {
@@ -64,9 +105,8 @@
 }
 
 .page-btn {
-  background-color: #bb9c7f;
-  color: white;
-  border: none;
+  color: #652c15;
+  border-color: #bb9c7f;
   padding: 10px 20px;
   margin: 0 5px;
   border-radius: 5px;
@@ -75,11 +115,13 @@
 }
 
 .page-btn.active {
-  background-color: #0056b3;
+  background-color: #bb9c7f;
+  color: #ffffff;
 }
 
 .page-btn:hover {
-  background-color: #0056b3;
+  background-color: #652c15;
+  ;
 }
 
 .recipe-content p strong {
@@ -112,10 +154,10 @@
   /* Stilizuje naziv recepta */
 }
 
-.recipe-author {
+.recipe-favourites {
   font-size: 0.9em;
   /* Malo manji font za autora, može biti i bez promene */
-  color: red;
+  color: #cc1b00;
   /* Dodavanje neutralne boje za autora */
 }
 

@@ -45,7 +45,7 @@ button:disabled {
 }
 
 .error-message {
-  color: red;
+  color: #cc1b00;
   text-align: center;
   margin-top: 15px;
 }

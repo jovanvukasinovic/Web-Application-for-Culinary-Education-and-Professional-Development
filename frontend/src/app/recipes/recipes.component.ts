@@ -45,6 +45,9 @@ export class RecipesComponent implements OnInit {
             this.originalRecipes.length / this.recipesPerPage
           );
           this.setPage(this.currentPage);
+
+          this.sortBy = 'rating';
+          this.order = 'desc';
         },
         (error) => {
           console.error('Error fetching recipes:', error);
@@ -61,20 +64,18 @@ export class RecipesComponent implements OnInit {
     this.recipes = this.originalRecipes.slice(startIndex, endIndex);
   }
 
-  sortRecipes(sortBy: string): void {
-    if (this.sortBy === sortBy) {
-      this.order = this.order === 'asc' ? 'desc' : 'asc';
-    } else {
-      this.sortBy = sortBy;
-      this.order = 'asc';
-    }
-
-    this.recipes = this.sortArray(
-      this.originalRecipes,
-      this.sortBy,
-      this.order
+  sortRecipes(sortBy: string, order: string): void {
+    this.recipeService.sortRecipes(sortBy, order).subscribe(
+      (recipes) => {
+        this.originalRecipes = recipes;
+        this.sortBy = sortBy;
+        this.order = order;
+        this.setPage(this.currentPage);
+      },
+      (error) => {
+        console.error('Error sorting recipes:', error);
+      }
     );
-    this.setPage(1);
   }
 
   sortArray(array: any[], sortBy: string, order: string): any[] {
@@ -100,5 +101,18 @@ export class RecipesComponent implements OnInit {
 
   getPaginationArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  toggleSort(property: string): void {
+    if (this.sortBy === property) {
+      // Ako se već sortira po ovoj kategoriji, promeni redosled
+      this.order = this.order === 'desc' ? 'asc' : 'desc';
+    } else {
+      // Ako je izabrana nova kategorija za sortiranje
+      this.sortBy = property;
+      this.order = 'desc'; // Podrazumevano sortiranje je uzlazno
+    }
+
+    this.sortRecipes(this.sortBy, this.order);
   }
 }

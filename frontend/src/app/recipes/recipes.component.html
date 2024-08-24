@@ -1,17 +1,74 @@
 <div class="recipes-container">
   <div class="sort-buttons" *ngIf="!searching">
-    <button (click)="sortRecipes('averageRating')">Sort by Rating</button>
-    <button (click)="sortRecipes('createdAt')">Sort by Newest</button>
-    <button (click)="sortRecipes('name')">Sort by Name (A-Z/Z-A)</button>
+    <!-- Rating Sorting -->
+    <button
+      (click)="toggleSort('rating')"
+      [ngClass]="{ 'active-sort': sortBy === 'rating' }"
+    >
+      Rating
+      <i
+        [ngClass]="{
+          'fas fa-arrow-up': sortBy === 'rating',
+        }"
+        *ngIf="order === 'asc'"
+      ></i>
+      <i
+        [ngClass]="{
+          'fas fa-arrow-down': sortBy === 'rating'
+        }"
+        *ngIf="order === 'desc'"
+      ></i>
+    </button>
+
+    <!-- Newest Sorting -->
+    <button
+      (click)="toggleSort('newest')"
+      [ngClass]="{ 'active-sort': sortBy === 'newest' }"
+    >
+      Newest
+      <i
+        [ngClass]="{
+          'fas fa-arrow-up': sortBy === 'newest',
+        }"
+        *ngIf="order === 'asc'"
+      ></i>
+      <i
+        [ngClass]="{
+          'fas fa-arrow-down': sortBy === 'newest'
+        }"
+        *ngIf="order === 'desc'"
+      ></i>
+    </button>
+
+    <!-- Favourites Sorting -->
+    <button
+      (click)="toggleSort('favourites')"
+      [ngClass]="{ 'active-sort': sortBy === 'favourites' }"
+    >
+      Favourites
+      <i
+        [ngClass]="{
+          'fas fa-arrow-up': sortBy === 'favourites',
+        }"
+        *ngIf="order === 'asc'"
+      ></i>
+      <i
+        [ngClass]="{
+          'fas fa-arrow-down': sortBy === 'favourites'
+        }"
+        *ngIf="order === 'desc'"
+      ></i>
+    </button>
   </div>
+
   <div *ngIf="searching" class="centered-text">
-    <p>
-      <strong>Searching results</strong>
-    </p>
+    <p><strong>Searching results</strong></p>
   </div>
+
   <div *ngIf="recipes.length === 0">
     <p>No recipes available.</p>
   </div>
+
   <div *ngIf="recipes.length > 0" class="recipe-list">
     <div
       class="recipe-card"
@@ -25,8 +82,10 @@
       />
       <div class="recipe-content">
         <h2 class="recipe-header">
-          <span class="recipe-name"> {{ recipe.name }} </span>
-          <span class="recipe-author"> &#10084; {{ recipe.favourites }} </span>
+          <span class="recipe-name">{{ recipe.name }}</span>
+          <span class="recipe-favourites">
+            &#10084; {{ recipe.favourites }}
+          </span>
         </h2>
         <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
         <p><strong>Tags:</strong> {{ recipe.tags.join(", ") }}</p>
@@ -36,26 +95,21 @@
               <span
                 class="filled-stars"
                 [style.width.%]="(recipe.averageRating / 5) * 100"
-                >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >★★★★★</span
               >
-              <span class="empty-stars"
-                >&#9733;&#9733;&#9733;&#9733;&#9733;</span
-              >
+              <span class="empty-stars">★★★★★</span>
             </span>
           </span>
           <span class="comment-icon">
             <i class="bi bi-chat-dots"></i>{{ recipe.comments.length }}
           </span>
-          <span></span>
         </p>
-        <p (click)="viewRecipe(recipe)">
-          <span class="ellipsis"><strong>. . .</strong></span>
-        </p>
+        <p class="ellipsis"><strong>...</strong></p>
       </div>
     </div>
   </div>
 
-  <!-- Paginacija -->
+  <!-- Pagination -->
   <div class="pagination" *ngIf="totalPages > 1">
     <button
       class="page-btn"
