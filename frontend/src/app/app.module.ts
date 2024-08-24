@@ -26,6 +26,7 @@ import { BecomeAChefComponent } from './become-a-chef/become-a-chef.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { CandidatesComponent } from './candidates/candidates.component';
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,13 @@ import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.compo
     CandidatesComponent,
     AdminDashboardComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    CommonModule,
+    HttpClientModule,
+  ],
   providers: [AuthGuard, UserService],
   bootstrap: [AppComponent],
 })

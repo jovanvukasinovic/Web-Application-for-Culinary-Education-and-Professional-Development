@@ -1,7 +1,26 @@
 <header>
   <nav class="navbar">
-    <div class="logo">
-      <a (click)="goHome()"><strong>Be a Chef</strong></a>
+    <div class="logo-and-search">
+      <div class="logo">
+        <a (click)="goHome()">
+          <img src="assets/logo_circle.png" />
+        </a>
+      </div>
+
+      <div *ngIf="!isLoading && !isAdminLoginRoute()">
+        <div *ngIf="isHomeRoute()" class="search-container">
+          <input
+            type="text"
+            placeholder="Search for recipes..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearchChange(searchTerm)"
+            class="search-bar"
+          />
+          <button *ngIf="searchTerm" class="clear-btn" (click)="clearSearch()">
+            &times;
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Loading Indicator -->

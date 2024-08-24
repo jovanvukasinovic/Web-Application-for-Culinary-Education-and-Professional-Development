@@ -11,6 +11,8 @@ recipeRouter.get("/all", (req, res) =>
   recipeController.getAllRecipes(req, res)
 );
 
+recipeRouter.get("/sort", (req, res) => recipeController.sortRecipes(req, res));
+
 recipeRouter.get("/search", (req, res) =>
   recipeController.searchRecipes(req, res)
 );

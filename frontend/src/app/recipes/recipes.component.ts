@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { RecipeService } from '../services/recipe.service';
 import { Router } from '@angular/router';
+import { SearchService } from '../services/search.service'; // Dodato
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-recipes',
@@ -9,31 +11,45 @@ import { Router } from '@angular/router';
 })
 export class RecipesComponent implements OnInit {
   recipes: any[] = [];
-  originalRecipes: any[] = []; // Originalni podaci sa servera, uključujući slike
-  currentPage: number = 1; // Trenutna stranica
-  recipesPerPage: number = 9; // Broj recepata po stranici
-  totalPages: number = 1; // Ukupan broj stranica
-  sortBy: string = ''; // Trenutni kriterijum sortiranja
-  order: string = 'asc'; // Trenutni redosled sortiranja, podrazumevano uzlazno
+  originalRecipes: any[] = [];
+  currentPage: number = 1;
+  recipesPerPage: number = 9;
+  totalPages: number = 1;
+  searching = false;
+  sortBy: string = '';
+  order: string = 'asc';
 
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private searchService: SearchService // Dodato
+  ) {}
+
   ngOnInit(): void {
-    this.getAllRecipes();
-  }
-
-  getAllRecipes(): void {
-    this.recipeService.getAllRecipes().subscribe(
-      (data) => {
-        this.originalRecipes = data;
-        this.totalPages = Math.ceil(
-          this.originalRecipes.length / this.recipesPerPage
-        );
-        this.setPage(this.currentPage);
-      },
-      (error) => {
-        console.error('Error fetching recipes:', error);
-      }
-    );
+    this.searchService
+      .getSearchTerm()
+      .pipe(
+        switchMap((term) => {
+          if (term) {
+            this.searching = true;
+            return this.recipeService.searchRecipes(term); // Pretraga po ključu
+          } else {
+            return this.recipeService.getAllRecipes(); // Dohvatanje svih recepata ako nema ključa
+          }
+        })
+      )
+      .subscribe(
+        (data) => {
+          this.originalRecipes = data;
+          this.totalPages = Math.ceil(
+            this.originalRecipes.length / this.recipesPerPage
+          );
+          this.setPage(this.currentPage);
+        },
+        (error) => {
+          console.error('Error fetching recipes:', error);
+        }
+      );
   }
 
   setPage(page: number): void {
@@ -58,7 +74,7 @@ export class RecipesComponent implements OnInit {
       this.sortBy,
       this.order
     );
-    this.setPage(1); // Resetuj na prvu stranicu nakon sortiranja
+    this.setPage(1);
   }
 
   sortArray(array: any[], sortBy: string, order: string): any[] {
@@ -74,6 +90,12 @@ export class RecipesComponent implements OnInit {
   viewRecipe(recipe: any): void {
     localStorage.setItem('currentRecipe', JSON.stringify(recipe));
     this.router.navigate([`/recipe/${recipe._id}`]);
+  }
+
+  getImageSrc(image: any): string {
+    return `data:${image.contentType};base64,${
+      image.data || image.imageBase64
+    }`;
   }
 
   getPaginationArray(): number[] {

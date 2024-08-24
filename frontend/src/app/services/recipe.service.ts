@@ -21,10 +21,10 @@ export class RecipeService {
   }
 
   // Pretraga i sortiranje recepata
-  searchRecipes(sortBy: string, order: string): Observable<any[]> {
+  sortRecipes(sortBy: string, order: string): Observable<any[]> {
     let params = new HttpParams().set('sortBy', sortBy).set('order', order);
 
-    return this.http.get<any[]>(`${this.apiUrl}/search`, { params });
+    return this.http.get<any[]>(`${this.apiUrl}/sort`, { params });
   }
 
   // Funkcija za dohvatanje recepta po ID-u
@@ -47,5 +47,12 @@ export class RecipeService {
     return this.http.delete(`${this.apiUrl}/recipe-delete-comment`, {
       body: data,
     });
+  }
+
+  searchRecipes(term: string): Observable<any[]> {
+    console.log(term);
+    return this.http.get<any[]>(
+      `${this.apiUrl}/search?term=${encodeURIComponent(term)}`
+    );
   }
 }

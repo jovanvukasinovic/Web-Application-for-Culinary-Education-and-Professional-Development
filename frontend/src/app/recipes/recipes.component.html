@@ -1,8 +1,13 @@
 <div class="recipes-container">
-  <div class="sort-buttons">
+  <div class="sort-buttons" *ngIf="!searching">
     <button (click)="sortRecipes('averageRating')">Sort by Rating</button>
     <button (click)="sortRecipes('createdAt')">Sort by Newest</button>
     <button (click)="sortRecipes('name')">Sort by Name (A-Z/Z-A)</button>
+  </div>
+  <div *ngIf="searching" class="centered-text">
+    <p>
+      <strong>Searching results</strong>
+    </p>
   </div>
   <div *ngIf="recipes.length === 0">
     <p>No recipes available.</p>
@@ -15,9 +20,7 @@
     >
       <img
         *ngIf="recipe.image"
-        [src]="
-          'data:' + recipe.image.contentType + ';base64,' + recipe.image.data
-        "
+        [src]="getImageSrc(recipe.image)"
         alt="{{ recipe.name }}"
       />
       <div class="recipe-content">
@@ -53,7 +56,7 @@
   </div>
 
   <!-- Paginacija -->
-  <div class="pagination">
+  <div class="pagination" *ngIf="totalPages > 1">
     <button
       class="page-btn"
       *ngFor="let page of getPaginationArray()"

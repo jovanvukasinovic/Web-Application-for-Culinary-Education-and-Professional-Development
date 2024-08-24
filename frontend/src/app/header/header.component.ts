@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-header',
@@ -9,15 +10,16 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   role: string = 'guest';
   userId: string | null = null;
-  isLoading: boolean = true; // Dodajte isLoading
+  isLoading: boolean = true;
+  searchTerm: string = ''; // Search term
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private searchService: SearchService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
       this.loadUserRole();
-      this.isLoading = false; // Nakon učitavanja role sakrijte loading indikator
-    }, 300); // Odložite za 300ms kako bi se tranzicija sakrila
+      this.isLoading = false;
+    }, 300);
   }
 
   loadUserRole(): void {
@@ -33,6 +35,16 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn(): boolean {
     return localStorage.getItem('currentUser') !== null;
+  }
+
+  isHomeRoute(): boolean {
+    return this.router.url === '/';
+  }
+
+  // Ova metoda se poziva kada se unese tekst u search bar
+  onSearchChange(term: string): void {
+    this.searchTerm = term;
+    this.searchService.setSearchTerm(this.searchTerm); // Šalje termin za pretragu u SearchService
   }
 
   isLoginRoute(): boolean {
@@ -52,7 +64,7 @@ export class HeaderComponent implements OnInit {
     this.role = 'guest';
     this.userId = null;
     this.router.navigate(['/']).then(() => {
-      location.reload(); // Automatski osvežava stranicu
+      location.reload();
     });
   }
 
@@ -74,7 +86,15 @@ export class HeaderComponent implements OnInit {
 
   goHome(): void {
     this.router.navigate(['/']).then(() => {
-      location.reload(); // Automatski osvežava stranicu
+      location.reload();
+    });
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.searchService.setSearchTerm(this.searchTerm);
+    this.router.navigate(['/']).then(() => {
+      location.reload();
     });
   }
 }
