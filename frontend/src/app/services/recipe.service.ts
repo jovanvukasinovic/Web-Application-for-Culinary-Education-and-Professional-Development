@@ -20,6 +20,14 @@ export class RecipeService {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
   }
 
+  getTop9Recipes(category: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/top9/${category}`);
+  }
+
+  getFavouriteRecipes(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/favourites/${userId}`);
+  }
+
   // Pretraga i sortiranje recepata
   sortRecipes(sortBy: string, order: string): Observable<any[]> {
     let params = new HttpParams().set('sortBy', sortBy).set('order', order);

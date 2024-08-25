@@ -48,7 +48,8 @@
 
 .recipe-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
 
@@ -126,19 +127,14 @@
 
 .recipe-content p strong {
   color: black;
-  /* Originalna boja teksta */
   cursor: pointer;
-  /* Promena kursora na pointer kada je hover */
   transition: color 0.3s ease;
-  /* Dodavanje glatke tranzicije za promenu boje */
 }
 
-.recipe-content p strong:hover {
-  color: #ffdd57;
-  /* Boja teksta pri hover-u */
-  text-decoration: underline;
-  /* Dodavanje podvlačenja teksta pri hover-u */
-}
+/* .recipe-content p strong:hover { */
+/* color: #ffdd57; */
+/* text-decoration: underline; */
+/* } */
 
 .recipe-header {
   display: flex;

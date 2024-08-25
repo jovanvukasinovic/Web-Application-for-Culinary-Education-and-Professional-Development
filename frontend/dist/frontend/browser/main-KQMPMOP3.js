@@ -18060,7 +18060,7 @@ function $x(t, e) {
       p(10, "Recipes"),
       d(),
       f(11, "ul", 13)(12, "li")(13, "a", 14),
-      p(14, "Favorites"),
+      p(14, "Favourites"),
       d()()()(),
       f(15, "li")(16, "a", 15),
       p(17, "Become a Chef"),
@@ -18140,7 +18140,7 @@ function Wx(t, e) {
       p(17, "Add Recipe"),
       d()(),
       f(18, "li")(19, "a", 14),
-      p(20, "Favorites"),
+      p(20, "Favourites"),
       d()()()(),
       f(21, "li")(22, "a", 19),
       p(23, "Candidates"),
@@ -18348,7 +18348,7 @@ var ey = (() => {
         ["routerLink", "/login"],
         ["routerLink", "/"],
         [1, "sub-links"],
-        ["routerLink", "/favorites"],
+        ["routerLink", "/favourites"],
         ["routerLink", "/become-a-chef"],
         ["routerLink", "/profile"],
         ["routerLink", "/my-recipes"],
@@ -20818,11 +20818,11 @@ var fy = (() => {
   }),
     (e.ɵcmp = Q({
       type: e,
-      selectors: [["app-favorites"]],
+      selectors: [["app-favourites"]],
       decls: 2,
       vars: 0,
       template: function (i, o) {
-        i & 1 && (f(0, "p"), p(1, "favorites works!"), d());
+        i & 1 && (f(0, "p"), p(1, "favourites works!"), d());
       },
     }));
   let t = e;
@@ -20907,7 +20907,7 @@ var zS = [
     { path: "recipes", component: Wd },
     { path: "recipe/:id", component: uy },
     { path: "top-9-recipes", component: dy },
-    { path: "favorites", component: fy },
+    { path: "favourites", component: fy },
     { path: "become-a-chef", component: hy },
     { path: "my-recipes", component: py },
     { path: "candidates", component: gy },

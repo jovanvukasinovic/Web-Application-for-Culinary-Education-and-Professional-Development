@@ -1,47 +1,20 @@
-.top-9-recipes-container {
+.favourites-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.sort-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  margin-bottom: 20px;
-  height: 100%;
-}
-
-.sort-buttons button {
-  background-color: #f8f8f8;
-  border: 2px solid #bb9c7f;
-  color: #652c15;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: background-color 0.3s;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-}
-
-.sort-buttons button:hover {
-  background-color: #652c15;
-  color: white;
-}
-
-.sort-buttons button.active-sort {
-  background-color: #bc9c7f;
-  color: white;
-  border-color: #652c15;
-}
-
 .recipe-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  /* 3 columns per row */
   gap: 20px;
+  /* Space between grid items */
+  justify-content: center;
+  /* Center the grid within its container */
 }
+
+
 
 .recipe-card {
   background-color: #fff;
@@ -81,41 +54,31 @@
 
 .recipe-content strong {
   color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.recipe-favourites {
-  font-size: 1rem;
-  color: #cc1b00;
-}
+/* Uncomment this if needed */
+/* .recipe-content p strong:hover {
+  color: #ffdd57;
+  text-decoration: underline;
+} */
 
-.ellipsis {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  text-align: center;
-}
-
-.ellipsis strong {
-  font-size: 1.2rem;
-}
-
-.comments-section {
+.recipe-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
-.comment-icon {
-  margin-left: auto;
-  font-size: 1.3rem;
-  color: black;
+.recipe-name {
+  font-weight: bold;
+  font-size: 1.8rem;
 }
 
-.comment-icon .bi-chat-dots {
-  padding-right: 5px;
-  font-size: 1.2rem;
-  color: black;
+.recipe-favourites {
+  font-size: 0.9em;
+  color: #cc1b00;
 }
 
 .rating-stars {
@@ -145,4 +108,76 @@
 
 .empty-stars {
   color: #e0e0e0;
+}
+
+.comments-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon {
+  margin-left: auto;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.comment-icon .bi-chat-dots {
+  padding-right: 5px;
+  font-size: 1.2rem;
+  color: black;
+}
+
+.ellipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.ellipsis strong {
+  font-size: 1.2rem;
+}
+
+.recipes-container .centered-text {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: #652c15;
+}
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  /* Gray color for empty stars */
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  /* Gold color for filled stars */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.empty-stars {
+  color: #e0e0e0;
+  /* Gray color for empty stars */
 }

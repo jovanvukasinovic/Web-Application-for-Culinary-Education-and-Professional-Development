@@ -36,4 +36,12 @@ recipeRouter.delete("/recipe-delete-comment", (req, res) => {
   recipeController.deleteComment(req, res);
 });
 
+recipeRouter.get("/top9/:category", (req, res) => {
+  recipeController.getTop9Recipes(req, res);
+});
+
+recipeRouter.get("/favourites/:userId", (req, res) => {
+  recipeController.getFavouriteRecipes(req, res);
+});
+
 export default recipeRouter;

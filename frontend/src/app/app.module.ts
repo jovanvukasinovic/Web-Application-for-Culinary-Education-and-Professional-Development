@@ -21,7 +21,7 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { Top9RecipesComponent } from './top-9-recipes/top-9-recipes.component';
-import { FavoritesComponent } from './favorites/favorites.component';
+import { FavouritesComponent } from './favourites/favourites.component';
 import { BecomeAChefComponent } from './become-a-chef/become-a-chef.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { CandidatesComponent } from './candidates/candidates.component';
@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
     HeaderComponent,
     FooterComponent,
     Top9RecipesComponent,
-    FavoritesComponent,
+    FavouritesComponent,
     BecomeAChefComponent,
     MyRecipesComponent,
     CandidatesComponent,

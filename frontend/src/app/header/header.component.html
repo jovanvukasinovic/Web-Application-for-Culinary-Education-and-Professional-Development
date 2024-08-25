@@ -11,7 +11,7 @@
         <div *ngIf="isHomeRoute()" class="search-container">
           <input
             type="text"
-            placeholder="Search for recipes..."
+            placeholder="Search for recipes, category or tag..."
             [(ngModel)]="searchTerm"
             (input)="onSearchChange(searchTerm)"
             class="search-bar"
@@ -50,7 +50,7 @@
           <li>
             <a>Recipes</a>
             <ul class="sub-links">
-              <li><a routerLink="/favorites">Favorites</a></li>
+              <li><a routerLink="/favourites">Favourites</a></li>
             </ul>
           </li>
           <li><a routerLink="/become-a-chef">Become a Chef</a></li>
@@ -77,7 +77,7 @@
             <ul class="sub-links">
               <li><a routerLink="/my-recipes">My Recipes</a></li>
               <li><a routerLink="/recipe-add">Add Recipe</a></li>
-              <li><a routerLink="/favorites">Favorites</a></li>
+              <li><a routerLink="/favourites">Favourites</a></li>
             </ul>
           </li>
           <li><a routerLink="/candidates">Candidates</a></li>

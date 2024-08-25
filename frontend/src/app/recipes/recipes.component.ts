@@ -88,9 +88,31 @@ export class RecipesComponent implements OnInit {
     });
   }
 
+  // viewRecipe(recipe: any): void {
+  //   localStorage.setItem('currentRecipe', JSON.stringify(recipe));
+  //   this.router.navigate([`/recipe/${recipe._id}`]);
+  // }
+
+  // MUSAKA: 4153249B
   viewRecipe(recipe: any): void {
-    localStorage.setItem('currentRecipe', JSON.stringify(recipe));
-    this.router.navigate([`/recipe/${recipe._id}`]);
+    try {
+      const serializedRecipe = JSON.stringify(recipe);
+      const sizeInBytes = new Blob([serializedRecipe]).size;
+
+      console.log(`Size of the recipe object: ${sizeInBytes} bytes`);
+
+      // Proverite da li je veličina manja od recimo 5MB (5 * 1024 * 1024 bajtova)
+      if (sizeInBytes > 5 * 1024 * 1024) {
+        alert('The recipe is too large to be stored. Please try another one.');
+        return;
+      }
+
+      localStorage.setItem('currentRecipe', serializedRecipe);
+      this.router.navigate([`/recipe/${recipe._id}`]);
+    } catch (e) {
+      console.error('Storage error:', e);
+      alert('Unable to store recipe data. Please try again.');
+    }
   }
 
   getImageSrc(image: any): string {

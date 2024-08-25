@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import Recipe from "../models/recipe";
 import Comment from "../models/comment";
 import Rating from "../models/rating";
+import User from "../models/user";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
@@ -351,6 +352,108 @@ export class RecipeController {
       return res
         .status(200)
         .json({ message: "Comment deleted successfully", recipe });
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  getTop9Recipes = async (req: Request, res: Response) => {
+    const { category } = req.params;
+
+    try {
+      let sortCriteria: any = {};
+
+      if (category === "rating") {
+        // Calculate the average rating
+        sortCriteria = { averageRating: -1 };
+      } else if (category === "comments") {
+        // Sorting by the number of comments
+        sortCriteria = { commentsCount: -1 };
+      } else if (category === "favourites") {
+        sortCriteria = { favourites: -1 };
+      } else {
+        return res.status(400).json({ message: "Invalid category" });
+      }
+
+      const recipes = await Recipe.aggregate([
+        {
+          $lookup: {
+            from: "ratings",
+            localField: "_id",
+            foreignField: "recipeId",
+            as: "ratings",
+          },
+        },
+        {
+          $addFields: {
+            commentsCount: { $size: "$comments" }, // Number of comments
+            averageRating: {
+              $cond: {
+                if: { $eq: [{ $size: "$ratings" }, 0] },
+                then: 0,
+                else: { $avg: "$ratings.rating" }, // Calculating the average rating
+              },
+            },
+          },
+        },
+        {
+          $sort: sortCriteria, // Sorting by the specified criteria
+        },
+        {
+          $limit: 9, // Limiting to top 9 recipes
+        },
+      ]).exec();
+
+      return res.status(200).json(recipes);
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  getFavouriteRecipes = async (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    try {
+      // Validate the user ID
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      // Find the user and populate their favourite recipes
+      const user = await User.findById(userId)
+        .populate({
+          path: "favouriteRecepies",
+          // select: "name category tags image ratings comments favourites", // Specify only the fields you need
+          select: "name category tags image comments favourites", // Limit to essential fields
+        })
+        .exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const recipesWithBase64Images = user.favouriteRecepies.map(
+        (recipe: any) => {
+          return {
+            ...recipe._doc,
+            imageBase64: recipe.image?.data
+              ? `data:${
+                  recipe.image.contentType
+                };base64,${recipe.image.data.toString("base64")}`
+              : null,
+          };
+        }
+      );
+
+      return res.status(200).json(recipesWithBase64Images);
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
