@@ -1,6 +1,9 @@
 <div class="favourites-container">
-  <div *ngIf="!hasFavourites">
+  <div class="centered-text" *ngIf="!hasFavourites">
     <p>No favourite recipes available.</p>
+  </div>
+  <div class="centered-text">
+    <p><strong>Favourited recipes</strong></p>
   </div>
   <div *ngIf="hasFavourites && hasFavourites" class="recipe-list">
     <div

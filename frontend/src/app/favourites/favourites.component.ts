@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./favourites.component.css'],
 })
 export class FavouritesComponent implements OnInit {
-  originalRecipes: any[] = []; // Initialize as an empty array
+  originalRecipes: any[] = [];
   copyRecipes: any[] = [];
   currentUser: any;
-  hasFavourites: boolean = false; // Set to false initially
+  hasFavourites: boolean = true;
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
@@ -26,7 +26,7 @@ export class FavouritesComponent implements OnInit {
   loadFavouriteRecipes(): void {
     this.recipeService.getAllRecipes().subscribe(
       (recipes) => {
-        this.originalRecipes = recipes || []; // Ensure it's an array
+        this.originalRecipes = recipes || [];
         this.hasFavourites = true;
 
         const favouriteRecipeIds = this.currentUser.favouriteRecepies.map(

@@ -181,3 +181,13 @@
   color: #e0e0e0;
   /* Gray color for empty stars */
 }
+
+.favourites-container .centered-text {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: #652c15;
+}
