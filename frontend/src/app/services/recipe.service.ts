@@ -58,9 +58,13 @@ export class RecipeService {
   }
 
   searchRecipes(term: string): Observable<any[]> {
-    console.log(term);
     return this.http.get<any[]>(
       `${this.apiUrl}/search?term=${encodeURIComponent(term)}`
     );
+  }
+
+  // Dohvatanje recepata po korisniku
+  getRecipesByUser(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/my-recipes/${userId}`);
   }
 }

@@ -78,10 +78,17 @@
             Hide
           </p>
         </div>
-        <p class="author-info">
+        <p class="author-info" *ngIf="author">
           Author:
           <br />
-          <!-- <strong style="color: red">{{ author.firstname }} {{ author.lastname }}</strong> -->
+          <strong style="color: red"
+            >{{ author.firstname }} {{ author.lastname }}</strong
+          >
+        </p>
+        <p class="author-info" *ngIf="!author">
+          Author:
+          <br />
+          <strong style="color: red"> None </strong>
         </p>
       </div>
     </div>

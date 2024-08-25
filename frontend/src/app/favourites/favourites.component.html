@@ -13,7 +13,7 @@
   <div *ngIf="hasFavourites" class="recipe-list">
     <div
       class="recipe-card"
-      *ngFor="let recipe of copyRecipes"
+      *ngFor="let recipe of favouriteRecipes"
       (click)="viewRecipe(recipe)"
     >
       <img

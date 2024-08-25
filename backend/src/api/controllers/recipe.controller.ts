@@ -434,32 +434,53 @@ export class RecipeController {
           // select: "name category tags image ratings comments favourites", // Specify only the fields you need
           select: "name category tags image comments favourites", // Limit to essential fields
         })
+        .lean()
         .exec();
 
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const recipesWithBase64Images = user.favouriteRecepies.map(
-        (recipe: any) => {
-          return {
-            ...recipe._doc,
-            imageBase64: recipe.image?.data
-              ? `data:${
-                  recipe.image.contentType
-                };base64,${recipe.image.data.toString("base64")}`
-              : null,
-          };
-        }
-      );
+      // const recipesWithBase64Images = user.favouriteRecepies.map(
+      //   (recipe: any) => {
+      //     return {
+      //       ...recipe._doc,
+      //       imageBase64: recipe.image?.data
+      //         ? `data:${
+      //             recipe.image.contentType
+      //           };base64,${recipe.image.data.toString("base64")}`
+      //         : null,
+      //     };
+      //   }
+      // );
 
-      return res.status(200).json(recipesWithBase64Images);
+      return res.status(200).json(user.favouriteRecepies);
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
       return res
         .status(500)
         .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  // Funkcija za dohvatanje recepata kreiranih od strane korisnika
+  getRecipesByUser = async (req: Request, res: Response) => {
+    try {
+      const { userId } = req.params;
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ message: "Invalid user ID" });
+      }
+
+      const recipes = await Recipe.find({ createdBy: userId }).lean().exec();
+
+      return res.status(200).json(recipes);
+    } catch (error) {
+      console.error("Error fetching user recipes:", error);
+      return res
+        .status(500)
+        .json({ message: "Server error: getRecipesByUser" });
     }
   };
 }

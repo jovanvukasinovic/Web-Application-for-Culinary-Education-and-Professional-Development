@@ -47,13 +47,13 @@
         <ul class="nav-links">
           <li><a routerLink="/">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li><a routerLink="/become-a-chef">Become a Chef</a></li>
           <li>
             <a>Recipes</a>
             <ul class="sub-links">
               <li><a routerLink="/favourites">Favourites</a></li>
             </ul>
           </li>
-          <li><a routerLink="/become-a-chef">Become a Chef</a></li>
           <li *ngIf="!isProfileRoute()">
             <a>More</a>
             <ul class="sub-links">
@@ -72,6 +72,7 @@
         <ul class="nav-links">
           <li><a (click)="goHome()">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
+          <li><a routerLink="/candidates">Candidates</a></li>
           <li>
             <a>Recipes</a>
             <ul class="sub-links">
@@ -80,7 +81,6 @@
               <li><a routerLink="/favourites">Favourites</a></li>
             </ul>
           </li>
-          <li><a routerLink="/candidates">Candidates</a></li>
           <li *ngIf="!isProfileRoute()">
             <a>More</a>
             <ul class="sub-links">

@@ -6,7 +6,7 @@
 
 .recipe-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   /* 3 columns per row */
   gap: 20px;
   /* Space between grid items */
@@ -25,6 +25,8 @@
   transition: transform 0.2s;
   min-width: 300px;
   min-height: 300px;
+  max-width: 400px;
+  max-height: 400px;
 }
 
 .recipe-card:hover {

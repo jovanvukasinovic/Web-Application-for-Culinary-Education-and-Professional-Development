@@ -44,4 +44,8 @@ recipeRouter.get("/favourites/:userId", (req, res) => {
   recipeController.getFavouriteRecipes(req, res);
 });
 
+recipeRouter.get("/my-recipes/:userId", (req, res) => {
+  recipeController.getRecipesByUser(req, res);
+});
+
 export default recipeRouter;
