@@ -4,8 +4,12 @@
     <div class="favourites">
       <span
         class="favourite-icon"
-        [ngClass]="{ 'is-favourite': isFavourite }"
-        (click)="toggleFavourite()"
+        [ngClass]="{
+          'is-favourite': currentUser && isFavourite,
+          'no-user': !currentUser
+        }"
+        [style.color]="!currentUser ? '#cc1b00' : ''"
+        (click)="currentUser ? toggleFavourite() : null"
         >&#10084;</span
       >
       <span>{{ recipe.favourites }}</span>

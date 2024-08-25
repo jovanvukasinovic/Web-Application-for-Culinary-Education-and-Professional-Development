@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -50,11 +50,15 @@ export class RecipeService {
     return this.http.put(`${this.apiUrl}/recipe/edit-comment`, data);
   }
 
-  deleteComment(recipeId: string, commentId: string): Observable<any> {
-    const data = { recipeId, commentId }; // Spakuj podatke u telo zahteva
-    return this.http.delete(`${this.apiUrl}/recipe-delete-comment`, {
-      body: data,
-    });
+  deleteComment(data: any): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: data, // Ovde se postavlja telo zahteva
+    };
+
+    return this.http.delete(`${this.apiUrl}/recipe/delete-comment`, options);
   }
 
   searchRecipes(term: string): Observable<any[]> {

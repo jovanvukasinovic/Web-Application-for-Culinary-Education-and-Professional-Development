@@ -67,48 +67,23 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentUser')) {
-      this.loadRecipe();
-      this.showComments = true;
-    } else {
-      this.showComments = false;
-    }
+    const currentUserData = localStorage.getItem('currentUser');
+    this.currentUser = currentUserData ? JSON.parse(currentUserData) : null;
 
     const recipeId = JSON.parse(localStorage.getItem('currentRecipe')!)._id;
-
-    const userId = JSON.parse(localStorage.getItem('currentRecipe')!).createdBy;
-    if (userId) {
-      this.userService.getUserByIdPost(userId).subscribe(
-        (data) => {
-          this.author = data;
-        },
-        (error) => {
-          console.error('Error fetching user:', error);
-        }
-      );
-    }
+    const authorId = JSON.parse(
+      localStorage.getItem('currentRecipe')!
+    ).createdBy;
 
     this.recipeService.getRecipeById(recipeId).subscribe(
       (data) => {
         this.recipe = data;
-        this.isFavourite =
-          this.currentUser.favouriteRecepies.includes(recipeId);
-
-        // Provera da li korisnik već ima komentar
-        const userComment = this.recipe.comments.find(
-          (comment: any) => comment.username === this.currentUser.username
-        );
-
-        const userRating = this.recipe.ratings.find(
-          (rating: any) => rating.username === this.currentUser.username
-        );
-
-        if (userComment) {
-          this.newComment = userComment.comment; // Proveriti...
-        }
-
-        if (userRating) {
-          this.newRating = userRating.rating; // Proveriti...
+        if (this.currentUser) {
+          this.isFavourite =
+            this.currentUser.favouriteRecepies.includes(recipeId);
+          this.showComments = true;
+        } else {
+          this.isFavourite = false; // Ako nema korisnika, postavi srce kao crveno
         }
 
         // Calculate the average rating
@@ -117,12 +92,26 @@ export class RecipeDetailComponent implements OnInit {
           0
         );
         this.recipe.averageRating =
-          totalRating / this.recipe.ratings.length || 0;
+          this.recipe.ratings.length > 0
+            ? totalRating / this.recipe.ratings.length
+            : 0; // ili 0, ako nema ocena
       },
       (error) => {
         console.error('Error fetching recipe:', error);
       }
     );
+
+    if (authorId) {
+      // TODO: Vratiti sa get metodom, a ne post!
+      this.userService.getUserByIdPost(authorId).subscribe(
+        (data) => {
+          this.author = data;
+        },
+        (error) => {
+          console.error('Error fetching user:', error);
+        }
+      );
+    }
   }
 
   toggleFavourite(): void {
@@ -233,15 +222,19 @@ export class RecipeDetailComponent implements OnInit {
     );
   }
 
-  deleteComment(commentId: string) {
+  deleteComment() {
     this.toggleEdit();
     if (confirm('Are you sure you want to delete your comment?')) {
-      this.recipeService.deleteComment(this.recipe._id, commentId).subscribe(
+      const data = {
+        recipeId: this.recipe._id,
+        username: this.currentUser.username,
+      };
+      this.recipeService.deleteComment(data).subscribe(
         (response) => {
           // Ukloni obrisani komentar iz lokalne kopije recepta
-          this.recipe.comments = this.recipe.comments.filter(
-            (comment: any) => comment._id !== commentId
-          );
+          // this.recipe.comments = this.recipe.comments.filter(
+          //   (comment: any) => comment._id !== commentId
+          // );
 
           // Ponovo izračunaj prosečnu ocenu ako je potrebno
           const totalRating = this.recipe.ratings.reduce(
@@ -253,8 +246,8 @@ export class RecipeDetailComponent implements OnInit {
               ? totalRating / this.recipe.ratings.length
               : 'N/A';
 
-          this.showComments = true;
           // Prikaži komentare nakon dodavanja/azuriranja
+          this.showComments = true;
           const recipeId = JSON.parse(
             localStorage.getItem('currentRecipe')!
           )._id;
@@ -287,26 +280,31 @@ export class RecipeDetailComponent implements OnInit {
   // Potvrda brisanja
   confirmDeleteComment() {
     if (this.commentToDelete) {
-      this.recipeService
-        .deleteComment(this.recipe._id, this.commentToDelete)
-        .subscribe(
-          (response) => {
-            this.recipe.comments = this.recipe.comments.filter(
-              (comment: any) => comment._id !== this.commentToDelete
-            );
-            this.closeDeleteModal();
-            const recipeId = JSON.parse(
-              localStorage.getItem('currentRecipe')!
-            )._id;
-            this.router.navigate([`/recipe/${recipeId}`]).then(() => {
-              location.reload(); // Automatski osvežava stranicu
-            });
-          },
-          (error) => {
-            console.error('Error deleting comment:', error);
-            this.closeDeleteModal();
-          }
-        );
+      const data = {
+        recipeId: this.recipe._id,
+        username: this.currentUser.username,
+      };
+
+      // console.log('Podaci koje šaljem:', data);
+
+      this.recipeService.deleteComment(data).subscribe(
+        (response) => {
+          this.recipe.comments = this.recipe.comments.filter(
+            (comment: any) => comment._id !== this.commentToDelete
+          );
+          this.closeDeleteModal();
+          const recipeId = JSON.parse(
+            localStorage.getItem('currentRecipe')!
+          )._id;
+          this.router.navigate([`/recipe/${recipeId}`]).then(() => {
+            location.reload(); // Automatski osvežava stranicu
+          });
+        },
+        (error) => {
+          console.error('Error deleting comment:', error);
+          this.closeDeleteModal();
+        }
+      );
     }
   }
 }

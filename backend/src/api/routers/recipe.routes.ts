@@ -32,7 +32,8 @@ recipeRouter.put("/recipe/edit-comment", (req, res) =>
   recipeController.updateCommentAndRating(req, res)
 );
 
-recipeRouter.delete("/recipe-delete-comment", (req, res) => {
+recipeRouter.delete("/recipe/delete-comment", (req, res) => {
+  // console.log("Ovo je req.body: " + JSON.stringify(req.body, null, 2));
   recipeController.deleteComment(req, res);
 });
 

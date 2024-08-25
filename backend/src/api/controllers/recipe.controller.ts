@@ -4,6 +4,7 @@ import Recipe from "../models/recipe";
 import Comment from "../models/comment";
 import Rating from "../models/rating";
 import User from "../models/user";
+import user from "../models/user";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
@@ -332,26 +333,59 @@ export class RecipeController {
     }
   };
 
-  // Brisanje komentara
+  // Brisanje komentara i ocene
   deleteComment = async (req: Request, res: Response) => {
-    const { recipeId, commentId } = req.body;
+    const { recipeId, username } = req.body;
+
+    // console.log(recipeId);
+    // console.log(username);
 
     try {
-      const recipe = await Recipe.findByIdAndUpdate(
-        recipeId,
-        { $pull: { comments: commentId } },
-        { new: true }
-      ).exec();
+      // Pronađi recept
+      const recipe = await Recipe.findById(recipeId).exec();
 
       if (!recipe) {
         return res.status(404).json({ message: "Recipe not found" });
       }
 
-      await Comment.findByIdAndDelete(commentId).exec();
+      // Pronađi komentar koji odgovara korisniku i receptu
+      const comment = await Comment.findOneAndDelete({
+        recipeId: recipeId,
+        username: username,
+      }).exec();
 
-      return res
-        .status(200)
-        .json({ message: "Comment deleted successfully", recipe });
+      // Pronađi ocenu koja odgovara korisniku i receptu
+      const rating = await Rating.findOneAndDelete({
+        recipeId: recipeId,
+        username: username,
+      }).exec();
+
+      if (!comment && !rating) {
+        return res
+          .status(404)
+          .json({ message: "Comment and rating not found" });
+      }
+
+      // Ažuriraj recept i ukloni ID-ove komentara i ocene
+      if (comment) {
+        recipe.comments = recipe.comments.filter(
+          (commentId) => !commentId.equals(comment._id)
+        );
+      }
+
+      if (rating) {
+        recipe.ratings = recipe.ratings.filter(
+          (ratingId) => !ratingId.equals(rating._id)
+        );
+      }
+
+      // Sačuvaj izmenjeni recept
+      await recipe.save();
+
+      return res.status(200).json({
+        message: "Comment and associated rating deleted successfully",
+        recipe,
+      });
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
@@ -440,19 +474,6 @@ export class RecipeController {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-
-      // const recipesWithBase64Images = user.favouriteRecepies.map(
-      //   (recipe: any) => {
-      //     return {
-      //       ...recipe._doc,
-      //       imageBase64: recipe.image?.data
-      //         ? `data:${
-      //             recipe.image.contentType
-      //           };base64,${recipe.image.data.toString("base64")}`
-      //         : null,
-      //     };
-      //   }
-      // );
 
       return res.status(200).json(user.favouriteRecepies);
     } catch (err) {
