@@ -1,11 +1,16 @@
+<!-- Loading Indicator -->
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+</div>
+
 <div class="favourites-container">
-  <div class="centered-text" *ngIf="!hasFavourites">
-    <p>No favourite recipes available.</p>
+  <div class="centered-text" *ngIf="!hasFavourites && !isLoading">
+    <p><strong>No favourite recipes available</strong></p>
   </div>
-  <div class="centered-text">
+  <div class="centered-text" *ngIf="hasFavourites && !isLoading">
     <p><strong>Favourited recipes</strong></p>
   </div>
-  <div *ngIf="hasFavourites && hasFavourites" class="recipe-list">
+  <div *ngIf="hasFavourites" class="recipe-list">
     <div
       class="recipe-card"
       *ngFor="let recipe of copyRecipes"

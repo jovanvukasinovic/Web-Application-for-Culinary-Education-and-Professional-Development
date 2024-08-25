@@ -13,13 +13,19 @@ export class FavouritesComponent implements OnInit {
   copyRecipes: any[] = [];
   currentUser: any;
   hasFavourites: boolean = true;
+  isLoading: boolean = true;
 
   constructor(private recipeService: RecipeService, private router: Router) {}
 
   ngOnInit(): void {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     if (this.currentUser && this.currentUser.favouriteRecepies?.length) {
-      this.loadFavouriteRecipes();
+      setTimeout(() => {
+        this.loadFavouriteRecipes();
+      }, 300);
+    } else {
+      this.isLoading = false;
+      this.hasFavourites = false;
     }
   }
 
@@ -27,7 +33,6 @@ export class FavouritesComponent implements OnInit {
     this.recipeService.getAllRecipes().subscribe(
       (recipes) => {
         this.originalRecipes = recipes || [];
-        this.hasFavourites = true;
 
         const favouriteRecipeIds = this.currentUser.favouriteRecepies.map(
           (id: any) => id.toString()
@@ -50,9 +55,11 @@ export class FavouritesComponent implements OnInit {
         });
 
         this.hasFavourites = this.copyRecipes.length > 0;
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching favourite recipes:', error);
+        this.isLoading = false;
         this.hasFavourites = false;
       }
     );
