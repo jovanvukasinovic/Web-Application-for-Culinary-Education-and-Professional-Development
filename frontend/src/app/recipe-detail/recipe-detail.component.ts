@@ -152,6 +152,16 @@ export class RecipeDetailComponent implements OnInit {
 
   toggleEdit() {
     this.editing = !this.editing;
+    if (this.editing) {
+      this.getUserCommentAndRating();
+    } else {
+      this.newComment = '';
+      this.newRating = 0;
+    }
+  }
+
+  showDeleteButton(): boolean {
+    return !this.editing && this.hasUserComment();
   }
 
   hasUserComment(): boolean {
@@ -167,15 +177,15 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   saveCommentAndRating(isUpdate: boolean) {
-    if (!this.newComment && !this.newRating) {
-      alert('Please provide a comment or rating.');
+    if (!this.newComment || !this.newRating) {
+      alert('Please provide both a comment and a rating.');
       return;
     }
 
     const data = {
       recipeId: this.recipe._id,
       userId: this.currentUser._id,
-      username: this.currentUser.username, // Dodaj `username` ovde
+      username: this.currentUser.username,
       commentText: this.newComment,
       ratingValue: this.newRating,
     };
@@ -305,6 +315,22 @@ export class RecipeDetailComponent implements OnInit {
           this.closeDeleteModal();
         }
       );
+    }
+  }
+
+  getUserCommentAndRating(): void {
+    const userComment = this.recipe.comments.find(
+      (comment: any) => comment.username === this.currentUser.username
+    );
+    const userRating = this.recipe.ratings.find(
+      (rating: any) => rating.username === this.currentUser.username
+    );
+
+    if (userComment) {
+      this.newComment = userComment.comment;
+    }
+    if (userRating) {
+      this.newRating = userRating.rating;
     }
   }
 }

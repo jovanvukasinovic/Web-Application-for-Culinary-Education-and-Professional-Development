@@ -125,14 +125,20 @@
           *ngIf="comment.username === currentUser.username"
           class="comment-actions"
         >
-          <button (click)="toggleEdit()">Edit your comment</button>
-          <button (click)="openDeleteModal(comment._id)">
-            Delete your comment
+          <button (click)="toggleEdit()">
+            {{ editing ? "Cancel editing" : "Edit your review" }}
+          </button>
+          <button
+            *ngIf="showDeleteButton()"
+            (click)="openDeleteModal(comment._id)"
+          >
+            Delete your review
           </button>
         </div>
       </div>
 
-      <!-- New Comment Input -->
+      <!-- New Comment Input with Star Rating -->
+
       <div
         *ngIf="
           !hasUserComment() &&
@@ -141,23 +147,30 @@
         "
         class="comment-input"
       >
+        <label>
+          <strong style="color: #652c15; padding: 5px">Leave a review</strong>
+        </label>
         <textarea
           [(ngModel)]="newComment"
           placeholder="Enter your comment here"
         ></textarea>
-        <label for="rating">Rating:</label>
-        <input
-          type="number"
-          id="rating"
-          [(ngModel)]="newRating"
-          min="1"
-          max="5"
-        />
+
+        <label for="rating"></label>
+        <div class="star-rating">
+          <ng-container *ngFor="let star of getStarArray(5); let i = index">
+            <span
+              class="star"
+              [ngClass]="{ filled: i < newRating }"
+              (click)="newRating = i + 1"
+              >&#9733;</span
+            >
+          </ng-container>
+        </div>
         <br />
         <button (click)="saveCommentAndRating(false)">Save</button>
       </div>
 
-      <!-- Edit Comment Input -->
+      <!-- Edit Comment Input with Star Rating -->
       <div
         *ngIf="
           (hasUserComment() || hasUserRating()) &&
@@ -166,9 +179,22 @@
       >
         <div *ngIf="editing" class="edit-input">
           <textarea [(ngModel)]="newComment"></textarea>
-          <input type="number" [(ngModel)]="newRating" min="1" max="5" />
+
+          <label for="rating"></label>
+          <div class="star-rating">
+            <ng-container *ngFor="let star of getStarArray(5); let i = index">
+              <span
+                class="star"
+                [ngClass]="{ filled: i < newRating }"
+                (click)="newRating = i + 1"
+                >&#9733;</span
+              >
+            </ng-container>
+          </div>
           <br />
-          <button (click)="saveCommentAndRating(true)">Update</button>
+          <button (click)="saveCommentAndRating(true)">
+            Update your review
+          </button>
         </div>
       </div>
     </div>
@@ -180,7 +206,7 @@
 </div>
 <div class="modal" *ngIf="showDeleteModal">
   <div class="modal-content">
-    <h3>Are you sure you want to delete this comment?</h3>
+    <h3>Are you sure you want to delete this review?</h3>
     <div class="modal-actions">
       <button class="cancel-button" (click)="closeDeleteModal()">Cancel</button>
       <button class="delete-button" (click)="confirmDeleteComment()">
