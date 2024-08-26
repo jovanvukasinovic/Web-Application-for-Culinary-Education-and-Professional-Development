@@ -133,7 +133,14 @@
       </div>
 
       <!-- New Comment Input -->
-      <div *ngIf="!hasUserComment() || !hasUserRating()" class="comment-input">
+      <div
+        *ngIf="
+          !hasUserComment() &&
+          !hasUserRating() &&
+          recipe.createdBy !== currentUser._id
+        "
+        class="comment-input"
+      >
         <textarea
           [(ngModel)]="newComment"
           placeholder="Enter your comment here"
@@ -151,7 +158,12 @@
       </div>
 
       <!-- Edit Comment Input -->
-      <div *ngIf="hasUserComment() || hasUserRating()">
+      <div
+        *ngIf="
+          (hasUserComment() || hasUserRating()) &&
+          recipe.createdBy !== currentUser._id
+        "
+      >
         <div *ngIf="editing" class="edit-input">
           <textarea [(ngModel)]="newComment"></textarea>
           <input type="number" [(ngModel)]="newRating" min="1" max="5" />
@@ -159,6 +171,10 @@
           <button (click)="saveCommentAndRating(true)">Update</button>
         </div>
       </div>
+    </div>
+    <!-- Message for the author -->
+    <div *ngIf="recipe.createdBy === currentUser._id" class="author-message">
+      <p><strong>You cannot rate or comment on your own recipe.</strong></p>
     </div>
   </div>
 </div>
