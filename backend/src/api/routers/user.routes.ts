@@ -92,4 +92,20 @@ userRouter.post("/toggle-favourite", (req, res) =>
   userController.toggleFavouriteRecipe(req, res)
 );
 
+userRouter.patch("/updateUsername", (req, res) =>
+  userController.updateUsername(req, res)
+);
+userRouter.patch("/updateEmail", (req, res) =>
+  userController.updateEmail(req, res)
+);
+userRouter.patch("/updateFirstname", (req, res) =>
+  userController.updateFirstname(req, res)
+);
+userRouter.patch("/updateLastname", (req, res) =>
+  userController.updateLastname(req, res)
+);
+userRouter.patch("/updatePhone", (req, res) =>
+  userController.updatePhone(req, res)
+);
+
 export default userRouter;

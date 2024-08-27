@@ -117,4 +117,39 @@ export class UserService {
       recipeId,
     });
   }
+
+  updateUsername(userId: string, newUsername: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateUsername`, {
+      userId,
+      newUsername,
+    });
+  }
+
+  updateEmail(userId: string, newEmail: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateEmail`, {
+      userId,
+      newEmail,
+    });
+  }
+
+  updateFirstname(userId: string, newFirstname: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateFirstname`, {
+      userId,
+      newFirstname,
+    });
+  }
+
+  updateLastname(userId: string, newLastname: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateLastname`, {
+      userId,
+      newLastname,
+    });
+  }
+
+  updatePhone(userId: string, newPhone: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updatePhone`, {
+      userId,
+      newPhone,
+    });
+  }
 }

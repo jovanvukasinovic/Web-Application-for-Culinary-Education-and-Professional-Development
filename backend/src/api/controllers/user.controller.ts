@@ -548,4 +548,141 @@ export class UserController {
       return res.status(500).json({ message: "Internal server error" });
     }
   };
+
+  // Ažuriranje korisničkog imena
+  updateUsername = async (req: Request, res: Response) => {
+    try {
+      const { userId, newUsername } = req.body;
+
+      // Proveri da li korisničko ime već postoji
+      const existingUser = await User.findOne({ username: newUsername }).exec();
+      if (existingUser) {
+        return res.status(409).json({ message: "Username already exists" });
+      }
+
+      // Ažuriraj korisničko ime
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { username: newUsername },
+        { new: true }
+      ).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Username updated successfully", user });
+    } catch (error) {
+      console.error("Error updating username:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  // Ažuriranje email adrese
+  updateEmail = async (req: Request, res: Response) => {
+    try {
+      const { userId, newEmail } = req.body;
+
+      // Proveri da li email već postoji
+      const existingUser = await User.findOne({ email: newEmail }).exec();
+      if (existingUser) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
+
+      // Ažuriraj email
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { email: newEmail },
+        { new: true }
+      ).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Email updated successfully", user });
+    } catch (error) {
+      console.error("Error updating email:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  // Ažuriranje imena (firstname)
+  updateFirstname = async (req: Request, res: Response) => {
+    try {
+      const { userId, newFirstname } = req.body;
+
+      // Ažuriraj ime
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { firstname: newFirstname },
+        { new: true }
+      ).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Firstname updated successfully", user });
+    } catch (error) {
+      console.error("Error updating firstname:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  // Ažuriranje prezimena (lastname)
+  updateLastname = async (req: Request, res: Response) => {
+    try {
+      const { userId, newLastname } = req.body;
+
+      // Ažuriraj prezime
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { lastname: newLastname },
+        { new: true }
+      ).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Lastname updated successfully", user });
+    } catch (error) {
+      console.error("Error updating lastname:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  // Ažuriranje telefonskog broja
+  updatePhone = async (req: Request, res: Response) => {
+    try {
+      const { userId, newPhone } = req.body;
+
+      // Ažuriraj telefonski broj
+      const user = await User.findByIdAndUpdate(
+        userId,
+        { phone: newPhone },
+        { new: true }
+      ).exec();
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Phone number updated successfully", user });
+    } catch (error) {
+      console.error("Error updating phone number:", error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
 }
