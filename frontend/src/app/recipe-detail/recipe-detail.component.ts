@@ -18,6 +18,7 @@ export class RecipeDetailComponent implements OnInit {
   newRating: number = 0;
   currentUser = JSON.parse(localStorage.getItem('currentUser')!);
   isFavourite: boolean = false;
+  recipeAuthor: boolean = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -45,25 +46,6 @@ export class RecipeDetailComponent implements OnInit {
 
   getStarFillPercentage(): number {
     return (this.recipe.averageRating / 5) * 100;
-  }
-
-  loadRecipe(): void {
-    const recipeId = JSON.parse(localStorage.getItem('currentRecipe')!)._id;
-
-    this.recipeService.getRecipeById(recipeId).subscribe(
-      (data) => {
-        this.recipe = data;
-
-        // Provera da li je recept omiljen
-        this.isFavourite =
-          this.currentUser.favouriteRecepies.includes(recipeId);
-
-        // Dalje logike za komentar i ocenu...
-      },
-      (error) => {
-        console.error('Error fetching recipe:', error);
-      }
-    );
   }
 
   ngOnInit(): void {
@@ -95,6 +77,10 @@ export class RecipeDetailComponent implements OnInit {
           this.recipe.ratings.length > 0
             ? totalRating / this.recipe.ratings.length
             : 0; // ili 0, ako nema ocena
+
+        if (this.recipe.createdBy === this.currentUser._id) {
+          this.recipeAuthor = true;
+        }
       },
       (error) => {
         console.error('Error fetching recipe:', error);

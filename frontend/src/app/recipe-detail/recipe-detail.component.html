@@ -199,7 +199,7 @@
       </div>
     </div>
     <!-- Message for the author -->
-    <div *ngIf="recipe.createdBy === currentUser._id" class="author-message">
+    <div *ngIf="recipeAuthor" class="author-message">
       <p>
         <strong style="color: #652c15"
           >*You cannot rate or comment on your own recipe.</strong
