@@ -1,0 +1,189 @@
+header {
+  font-size: 1rem;
+  background-color: #bc9c7f;
+  color: white;
+  padding-left: 15px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8%;
+  min-height: 73px;
+  z-index: 1000;
+  border: 2px solid #652c15;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+
+.logo-and-search {
+  display: flex;
+  align-items: center;
+}
+
+.logo a {
+  color: #ffdd57;
+  font-size: 1.5em;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 73px;
+}
+
+.logo img {
+  width: 73px;
+  height: auto;
+  display: block;
+  margin-right: 10px;
+}
+
+.nav-links {
+  list-style-type: none;
+  margin-right: 25px;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  position: relative;
+  /* Omogućava pozicioniranje podmenija u odnosu na roditeljski element */
+  display: inline-block;
+  border: 2px solid #652c15;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5em;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #ffdd57;
+  border-color: #ffdd57;
+}
+
+.loading-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1001;
+}
+
+.loading-indicator .spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #bb9c7f;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.sub-links {
+  font-size: 0.8rem;
+  display: none;
+  position: absolute;
+  top: 100%;
+  /* Dropdown se pojavljuje ispod roditeljskog elementa */
+  right: 0;
+  text-align: right;
+  background-color: rgba(255, 123, 255, 0.75);
+  padding: 10px;
+  border-radius: 5px;
+  list-style-type: none;
+  /* min-width: 250px; */
+  /* Minimalna širina podmenija */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  /* Efekat senke */
+  z-index: 1000;
+  /* Iznad ostalih elemenata */
+}
+
+.nav-links li:hover .sub-links {
+  display: block;
+}
+
+.sub-links li {
+  margin: 5px 0;
+  padding: 5px;
+  text-align: left;
+}
+
+.sub-links a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 3px;
+}
+
+.sub-links a:hover {
+  color: #ffdd57;
+  background-color: #652c15;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.search-bar {
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #652c15;
+  background-color: whitesmoke;
+  min-width: 300px;
+  width: 100%;
+  margin-left: 20px;
+}
+
+.search-bar:focus {
+  outline: none;
+  border-color: #652c15;
+  box-shadow: 0 0 5px rgba(255, 221, 87, 0.8);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #652c15;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  /* margin-right: 30px; */
+}
+
+.clear-btn:hover {
+  color: #ffdd57;
+}

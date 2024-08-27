@@ -1,0 +1,221 @@
+<div class="recipe-detail-container" *ngIf="recipe">
+  <div class="recipe-header">
+    <h1 class="recipe-title">{{ recipe.name }}</h1>
+    <div class="favourites">
+      <span
+        class="favourite-icon"
+        [ngClass]="{
+          'is-favourite': currentUser && isFavourite,
+          'no-user': !currentUser
+        }"
+        [style.color]="!currentUser ? '#cc1b00' : ''"
+        (click)="currentUser ? toggleFavourite() : null"
+        >&#10084;</span
+      >
+      <span>{{ recipe.favourites }}</span>
+    </div>
+  </div>
+
+  <div class="recipe-content">
+    <img
+      *ngIf="recipe.image"
+      [src]="
+        'data:' + recipe.image.contentType + ';base64,' + recipe.image.data
+      "
+      alt="{{ recipe.name }}"
+      class="recipe-image"
+    />
+    <div class="recipe-details">
+      <div class="ingredients-section">
+        <h2>Ingredients</h2>
+        <div *ngFor="let ingredient of recipe.ingredients" class="ingredient">
+          <p>
+            {{ ingredient.name }}: {{ ingredient.quantity }}
+            {{ ingredient.unit }}
+          </p>
+        </div>
+      </div>
+      <div class="category-section">
+        <h2>Categories</h2>
+        <div *ngFor="let category of recipe.category" class="category">
+          <p>{{ category }}</p>
+        </div>
+      </div>
+      <div class="tags-section">
+        <h2>Tags</h2>
+        <div *ngFor="let tag of recipe.tags" class="tag">
+          <p>{{ tag }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description-section">
+    <h2>Description</h2>
+    <p>{{ recipe.description }}</p>
+  </div>
+
+  <!-- Comments and Ratings -->
+  <div class="comments-section">
+    <div class="summary">
+      <div class="summary-content">
+        <div>
+          <p>
+            <strong>Rating: </strong>
+            <span class="rating-stars">
+              <span class="star-wrapper">
+                <span
+                  class="filled-stars"
+                  [style.width.%]="getStarFillPercentage()"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+                <span class="empty-stars"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+              </span>
+            </span>
+          </p>
+          <p *ngIf="!showComments" class="show-more" (click)="toggleComments()">
+            {{ recipe.comments.length }} comments
+          </p>
+          <p *ngIf="showComments" class="show-less" (click)="toggleComments()">
+            Hide
+          </p>
+        </div>
+        <p class="author-info" *ngIf="author">
+          Author:
+          <br />
+          <strong style="color: red"
+            >{{ author.firstname }} {{ author.lastname }}</strong
+          >
+        </p>
+        <p class="author-info" *ngIf="!author">
+          Author:
+          <br />
+          <strong style="color: red"> None </strong>
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="showComments" class="comments">
+      <div *ngFor="let comment of recipe.comments" class="comment">
+        <p></p>
+        <p>
+          {{ comment.createdAt | date : "d.M.yyyy. HH:mm" }}
+          <span class="stars">
+            <ng-container
+              *ngFor="let star of getStarArray(getUserRating(comment.username))"
+            >
+              <span
+                class="star"
+                [ngClass]="{
+                  filled: star <= (getUserRating(comment.username) || 0)
+                }"
+                >&#9733;</span
+              >
+            </ng-container>
+          </span>
+        </p>
+
+        <p>
+          <strong>{{ comment.username }}: </strong> <i>{{ comment.comment }}</i>
+        </p>
+
+        <div
+          *ngIf="comment.username === currentUser.username"
+          class="comment-actions"
+        >
+          <button (click)="toggleEdit()">
+            {{ editing ? "Cancel editing" : "Edit your review" }}
+          </button>
+          <button
+            *ngIf="showDeleteButton()"
+            (click)="openDeleteModal(comment._id)"
+          >
+            Delete your review
+          </button>
+        </div>
+      </div>
+
+      <!-- New Comment Input with Star Rating -->
+
+      <div
+        *ngIf="
+          !hasUserComment() &&
+          !hasUserRating() &&
+          recipe.createdBy !== currentUser._id
+        "
+        class="comment-input"
+      >
+        <label>
+          <strong style="color: #652c15; padding: 5px">Leave a review</strong>
+        </label>
+        <textarea
+          [(ngModel)]="newComment"
+          placeholder="Enter your comment here"
+        ></textarea>
+
+        <label for="rating"></label>
+        <div class="star-rating">
+          <ng-container *ngFor="let star of getStarArray(5); let i = index">
+            <span
+              class="star"
+              [ngClass]="{ filled: i < newRating }"
+              (click)="newRating = i + 1"
+              >&#9733;</span
+            >
+          </ng-container>
+        </div>
+        <br />
+        <button (click)="saveCommentAndRating(false)">Save</button>
+      </div>
+
+      <!-- Edit Comment Input with Star Rating -->
+      <div
+        *ngIf="
+          (hasUserComment() || hasUserRating()) &&
+          recipe.createdBy !== currentUser._id
+        "
+      >
+        <div *ngIf="editing" class="edit-input">
+          <textarea [(ngModel)]="newComment"></textarea>
+
+          <label for="rating"></label>
+          <div class="star-rating">
+            <ng-container *ngFor="let star of getStarArray(5); let i = index">
+              <span
+                class="star"
+                [ngClass]="{ filled: i < newRating }"
+                (click)="newRating = i + 1"
+                >&#9733;</span
+              >
+            </ng-container>
+          </div>
+          <br />
+          <button (click)="saveCommentAndRating(true)">
+            Update your review
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Message for the author -->
+    <div *ngIf="recipeAuthor" class="author-message">
+      <p>
+        <strong style="color: #652c15"
+          >*You cannot rate or comment on your own recipe.</strong
+        >
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal" *ngIf="showDeleteModal">
+  <div class="modal-content">
+    <h3>Are you sure you want to delete this review?</h3>
+    <div class="modal-actions">
+      <button class="cancel-button" (click)="closeDeleteModal()">Cancel</button>
+      <button class="delete-button" (click)="confirmDeleteComment()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

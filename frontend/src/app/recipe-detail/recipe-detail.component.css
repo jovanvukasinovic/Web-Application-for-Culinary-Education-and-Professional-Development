@@ -1,0 +1,313 @@
+.recipe-detail-container {
+  min-width: 60vw;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recipe-title {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.favourites {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.favourite-icon {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ccc;
+  /* Siva boja za default */
+  transition: color 0.3s;
+}
+
+.favourite-icon.is-favourite {
+  color: #cc1b00;
+  /* Crvena boja za omiljene */
+}
+
+.favourite-icon:hover {
+  color: #cc1b00;
+  ;
+}
+
+.recipe-content {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.recipe-image {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.recipe-details {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.ingredients-section,
+.category-section,
+.tags-section {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.ingredient,
+.category,
+.tag {
+  /* display: inline-block; */
+  /* background-color: #f0e4e4; */
+  color: black;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.ingredient p,
+.category p,
+.tag p {
+  margin: 5px 0;
+  padding: 5px 0;
+  /* line-height: 1.2; */
+}
+
+.description-section {
+  margin-top: 20px;
+}
+
+.comments-section {
+  margin-top: 30px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+.summary {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.summary-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-content>div {
+  display: flex;
+  flex-direction: column;
+}
+
+.show-more {
+  text-align: left;
+  color: black;
+  cursor: pointer;
+  /* text-decoration: underline; */
+  margin-top: 5px;
+}
+
+.show-less {
+  text-align: center;
+  color: #ffc107;
+  cursor: pointer;
+  /* text-decoration: underline; */
+  margin-top: 5px;
+}
+
+.show-less:hover {
+  color: #ffc107;
+}
+
+.show-more:hover {
+  color: #ffc107;
+}
+
+.author-info {
+  margin-left: auto;
+  text-align: right;
+}
+
+.comments {
+  margin-top: 10px;
+}
+
+.comment {
+  margin-bottom: 15px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.comment-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.comment-input,
+.edit-input {
+  margin-top: 20px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #bb9c7f;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #652c15;
+}
+
+.stars {
+  margin-left: 5px;
+}
+
+.star {
+  font-size: 20px;
+  margin-right: 2px;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+}
+
+.star.filled {
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+}
+
+/**/
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  /* transition: width 0.3s ease; */
+}
+
+.empty-stars {
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+}
+
+/* Modal styling */
+.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 500px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-button,
+.delete-button {
+  padding: 10px 40px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background-color: #bbb;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
+
+.star-rating {
+  display: inline-block;
+  font-size: 20px;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+.star-rating .star {
+  font-size: 25px;
+  margin-right: 5px;
+  transition: color 0.2s;
+}
+
+.star-rating .star.filled {
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+}

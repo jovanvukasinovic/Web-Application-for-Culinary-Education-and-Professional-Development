@@ -1,0 +1,71 @@
+<div class="top-9-recipes-container">
+  <div class="sort-buttons">
+    <!-- Rating Sorting -->
+    <button
+      (click)="top9('rating')"
+      [ngClass]="{ 'active-sort': currentCategory === 'rating' }"
+    >
+      The Best Rated
+    </button>
+
+    <!-- Comments Sorting -->
+    <button
+      (click)="top9('comments')"
+      [ngClass]="{ 'active-sort': currentCategory === 'comments' }"
+    >
+      The Most Commented
+    </button>
+
+    <!-- Favourites Sorting -->
+    <button
+      (click)="top9('favourites')"
+      [ngClass]="{ 'active-sort': currentCategory === 'favourites' }"
+    >
+      The Most Favourited
+    </button>
+  </div>
+
+  <div *ngIf="recipes.length === 0">
+    <p>No recipes available.</p>
+  </div>
+
+  <div *ngIf="recipes.length > 0" class="recipe-list">
+    <div
+      class="recipe-card"
+      *ngFor="let recipe of recipes"
+      (click)="viewRecipe(recipe)"
+    >
+      <img
+        *ngIf="recipe.image"
+        [src]="getImageSrc(recipe.image)"
+        alt="{{ recipe.name }}"
+      />
+      <div class="recipe-content">
+        <h2 class="recipe-header">
+          <span class="recipe-name">{{ recipe.name }}</span>
+          <span class="recipe-favourites">
+            &#10084; {{ recipe.favourites }}
+          </span>
+        </h2>
+        <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
+        <p><strong>Tags:</strong> {{ recipe.tags.join(", ") }}</p>
+        <p class="comments-section">
+          <span class="rating-stars">
+            <span class="star-wrapper">
+              <span
+                class="filled-stars"
+                [style.width.%]="(recipe.averageRating / 5) * 100"
+                >★★★★★</span
+              >
+              <span class="empty-stars">★★★★★</span>
+            </span>
+          </span>
+          <span class="comment-icon">
+            <i class="bi bi-chat-dots"></i>{{ recipe.comments.length }}
+          </span>
+        </p>
+        <p class="ellipsis"><strong>...</strong></p>
+      </div>
+    </div>
+  </div>
+</div>

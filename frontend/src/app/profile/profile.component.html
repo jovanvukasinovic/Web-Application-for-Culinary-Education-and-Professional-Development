@@ -1,0 +1,185 @@
+<div class="profile-container">
+  <div class="profile-picture-container">
+    <img
+      *ngIf="photoUrl"
+      [src]="photoUrl"
+      alt="Profile Picture"
+      class="profile-picture"
+    />
+  </div>
+
+  <div *ngIf="user" class="profile-info">
+    <!-- Username -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Username:</strong>
+      </div>
+      <div *ngIf="!isEditing['username']" class="profile-value">
+        {{ user["username"] }}
+      </div>
+      <div *ngIf="isEditing['username']" class="profile-edit">
+        <input [(ngModel)]="editValues['username']" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+      </div>
+      <div class="profile-action">
+        <button *ngIf="!isEditing['username']" (click)="startEdit('username')">
+          Edit
+        </button>
+        <button *ngIf="isEditing['username']" (click)="saveEdit('username')">
+          Save
+        </button>
+        <button *ngIf="isEditing['username']" (click)="cancelEdit('username')">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Email:</strong>
+      </div>
+      <div *ngIf="!isEditing['email']" class="profile-value">
+        {{ user["email"] }}
+      </div>
+      <div *ngIf="isEditing['email']" class="profile-edit">
+        <input [(ngModel)]="editValues['email']" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+      </div>
+      <div class="profile-action">
+        <button *ngIf="!isEditing['email']" (click)="startEdit('email')">
+          Edit
+        </button>
+        <button *ngIf="isEditing['email']" (click)="saveEdit('email')">
+          Save
+        </button>
+        <button *ngIf="isEditing['email']" (click)="cancelEdit('email')">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Change Password -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Change Password:</strong>
+      </div>
+      <div class="profile-value">*****</div>
+      <div *ngIf="!isEditingPassword" class="profile-password-action">
+        <button (click)="startPasswordChange()">Edit</button>
+      </div>
+
+      <div class="profile-action">
+        <div *ngIf="isEditingPassword" class="profile-edit">
+          <label>Current Password:</label>
+          <input type="password" [(ngModel)]="oldPassword" />
+          <br />
+          <label>New Password:</label>
+          <input
+            type="password"
+            [(ngModel)]="newPassword"
+            (input)="validateNewPassword()"
+          />
+          <label>Confirm New Password:</label>
+          <input
+            type="password"
+            [(ngModel)]="confirmNewPassword"
+            (input)="validateNewPassword()"
+          />
+          <div *ngIf="passwordError" class="error-message">
+            {{ passwordError }}
+          </div>
+          <button (click)="savePasswordChange()">Save</button>
+          <button (click)="cancelPasswordChange()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Firstname -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Firstname:</strong>
+      </div>
+      <div *ngIf="!isEditing['firstname']" class="profile-value">
+        {{ user["firstname"] }}
+      </div>
+      <div *ngIf="isEditing['firstname']" class="profile-edit">
+        <input [(ngModel)]="editValues['firstname']" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+      </div>
+      <div class="profile-action">
+        <button
+          *ngIf="!isEditing['firstname']"
+          (click)="startEdit('firstname')"
+        >
+          Edit
+        </button>
+        <button *ngIf="isEditing['firstname']" (click)="saveEdit('firstname')">
+          Save
+        </button>
+        <button
+          *ngIf="isEditing['firstname']"
+          (click)="cancelEdit('firstname')"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Lastname -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Lastname:</strong>
+      </div>
+      <div *ngIf="!isEditing['lastname']" class="profile-value">
+        {{ user["lastname"] }}
+      </div>
+      <div *ngIf="isEditing['lastname']" class="profile-edit">
+        <input [(ngModel)]="editValues['lastname']" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+      </div>
+      <div class="profile-action">
+        <button *ngIf="!isEditing['lastname']" (click)="startEdit('lastname')">
+          Edit
+        </button>
+        <button *ngIf="isEditing['lastname']" (click)="saveEdit('lastname')">
+          Save
+        </button>
+        <button *ngIf="isEditing['lastname']" (click)="cancelEdit('lastname')">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="profile-field-container">
+      <div class="profile-label">
+        <strong>Phone:</strong>
+      </div>
+      <div *ngIf="!isEditing['phone']" class="profile-value">
+        {{ user["phone"] }}
+      </div>
+      <div *ngIf="isEditing['phone']" class="profile-edit">
+        <input [(ngModel)]="editValues['phone']" />
+        <label>Password to confirm:</label>
+        <input type="password" [(ngModel)]="passwordForSave" />
+      </div>
+
+      <div class="profile-action">
+        <button *ngIf="!isEditing['phone']" (click)="startEdit('phone')">
+          Edit
+        </button>
+        <button *ngIf="isEditing['phone']" (click)="saveEdit('phone')">
+          Save
+        </button>
+        <button *ngIf="isEditing['phone']" (click)="cancelEdit('phone')">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

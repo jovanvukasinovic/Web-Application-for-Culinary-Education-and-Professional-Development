@@ -1,0 +1,247 @@
+.recipes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.sort-buttons {
+  display: flex;
+  justify-content: center;
+  /* Centriranje horizontalno */
+  align-items: center;
+  /* Centriranje vertikalno */
+  gap: 25px;
+  /* Razmak između dugmića */
+  margin-bottom: 20px;
+  height: 100%;
+  /* Ovo osigurava da se koristi ceo vertikalni prostor unutar roditelja */
+}
+
+.sort-buttons button {
+  background-color: #f8f8f8;
+  border: 2px solid #bb9c7f;
+  color: #652c15;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sort-buttons button:hover {
+  background-color: #652c15;
+  color: white;
+}
+
+.sort-buttons i {
+  margin-left: 8px;
+  font-size: 1.2rem;
+}
+
+.sort-buttons button.active-sort {
+  background-color: #bc9c7f;
+  color: white;
+  border-color: #652c15;
+}
+
+.recipe-list {
+  display: grid;
+  /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.recipe-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.recipe-content {
+  padding: 15px;
+}
+
+.recipe-content h2 {
+  margin: 0 0 10px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.recipe-content p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.recipe-content strong {
+  color: #333;
+}
+
+.empty-card {
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Paginacija */
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.page-btn {
+  color: #652c15;
+  border-color: #bb9c7f;
+  padding: 10px 20px;
+  margin: 0 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.page-btn.active {
+  background-color: #bb9c7f;
+  color: #ffffff;
+}
+
+.page-btn:hover {
+  background-color: #652c15;
+  ;
+}
+
+.recipe-content p strong {
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+/* .recipe-content p strong:hover { */
+/* color: #ffdd57; */
+/* text-decoration: underline; */
+/* } */
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  /* Poravnava sadržaj levo i desno */
+  align-items: center;
+  /* Vertikalno centriranje */
+}
+
+.recipe-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+  /* Stilizuje naziv recepta */
+}
+
+.recipe-favourites {
+  font-size: 0.9em;
+  /* Malo manji font za autora, može biti i bez promene */
+  color: #cc1b00;
+  /* Dodavanje neutralne boje za autora */
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  /* Zlatna boja za popunjene zvezdice */
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.empty-stars {
+  color: #e0e0e0;
+  /* Siva boja za prazne zvezdice */
+}
+
+.comments-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon {
+  margin-left: auto;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.comment-icon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon .bi-chat-dots {
+  padding-right: 5px;
+  margin-left: auto;
+  font-size: 1.2rem;
+  /* Razmak između ikone i broja komentara */
+  color: black;
+  /* Plava boja ikone */
+}
+
+.ellipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.ellipsis strong {
+  font-size: 1.2rem;
+  /* Podesite veličinu fonta po želji */
+}
+
+.recipes-container .centered-text {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: #652c15;
+}
