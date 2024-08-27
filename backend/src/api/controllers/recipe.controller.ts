@@ -452,21 +452,25 @@ export class RecipeController {
     }
   };
 
+  // Funkcija za dohvatanje favourites recepata od strane korisnika
   getFavouriteRecipes = async (req: Request, res: Response) => {
     const { userId } = req.params;
 
     try {
-      // Validate the user ID
       if (!mongoose.Types.ObjectId.isValid(userId)) {
         return res.status(400).json({ message: "Invalid user ID" });
       }
 
-      // Find the user and populate their favourite recipes
       const user = await User.findById(userId)
         .populate({
           path: "favouriteRecepies",
-          // select: "name category tags image ratings comments favourites", // Specify only the fields you need
-          select: "name category tags image comments favourites", // Limit to essential fields
+          select: "name category tags image comments favourites",
+          populate: [
+            {
+              path: "ratings",
+              select: "rating",
+            },
+          ],
         })
         .lean()
         .exec();
@@ -475,7 +479,24 @@ export class RecipeController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      return res.status(200).json(user.favouriteRecepies);
+      // Izračunavanje prosečne ocene za svaki recept
+      const favouriteRecipesWithAvgRating = user.favouriteRecepies.map(
+        (recipe: any) => {
+          const totalRating = recipe.ratings.reduce(
+            (sum: number, rating: any) => sum + rating.rating,
+            0
+          );
+          const averageRating =
+            recipe.ratings.length > 0 ? totalRating / recipe.ratings.length : 0;
+
+          return {
+            ...recipe,
+            averageRating,
+          };
+        }
+      );
+
+      return res.status(200).json(favouriteRecipesWithAvgRating);
     } catch (err) {
       const error = err as Error;
       console.error(error.message);
@@ -494,9 +515,30 @@ export class RecipeController {
         return res.status(400).json({ message: "Invalid user ID" });
       }
 
-      const recipes = await Recipe.find({ createdBy: userId }).lean().exec();
+      const recipes = await Recipe.find({ createdBy: userId })
+        .populate({
+          path: "ratings",
+          select: "rating",
+        })
+        .lean()
+        .exec();
 
-      return res.status(200).json(recipes);
+      // Izračunavanje prosečne ocene za svaki recept
+      const recipesWithAvgRating = recipes.map((recipe: any) => {
+        const totalRating = recipe.ratings.reduce(
+          (sum: number, rating: any) => sum + rating.rating,
+          0
+        );
+        const averageRating =
+          recipe.ratings.length > 0 ? totalRating / recipe.ratings.length : 0;
+
+        return {
+          ...recipe,
+          averageRating,
+        };
+      });
+
+      return res.status(200).json(recipesWithAvgRating);
     } catch (error) {
       console.error("Error fetching user recipes:", error);
       return res
