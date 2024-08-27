@@ -100,8 +100,11 @@ export class UserService {
   }
 
   // Upload profilne slike
-  uploadProfilePicture(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/uploadProfilePicture`, formData);
+  uploadProfilePicture(userId: string, formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/uploadProfilePicture/${userId}`,
+      formData
+    );
   }
 
   // Dohvatanje profilne slike korisnika

@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
   isEditing: { [key: string]: boolean } = {}; // Track editing state for each field
   editValues: { [key: string]: any } = {}; // Store edited values
 
-  isEditingPassword: boolean = false; // Prati stanje uređivanja lozinke
+  isEditingPassword: boolean = false; // Track password edit state
   oldPassword: string = '';
   newPassword: string = '';
   confirmNewPassword: string = '';
@@ -24,6 +24,9 @@ export class ProfileComponent implements OnInit {
   modalVisible: boolean = false; // Modal visibility
   modalTitle: string = '';
   modalMessage: string = '';
+
+  isImageModalVisible: boolean = false; // Enlarged image modal visibility
+  selectedImage: File | null = null; // Selected image file for upload
 
   constructor(private router: Router, private userService: UserService) {}
 
@@ -264,5 +267,54 @@ export class ProfileComponent implements OnInit {
 
   closeModal(): void {
     this.modalVisible = false;
+  }
+
+  enlargeImage(): void {
+    this.isImageModalVisible = true;
+  }
+
+  closeImageModal(): void {
+    this.isImageModalVisible = false;
+    this.selectedImage = null;
+    this.router.navigate(['/profile']).then(() => {
+      location.reload();
+    });
+  }
+
+  onImageSelected(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.selectedImage = event.target.files[0];
+
+      // Create a preview of the selected image
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.photoUrl = e.target.result; // Set the preview URL
+      };
+
+      if (this.selectedImage) {
+        reader.readAsDataURL(this.selectedImage as Blob);
+      }
+    }
+  }
+
+  saveProfilePicture(): void {
+    if (!this.selectedImage) return;
+
+    const formData = new FormData();
+    formData.append('photo', this.selectedImage);
+
+    this.userService.uploadProfilePicture(this.user._id, formData).subscribe(
+      (response) => {
+        this.user.photo = response.photo;
+        this.photoUrl = `data:${response.photo.contentType};base64,${response.photo.data}`;
+        this.closeImageModal();
+        this.updateLocalStorage();
+        this.showModal('Success', 'Profile picture updated successfully.');
+      },
+      (error) => {
+        console.error('Error uploading profile picture:', error);
+        this.showModal('Error', 'Failed to update profile picture.');
+      }
+    );
   }
 }

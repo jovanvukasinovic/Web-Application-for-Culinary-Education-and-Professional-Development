@@ -5,6 +5,7 @@
       [src]="photoUrl"
       alt="Profile Picture"
       class="profile-picture"
+      (click)="enlargeImage()"
     />
   </div>
 
@@ -244,5 +245,21 @@
     <h2>{{ modalTitle }}</h2>
     <p>{{ modalMessage }}</p>
     <button class="modal-close" (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- Enlarged Image Modal -->
+<div
+  *ngIf="isImageModalVisible"
+  class="image-modal-overlay"
+  (click)="closeImageModal()"
+>
+  <div class="image-modal-content" (click)="$event.stopPropagation()">
+    <img [src]="photoUrl" alt="Profile Picture" class="enlarged-picture" />
+    <div class="image-actions">
+      <input type="file" (change)="onImageSelected($event)" />
+      <button *ngIf="selectedImage" (click)="saveProfilePicture()">Save</button>
+      <button (click)="closeImageModal()">Cancel</button>
+    </div>
   </div>
 </div>

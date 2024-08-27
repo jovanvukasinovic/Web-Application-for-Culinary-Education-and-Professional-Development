@@ -91,9 +91,10 @@ export class UserController {
   };
 
   // TODO: Not used
+  // Metoda za upload profilne slike
   uploadProfilePicture = async (req: Request, res: Response) => {
     try {
-      const userId = req.body.userId;
+      const userId = req.params.userId;
 
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -114,7 +115,21 @@ export class UserController {
         return res.status(404).json({ message: "User not found" });
       }
 
-      return res.status(200).json(user);
+      if (user.photo && user.photo.data) {
+        const photoBase64 = user.photo.data.toString("base64");
+        res.status(200).json({
+          ...user.toObject(),
+          photo: {
+            data: photoBase64,
+            contentType: user.photo.contentType,
+          },
+        });
+      } else {
+        res.status(200).json({
+          ...user.toObject(),
+          photo: null, // Ili neka druga vrednost koja signalizira da nema slike
+        });
+      }
     } catch (err) {
       console.error(err);
       return res

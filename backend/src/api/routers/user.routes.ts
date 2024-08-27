@@ -79,8 +79,10 @@ userRouter.post("/checkEmail", (req, res) =>
 );
 
 // Ruta za upload profilne slike
-userRouter.post("/uploadProfilePicture", upload.single("photo"), (req, res) =>
-  userController.uploadProfilePicture(req, res)
+userRouter.post(
+  "/uploadProfilePicture/:userId",
+  upload.single("photo"),
+  (req, res) => userController.uploadProfilePicture(req, res)
 );
 
 // Ruta za dobijanje profilne slike korisnika
