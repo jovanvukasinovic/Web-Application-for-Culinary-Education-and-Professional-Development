@@ -64,9 +64,59 @@ export class RecipeAddComponent {
   categories = Object.values(Categories);
   tagsList = Object.values(Tags);
 
+  showAllCategories: boolean = false;
+  showAllTags: boolean = false;
+
   constructor(private recipeService: RecipeService, private router: Router) {}
 
+  toggleSelection(item: string, type: 'category' | 'tags') {
+    if (type === 'category') {
+      const index = this.category.indexOf(item);
+      if (index > -1) {
+        this.category.splice(index, 1);
+      } else {
+        this.category.push(item);
+      }
+    } else if (type === 'tags') {
+      const index = this.tags.indexOf(item);
+      if (index > -1) {
+        this.tags.splice(index, 1);
+      } else {
+        this.tags.push(item);
+      }
+    }
+  }
+
+  getVisibleCategories() {
+    return this.showAllCategories
+      ? this.categories
+      : this.categories.slice(0, 10);
+  }
+
+  getVisibleTags() {
+    return this.showAllTags ? this.tagsList : this.tagsList.slice(0, 10);
+  }
+
+  toggleCategoryExpand() {
+    this.showAllCategories = !this.showAllCategories;
+  }
+
+  toggleTagsExpand() {
+    this.showAllTags = !this.showAllTags;
+  }
+
   addIngredient() {
+    const lastIngredient = this.ingredients[this.ingredients.length - 1];
+
+    if (
+      lastIngredient &&
+      (!lastIngredient.name ||
+        lastIngredient.quantity <= 0 ||
+        !lastIngredient.unit)
+    ) {
+      return;
+    }
+
     this.ingredients.push({ name: '', quantity: 0, unit: '' });
   }
 
@@ -110,5 +160,10 @@ export class RecipeAddComponent {
         console.error('Failed to add recipe', error);
       }
     );
+  }
+
+  validateNumericInput(event: any) {
+    const input = event.target;
+    input.value = input.value.replace(/^0+(?!$)/, '');
   }
 }

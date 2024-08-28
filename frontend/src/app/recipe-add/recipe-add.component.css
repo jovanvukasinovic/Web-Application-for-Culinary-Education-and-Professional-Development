@@ -1,5 +1,6 @@
 .recipe-add-container {
-  max-width: 600px;
+  max-width: 700px;
+  min-width: 700px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f9f9f9;
@@ -22,6 +23,8 @@ input[type="text"],
 input[type="number"],
 textarea,
 select {
+  min-width: 98%;
+  max-width: 98%;
   width: 100%;
   padding: 8px;
   margin-bottom: 12px;
@@ -33,30 +36,106 @@ textarea {
   height: 100px;
 }
 
-button[type="button"] {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  margin-top: 5px;
-  cursor: pointer;
+.category-checkboxes,
+.tags-checkboxes {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 5px;
+  margin-bottom: 12px;
 }
 
-button[type="button"]:hover {
-  background-color: #d32f2f;
+.expand-toggle {
+  text-align: center;
+  cursor: pointer;
+  color: #bb9c7f;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.expand-toggle:hover {
+  color: #652c15;
+}
+
+.ingredient-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.add-ingredient,
+.remove-ingredient {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.add-ingredient {
+  color: #bb9c7f;
+  display: block;
+  margin: 10px 0;
+}
+
+.remove-ingredient {
+  font-size: 24px;
+  color: #cc1b00;
+  margin-bottom: 15px;
+}
+
+.add-ingredient:hover {
+  color: #652c15;
+}
+
+.remove-ingredient:hover {
+  color: #652c15;
 }
 
 button[type="submit"] {
-  background-color: #4caf50;
+  background-color: #652c15;
   color: white;
+  font-size: large;
   padding: 12px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 15px;
   cursor: pointer;
-  width: 100%;
+  width: 60%;
 }
 
 button[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: #652c15;
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.file-upload-container {
+  position: relative;
+  display: inline-block;
+  width: 40%;
+}
+
+input[type="file"] {
+  width: 100%;
+  height: 40px;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.custom-file-label {
+  display: block;
+  width: 50%;
+  padding: 10px;
+  background-color: #bb9c7f;
+  color: white;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.custom-file-label:hover {
+  background-color: #652c15;
 }

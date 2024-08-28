@@ -1,28 +1,10 @@
 <div class="recipe-add-container">
-  <h2>Add New Recipe</h2>
+  <h2>Add a New Recipe</h2>
 
   <form (submit)="onSubmit()">
     <!-- Recipe Name -->
     <label for="name">Recipe Name:</label>
     <input type="text" id="name" [(ngModel)]="name" name="name" required />
-
-    <!-- Categories -->
-    <label for="category">Category:</label>
-    <select
-      id="category"
-      [(ngModel)]="category"
-      name="category"
-      multiple
-      required
-    >
-      <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-    </select>
-
-    <!-- Tags -->
-    <label for="tags">Tags:</label>
-    <select id="tags" [(ngModel)]="tags" name="tags" multiple required>
-      <option *ngFor="let tag of tagsList" [value]="tag">{{ tag }}</option>
-    </select>
 
     <!-- Description -->
     <label for="description">Description:</label>
@@ -33,36 +15,116 @@
       required
     ></textarea>
 
+    <!-- Categories -->
+    <label for="category">Category:</label>
+    <div class="category-checkboxes">
+      <label *ngFor="let cat of getVisibleCategories(); let i = index">
+        <input
+          type="checkbox"
+          [value]="cat"
+          (change)="toggleSelection(cat, 'category')"
+          [checked]="category.includes(cat)"
+        />
+        {{ cat }}
+      </label>
+    </div>
+    <div
+      *ngIf="!showAllCategories"
+      (click)="toggleCategoryExpand()"
+      class="expand-toggle"
+    >
+      <i class="fas fa-angle-down"></i>
+    </div>
+    <div
+      *ngIf="showAllCategories"
+      (click)="toggleCategoryExpand()"
+      class="expand-toggle"
+    >
+      <i class="fas fa-angle-up"></i>
+    </div>
+
+    <hr />
+
+    <!-- Tags -->
+    <label for="tags">Tags:</label>
+    <div class="tags-checkboxes">
+      <label *ngFor="let tag of getVisibleTags(); let i = index">
+        <input
+          type="checkbox"
+          [value]="tag"
+          (change)="toggleSelection(tag, 'tags')"
+          [checked]="tags.includes(tag)"
+        />
+        {{ tag }}
+      </label>
+    </div>
+    <div
+      *ngIf="!showAllTags"
+      (click)="toggleTagsExpand()"
+      class="expand-toggle"
+    >
+      <i class="fas fa-angle-down"></i>
+    </div>
+    <div *ngIf="showAllTags" (click)="toggleTagsExpand()" class="expand-toggle">
+      <i class="fas fa-angle-up"></i>
+    </div>
+
+    <hr />
+
     <!-- Ingredients -->
-    <div *ngFor="let ingredient of ingredients; let i = index">
-      <label for="ingredientName">Ingredient Name:</label>
+    <div>
+      <button type="button" class="add-ingredient" (click)="addIngredient()">
+        &#x2795; Ingredient
+      </button>
+    </div>
+
+    <div
+      *ngFor="let ingredient of ingredients; let i = index"
+      class="ingredient-row"
+    >
       <input
         type="text"
         [(ngModel)]="ingredient.name"
-        name="ingredientName"
+        placeholder="Ingredient name"
+        name="ingredientName{{ i }}"
         required
       />
 
-      <label for="ingredientQuantity">Quantity:</label>
       <input
-        type="number"
+        type="text"
         [(ngModel)]="ingredient.quantity"
-        name="ingredientQuantity"
+        placeholder="Quantity"
+        name="ingredientQuantity{{ i }}"
+        pattern="^(?!0)\d+$"
         required
+        (input)="validateNumericInput($event)"
       />
 
-      <label for="ingredientUnit">Unit:</label>
-      <input type="text" [(ngModel)]="ingredient.unit" name="ingredientUnit" />
+      <select [(ngModel)]="ingredient.unit" name="ingredientUnit{{ i }}">
+        <option value="ml">ml</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+        <option value="l">l</option>
+        <option value="dl">dl</option>
+        <option value="kom">kom</option>
+      </select>
 
-      <button type="button" (click)="removeIngredient(i)">
-        Remove Ingredient
+      <button
+        type="button"
+        class="remove-ingredient"
+        (click)="removeIngredient(i)"
+      >
+        &#x2716;
       </button>
     </div>
-    <button type="button" (click)="addIngredient()">Add Ingredient</button>
+
+    <hr />
 
     <!-- Image Upload -->
-    <label for="image">Upload Image:</label>
-    <input type="file" id="image" (change)="onFileSelected($event)" />
+    <div class="file-upload-container">
+      <label for="image" class="custom-file-label">Recipe Image</label>
+      <input type="file" id="image" (change)="onFileSelected($event)" />
+    </div>
 
     <!-- Submit Button -->
     <button type="submit">Add Recipe</button>
