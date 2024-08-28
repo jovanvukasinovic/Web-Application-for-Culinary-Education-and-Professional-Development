@@ -79,8 +79,10 @@ userRouter.post("/checkEmail", (req, res) =>
 );
 
 // Ruta za upload profilne slike
-userRouter.post("/uploadProfilePicture", upload.single("photo"), (req, res) =>
-  userController.uploadProfilePicture(req, res)
+userRouter.post(
+  "/uploadProfilePicture/:userId",
+  upload.single("photo"),
+  (req, res) => userController.uploadProfilePicture(req, res)
 );
 
 // Ruta za dobijanje profilne slike korisnika
@@ -90,6 +92,22 @@ userRouter.get("/profile-picture/:userId", (req, res) =>
 
 userRouter.post("/toggle-favourite", (req, res) =>
   userController.toggleFavouriteRecipe(req, res)
+);
+
+userRouter.patch("/updateUsername", (req, res) =>
+  userController.updateUsername(req, res)
+);
+userRouter.patch("/updateEmail", (req, res) =>
+  userController.updateEmail(req, res)
+);
+userRouter.patch("/updateFirstname", (req, res) =>
+  userController.updateFirstname(req, res)
+);
+userRouter.patch("/updateLastname", (req, res) =>
+  userController.updateLastname(req, res)
+);
+userRouter.patch("/updatePhone", (req, res) =>
+  userController.updatePhone(req, res)
 );
 
 export default userRouter;

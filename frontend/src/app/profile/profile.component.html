@@ -5,6 +5,7 @@
       [src]="photoUrl"
       alt="Profile Picture"
       class="profile-picture"
+      (click)="enlargeImage()"
     />
   </div>
 
@@ -18,9 +19,18 @@
         {{ user["username"] }}
       </div>
       <div *ngIf="isEditing['username']" class="profile-edit">
-        <input [(ngModel)]="editValues['username']" />
+        <input
+          [(ngModel)]="editValues['username']"
+          (keydown.enter)="saveEdit('username')"
+          (keydown.esc)="cancelEdit('username')"
+        />
         <label>Password to confirm:</label>
-        <input type="password" [(ngModel)]="passwordForSave" />
+        <input
+          type="password"
+          [(ngModel)]="passwordForSave"
+          (keydown.enter)="saveEdit('username')"
+          (keydown.esc)="cancelEdit('username')"
+        />
       </div>
       <div class="profile-action">
         <button *ngIf="!isEditing['username']" (click)="startEdit('username')">
@@ -44,9 +54,18 @@
         {{ user["email"] }}
       </div>
       <div *ngIf="isEditing['email']" class="profile-edit">
-        <input [(ngModel)]="editValues['email']" />
+        <input
+          [(ngModel)]="editValues['email']"
+          (keydown.enter)="saveEdit('email')"
+          (keydown.esc)="cancelEdit('email')"
+        />
         <label>Password to confirm:</label>
-        <input type="password" [(ngModel)]="passwordForSave" />
+        <input
+          type="password"
+          [(ngModel)]="passwordForSave"
+          (keydown.enter)="saveEdit('email')"
+          (keydown.esc)="cancelEdit('email')"
+        />
       </div>
       <div class="profile-action">
         <button *ngIf="!isEditing['email']" (click)="startEdit('email')">
@@ -74,19 +93,28 @@
       <div class="profile-action">
         <div *ngIf="isEditingPassword" class="profile-edit">
           <label>Current Password:</label>
-          <input type="password" [(ngModel)]="oldPassword" />
+          <input
+            type="password"
+            [(ngModel)]="oldPassword"
+            (keydown.enter)="savePasswordChange()"
+            (keydown.esc)="cancelPasswordChange()"
+          />
           <br />
           <label>New Password:</label>
           <input
             type="password"
             [(ngModel)]="newPassword"
             (input)="validateNewPassword()"
+            (keydown.enter)="savePasswordChange()"
+            (keydown.esc)="cancelPasswordChange()"
           />
           <label>Confirm New Password:</label>
           <input
             type="password"
             [(ngModel)]="confirmNewPassword"
             (input)="validateNewPassword()"
+            (keydown.enter)="savePasswordChange()"
+            (keydown.esc)="cancelPasswordChange()"
           />
           <div *ngIf="passwordError" class="error-message">
             {{ passwordError }}
@@ -106,9 +134,18 @@
         {{ user["firstname"] }}
       </div>
       <div *ngIf="isEditing['firstname']" class="profile-edit">
-        <input [(ngModel)]="editValues['firstname']" />
+        <input
+          [(ngModel)]="editValues['firstname']"
+          (keydown.enter)="saveEdit('firstname')"
+          (keydown.esc)="cancelEdit('firstname')"
+        />
         <label>Password to confirm:</label>
-        <input type="password" [(ngModel)]="passwordForSave" />
+        <input
+          type="password"
+          [(ngModel)]="passwordForSave"
+          (keydown.enter)="saveEdit('firstname')"
+          (keydown.esc)="cancelEdit('firstname')"
+        />
       </div>
       <div class="profile-action">
         <button
@@ -138,9 +175,18 @@
         {{ user["lastname"] }}
       </div>
       <div *ngIf="isEditing['lastname']" class="profile-edit">
-        <input [(ngModel)]="editValues['lastname']" />
+        <input
+          [(ngModel)]="editValues['lastname']"
+          (keydown.enter)="saveEdit('lastname')"
+          (keydown.esc)="cancelEdit('lastname')"
+        />
         <label>Password to confirm:</label>
-        <input type="password" [(ngModel)]="passwordForSave" />
+        <input
+          type="password"
+          [(ngModel)]="passwordForSave"
+          (keydown.enter)="saveEdit('lastname')"
+          (keydown.esc)="cancelEdit('lastname')"
+        />
       </div>
       <div class="profile-action">
         <button *ngIf="!isEditing['lastname']" (click)="startEdit('lastname')">
@@ -164,9 +210,18 @@
         {{ user["phone"] }}
       </div>
       <div *ngIf="isEditing['phone']" class="profile-edit">
-        <input [(ngModel)]="editValues['phone']" />
+        <input
+          [(ngModel)]="editValues['phone']"
+          (keydown.enter)="saveEdit('phone')"
+          (keydown.esc)="cancelEdit('phone')"
+        />
         <label>Password to confirm:</label>
-        <input type="password" [(ngModel)]="passwordForSave" />
+        <input
+          type="password"
+          [(ngModel)]="passwordForSave"
+          (keydown.enter)="saveEdit('phone')"
+          (keydown.esc)="cancelEdit('phone')"
+        />
       </div>
 
       <div class="profile-action">
@@ -180,6 +235,31 @@
           Cancel
         </button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for alert messages -->
+<div *ngIf="modalVisible" class="modal-overlay">
+  <div class="modal-content">
+    <h2>{{ modalTitle }}</h2>
+    <p>{{ modalMessage }}</p>
+    <button class="modal-close" (click)="closeModal()">Close</button>
+  </div>
+</div>
+
+<!-- Enlarged Image Modal -->
+<div
+  *ngIf="isImageModalVisible"
+  class="image-modal-overlay"
+  (click)="closeImageModal()"
+>
+  <div class="image-modal-content" (click)="$event.stopPropagation()">
+    <img [src]="photoUrl" alt="Profile Picture" class="enlarged-picture" />
+    <div class="image-actions">
+      <input type="file" (change)="onImageSelected($event)" />
+      <button *ngIf="selectedImage" (click)="saveProfilePicture()">Save</button>
+      <button (click)="closeImageModal()">Cancel</button>
     </div>
   </div>
 </div>

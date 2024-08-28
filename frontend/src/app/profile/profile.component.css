@@ -23,6 +23,7 @@
   object-fit: cover;
   border: 2px solid #652c15;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .profile-info {
@@ -106,4 +107,117 @@ hr {
   border: none;
   border-top: 1px solid #ddd;
   margin: 20px 0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 80%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #652c15;
+}
+
+.modal-content p {
+  margin: 20px 0;
+  color: #333;
+}
+
+.modal-close {
+  background-color: #bb9c7f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: #652c15;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enlarged Image Modal */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.image-modal-content {
+  position: relative;
+  text-align: center;
+}
+
+.enlarged-picture {
+  max-width: 50vw;
+  /* Maksimalna širina 50% širine ekrana */
+  max-height: 50vh;
+  /* Maksimalna visina 50% visine ekrana */
+  border-radius: 10px;
+  border: 4px solid #fff;
+}
+
+.image-actions {
+  margin-top: 20px;
+}
+
+.image-actions button {
+  font-size: 15px;
+  padding: 5px 10px;
+  background-color: #bb9c7f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+.image-actions button:hover {
+  background-color: #652c15;
+}
+
+.image-actions input[type="file"] {
+  display: inline-block;
+  margin-right: 10px;
 }

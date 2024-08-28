@@ -100,8 +100,11 @@ export class UserService {
   }
 
   // Upload profilne slike
-  uploadProfilePicture(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/uploadProfilePicture`, formData);
+  uploadProfilePicture(userId: string, formData: FormData): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/uploadProfilePicture/${userId}`,
+      formData
+    );
   }
 
   // Dohvatanje profilne slike korisnika
@@ -115,6 +118,41 @@ export class UserService {
     return this.http.post(`${this.apiUrl}/toggle-favourite`, {
       userId,
       recipeId,
+    });
+  }
+
+  updateUsername(userId: string, newUsername: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateUsername`, {
+      userId,
+      newUsername,
+    });
+  }
+
+  updateEmail(userId: string, newEmail: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateEmail`, {
+      userId,
+      newEmail,
+    });
+  }
+
+  updateFirstname(userId: string, newFirstname: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateFirstname`, {
+      userId,
+      newFirstname,
+    });
+  }
+
+  updateLastname(userId: string, newLastname: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updateLastname`, {
+      userId,
+      newLastname,
+    });
+  }
+
+  updatePhone(userId: string, newPhone: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/updatePhone`, {
+      userId,
+      newPhone,
     });
   }
 }

@@ -13,13 +13,20 @@ export class ProfileComponent implements OnInit {
   isEditing: { [key: string]: boolean } = {}; // Track editing state for each field
   editValues: { [key: string]: any } = {}; // Store edited values
 
-  isEditingPassword: boolean = false; // Prati stanje uređivanja lozinke
+  isEditingPassword: boolean = false; // Track password edit state
   oldPassword: string = '';
   newPassword: string = '';
   confirmNewPassword: string = '';
   passwordForSave: string = ''; // Password required to confirm any save action
 
   passwordError: string | null = null; // Error message for password issues
+
+  modalVisible: boolean = false; // Modal visibility
+  modalTitle: string = '';
+  modalMessage: string = '';
+
+  isImageModalVisible: boolean = false; // Enlarged image modal visibility
+  selectedImage: File | null = null; // Selected image file for upload
 
   constructor(private router: Router, private userService: UserService) {}
 
@@ -35,14 +42,8 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // getProfilePictureUrl() {
-  //   if (this.user && this.user._id) {
-  //     return `http://localhost:4000/api/users/profile-picture/${this.user._id}`;
-  //   }
-  //   return '';
-  // }
-
   startEdit(field: string): void {
+    this.cancelAllEdits(); // Cancel all other edits
     this.isEditing[field] = true;
     this.editValues[field] = this.user[field];
   }
@@ -53,6 +54,7 @@ export class ProfileComponent implements OnInit {
   }
 
   startPasswordChange(): void {
+    this.cancelAllEdits(); // Cancel all other edits
     this.isEditingPassword = true;
   }
 
@@ -62,6 +64,14 @@ export class ProfileComponent implements OnInit {
     this.newPassword = '';
     this.confirmNewPassword = '';
     this.passwordError = null;
+  }
+
+  cancelAllEdits(): void {
+    for (let key in this.isEditing) {
+      this.isEditing[key] = false;
+    }
+    this.isEditingPassword = false;
+    this.passwordForSave = '';
   }
 
   validateNewPassword(): boolean {
@@ -82,7 +92,10 @@ export class ProfileComponent implements OnInit {
 
   saveEdit(field: string): void {
     if (!this.passwordForSave) {
-      alert('Please enter your current password to confirm changes.');
+      this.showModal(
+        'Error',
+        'Please enter your current password to confirm changes.'
+      );
       return;
     }
 
@@ -91,23 +104,129 @@ export class ProfileComponent implements OnInit {
       .subscribe(
         (isVerified) => {
           if (isVerified) {
-            this.user[field] = this.editValues[field];
-            this.isEditing[field] = false;
-            alert('Profile updated successfully.');
+            switch (field) {
+              case 'username':
+                this.userService
+                  .updateUsername(this.user._id, this.editValues[field])
+                  .subscribe(
+                    () => {
+                      this.user.username = this.editValues[field];
+                      this.showModal(
+                        'Success',
+                        'Username updated successfully.'
+                      );
+                      this.isEditing[field] = false;
+                      this.updateLocalStorage();
+                    },
+                    (error: any) => {
+                      console.error('Error updating username:', error);
+                      this.showModal('Error', 'Failed to update username.');
+                    }
+                  );
+                break;
+
+              case 'email':
+                this.userService
+                  .updateEmail(this.user._id, this.editValues[field])
+                  .subscribe(
+                    () => {
+                      this.user.email = this.editValues[field];
+                      this.showModal('Success', 'Email updated successfully.');
+                      this.isEditing[field] = false;
+                      this.updateLocalStorage();
+                    },
+                    (error: any) => {
+                      console.error('Error updating email:', error);
+                      this.showModal('Error', 'Failed to update email.');
+                    }
+                  );
+                break;
+
+              case 'firstname':
+                this.userService
+                  .updateFirstname(this.user._id, this.editValues[field])
+                  .subscribe(
+                    () => {
+                      this.user.firstname = this.editValues[field];
+                      this.showModal(
+                        'Success',
+                        'Firstname updated successfully.'
+                      );
+                      this.isEditing[field] = false;
+                      this.updateLocalStorage();
+                    },
+                    (error: any) => {
+                      console.error('Error updating firstname:', error);
+                      this.showModal('Error', 'Failed to update firstname.');
+                    }
+                  );
+                break;
+
+              case 'lastname':
+                this.userService
+                  .updateLastname(this.user._id, this.editValues[field])
+                  .subscribe(
+                    () => {
+                      this.user.lastname = this.editValues[field];
+                      this.showModal(
+                        'Success',
+                        'Lastname updated successfully.'
+                      );
+                      this.isEditing[field] = false;
+                      this.updateLocalStorage();
+                    },
+                    (error: any) => {
+                      console.error('Error updating lastname:', error);
+                      this.showModal('Error', 'Failed to update lastname.');
+                    }
+                  );
+                break;
+
+              case 'phone':
+                this.userService
+                  .updatePhone(this.user._id, this.editValues[field])
+                  .subscribe(
+                    () => {
+                      this.user.phone = this.editValues[field];
+                      this.showModal(
+                        'Success',
+                        'Phone number updated successfully.'
+                      );
+                      this.isEditing[field] = false;
+                      this.updateLocalStorage();
+                    },
+                    (error: any) => {
+                      console.error('Error updating phone number:', error);
+                      this.showModal('Error', 'Failed to update phone number.');
+                    }
+                  );
+                break;
+
+              default:
+                console.error('Unknown field:', field);
+                break;
+            }
           } else {
-            alert('Incorrect current password.');
+            this.showModal('Error', 'Incorrect current password.');
           }
         },
         (error) => {
           console.error('Password verification failed:', error);
-          alert('An error occurred while verifying your password.');
+          this.showModal(
+            'Error',
+            'An error occurred while verifying your password.'
+          );
         }
       );
   }
 
+  private updateLocalStorage(): void {
+    localStorage.setItem('currentUser', JSON.stringify(this.user));
+  }
+
   savePasswordChange(): void {
     if (!this.oldPassword) {
-      alert('Please enter your current password.');
+      this.showModal('Error', 'Please enter your current password.');
       return;
     }
 
@@ -119,18 +238,83 @@ export class ProfileComponent implements OnInit {
       .changePassword(this.user.username, this.oldPassword, this.newPassword)
       .subscribe(
         () => {
-          alert('Password changed successfully.');
+          this.showModal('Success', 'Password changed successfully.');
           this.cancelPasswordChange();
+          this.logout();
         },
         (error) => {
           console.error('Password change failed:', error);
-          alert('Failed to change password. Please try again.');
+          this.showModal(
+            'Error',
+            'Failed to change password. Please try again.'
+          );
         }
       );
   }
 
   logout(): void {
     localStorage.removeItem('currentUser');
-    this.router.navigate(['/']);
+    this.router.navigate(['/']).then(() => {
+      location.reload();
+    });
+  }
+
+  showModal(title: string, message: string): void {
+    this.modalTitle = title;
+    this.modalMessage = message;
+    this.modalVisible = true;
+  }
+
+  closeModal(): void {
+    this.modalVisible = false;
+  }
+
+  enlargeImage(): void {
+    this.isImageModalVisible = true;
+  }
+
+  closeImageModal(): void {
+    this.isImageModalVisible = false;
+    this.selectedImage = null;
+    this.router.navigate(['/profile']).then(() => {
+      location.reload();
+    });
+  }
+
+  onImageSelected(event: any): void {
+    if (event.target.files && event.target.files[0]) {
+      this.selectedImage = event.target.files[0];
+
+      // Create a preview of the selected image
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.photoUrl = e.target.result; // Set the preview URL
+      };
+
+      if (this.selectedImage) {
+        reader.readAsDataURL(this.selectedImage as Blob);
+      }
+    }
+  }
+
+  saveProfilePicture(): void {
+    if (!this.selectedImage) return;
+
+    const formData = new FormData();
+    formData.append('photo', this.selectedImage);
+
+    this.userService.uploadProfilePicture(this.user._id, formData).subscribe(
+      (response) => {
+        this.user.photo = response.photo;
+        this.photoUrl = `data:${response.photo.contentType};base64,${response.photo.data}`;
+        this.closeImageModal();
+        this.updateLocalStorage();
+        this.showModal('Success', 'Profile picture updated successfully.');
+      },
+      (error) => {
+        console.error('Error uploading profile picture:', error);
+        this.showModal('Error', 'Failed to update profile picture.');
+      }
+    );
   }
 }
