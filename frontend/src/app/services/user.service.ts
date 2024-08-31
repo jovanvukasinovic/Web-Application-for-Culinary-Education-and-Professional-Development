@@ -26,6 +26,10 @@ export class UserService {
     });
   }
 
+  getAllUsers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
+
   // Dohvatanje korisnika sa _id
   getUserByIdGet(_id: string): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${_id}`);
@@ -38,12 +42,15 @@ export class UserService {
 
   // Dohvatanje korisnika po korisnickom imenu
   getUserByUsername(username: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/:${username}`);
+    return this.http.get<any>(`${this.apiUrl}/${username}`);
   }
 
   // Registracija korisnika
-  registerUser(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/register`, formData);
+  registerUser(formData: FormData, isAdmin: boolean): Observable<any> {
+    const options = {
+      params: { isAdmin: isAdmin.toString() }, // Prosleđujemo podatak da li je admin kroz query parametar
+    };
+    return this.http.post<any>(`${this.apiUrl}/register`, formData, options);
   }
 
   // Dodavanje korisnika od strane administratora
@@ -153,6 +160,12 @@ export class UserService {
     return this.http.patch<any>(`${this.apiUrl}/updatePhone`, {
       userId,
       newPhone,
+    });
+  }
+
+  adminSearchUsers(query: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/adminSearch`, {
+      params: { query },
     });
   }
 }

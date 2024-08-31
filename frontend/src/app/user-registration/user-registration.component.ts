@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
@@ -8,7 +8,7 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './user-registration.component.html',
   styleUrls: ['./user-registration.component.css'],
 })
-export class UserRegistrationComponent {
+export class UserRegistrationComponent implements OnInit {
   user: any = {
     firstname: '',
     lastname: '',
@@ -23,8 +23,13 @@ export class UserRegistrationComponent {
   passwordError: string | null = null;
   usernameError: string | null = null;
   emailError: string | null = null;
+  currentUser: any;
 
   constructor(private userService: UserService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+  }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -97,6 +102,8 @@ export class UserRegistrationComponent {
       return;
     }
 
+    let isAdmin: boolean = false;
+
     const formData = new FormData();
     formData.append('firstname', this.user.firstname);
     formData.append('lastname', this.user.lastname);
@@ -106,9 +113,13 @@ export class UserRegistrationComponent {
     formData.append('phone', this.user.phone);
     formData.append('photo', this.selectedFile);
 
+    if (this.currentUser.role === 'admin') {
+      isAdmin = true;
+    }
+
     try {
       const response = await this.userService
-        .registerUser(formData)
+        .registerUser(formData, isAdmin)
         .toPromise();
       this.router.navigate(['/login']); // Redirect after successful registration
     } catch (error: any) {

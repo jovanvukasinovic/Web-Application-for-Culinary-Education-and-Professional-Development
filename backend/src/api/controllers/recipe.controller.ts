@@ -4,13 +4,13 @@ import Recipe from "../models/recipe";
 import Comment from "../models/comment";
 import Rating from "../models/rating";
 import User from "../models/user";
-import user from "../models/user";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
   getAllRecipes = async (req: Request, res: Response) => {
     try {
       const recipes = await Recipe.aggregate([
+        { $match: { status: "active" } },
         {
           $lookup: {
             from: "ratings",
@@ -39,6 +39,118 @@ export class RecipeController {
             : null,
         };
       });
+
+      return res.status(200).json(recipesWithBase64Images);
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
+  getAllRecipesByChef = async (req: Request, res: Response) => {
+    try {
+      const recipes = await Recipe.aggregate([
+        { $match: { status: "inactive" } },
+        {
+          $lookup: {
+            from: "ratings",
+            localField: "_id",
+            foreignField: "recipeId",
+            as: "ratings",
+          },
+        },
+        {
+          $addFields: {
+            averageRating: { $avg: "$ratings.rating" },
+            commentCount: { $size: "$comments" },
+          },
+        },
+        {
+          $sort: { averageRating: -1 },
+        },
+      ]).exec();
+
+      // Dodavanje imageBase64 polja
+      const recipesWithBase64Images = recipes.map((recipe: any) => {
+        return {
+          ...recipe,
+          imageBase64: recipe.image?.data
+            ? recipe.image.data.toString("base64")
+            : null,
+        };
+      });
+
+      return res.status(200).json(recipesWithBase64Images);
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
+  // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
+  getAllRecipesByAdmin = async (req: Request, res: Response) => {
+    try {
+      // Prvo povuci sve recepte
+      const recipes = await Recipe.aggregate([
+        {
+          $lookup: {
+            from: "ratings",
+            localField: "_id",
+            foreignField: "recipeId",
+            as: "ratings",
+          },
+        },
+        {
+          $addFields: {
+            averageRating: { $avg: "$ratings.rating" },
+            commentCount: { $size: "$comments" },
+          },
+        },
+        {
+          $sort: { averageRating: -1 },
+        },
+      ]).exec();
+
+      // Kreiraj listu `createdBy` ID-ova iz recepata
+      const userIds = recipes.map((recipe: any) => recipe.createdBy);
+
+      // Povuci odgovarajuće korisnike iz baze
+      const users = await User.find({ _id: { $in: userIds } })
+        .lean()
+        .exec();
+
+      // Mapiraj korisnike na osnovu njihovih ID-ova
+      const userMap = users.reduce((map: any, user: any) => {
+        map[user._id] = user.username;
+        return map;
+      }, {});
+
+      // Dodeli `username` umesto `_id` u svakom receptu
+      const recipesWithUsernames = recipes.map((recipe: any) => {
+        return {
+          ...recipe,
+          createdBy: userMap[recipe.createdBy] || "None", // Postavi "None" ako autor ne postoji
+        };
+      });
+
+      // Dodavanje imageBase64 polja
+      const recipesWithBase64Images = recipesWithUsernames.map(
+        (recipe: any) => {
+          return {
+            ...recipe,
+            imageBase64: recipe.image?.data
+              ? recipe.image.data.toString("base64")
+              : null,
+          };
+        }
+      );
 
       return res.status(200).json(recipesWithBase64Images);
     } catch (err) {
@@ -127,7 +239,12 @@ export class RecipeController {
       }
 
       const recipes = await Recipe.aggregate([
-        { $match: filter },
+        {
+          $match: {
+            status: "active",
+            ...filter,
+          },
+        },
         {
           $lookup: {
             from: "ratings",
@@ -415,6 +532,9 @@ export class RecipeController {
 
       const recipes = await Recipe.aggregate([
         {
+          $match: { status: "active" },
+        },
+        {
           $lookup: {
             from: "ratings",
             localField: "_id",
@@ -464,6 +584,7 @@ export class RecipeController {
       const user = await User.findById(userId)
         .populate({
           path: "favouriteRecepies",
+          match: { status: "active" },
           select: "name category tags image comments favourites",
           populate: [
             {
@@ -544,6 +665,115 @@ export class RecipeController {
       return res
         .status(500)
         .json({ message: "Server error: getRecipesByUser" });
+    }
+  };
+
+  // Funkcija za ažuriranje statusa recepta
+  updateRecipeStatus = async (req: Request, res: Response) => {
+    const { recipeId } = req.params;
+    const { status } = req.body;
+
+    try {
+      // Provera važenja ID-a
+      if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+        return res.status(400).json({ message: "Invalid recipe ID" });
+      }
+
+      // Ažuriranje statusa recepta
+      const updatedRecipe = await Recipe.findByIdAndUpdate(
+        recipeId,
+        { status },
+        { new: true }
+      ).exec();
+
+      if (!updatedRecipe) {
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      return res.status(200).json({
+        message: `Recipe status updated to ${status}`,
+        recipe: updatedRecipe,
+      });
+    } catch (error) {
+      const err = error as Error;
+      console.error("Error updating recipe status:", err.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: err.message });
+    }
+  };
+
+  // Funkcija za brisanje recepta
+  deleteRecipeByIdByAdmin = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
+    try {
+      const { recipeId } = req.body;
+
+      // Validacija ID-a
+      if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+        console.log(`Invalid recipe ID: ${recipeId}`);
+        return res.status(400).json({ message: "Invalid recipe ID" });
+      }
+
+      // Pronađi recept
+      const recipe = await Recipe.findById(recipeId).exec();
+      if (!recipe) {
+        console.log(`Recipe not found: ${recipeId}`);
+        return res.status(404).json({ message: "Recipe not found" });
+      }
+
+      // Pronađi sve komentare i ocene vezane za recept
+      const commentIds = recipe.comments;
+      const ratingIds = recipe.ratings;
+
+      console.log(
+        `Found ${commentIds.length} comments and ${ratingIds.length} ratings to delete for recipe ${recipeId}`
+      );
+
+      // Obrisi komentare i ocene iz baza
+      const deleteCommentsResult = await Comment.deleteMany({
+        _id: { $in: commentIds },
+      }).exec();
+      const deleteRatingsResult = await Rating.deleteMany({
+        _id: { $in: ratingIds },
+      }).exec();
+
+      console.log(
+        `Deleted ${deleteCommentsResult.deletedCount} comments and ${deleteRatingsResult.deletedCount} ratings`
+      );
+
+      // Ažuriraj favorite recepte kod svih korisnika
+      const updateUsersResult = await User.updateMany(
+        { favouriteRecepies: recipeId },
+        { $pull: { favouriteRecepies: recipeId } }
+      ).exec();
+
+      console.log(
+        `Removed recipe from favourites for ${updateUsersResult.modifiedCount} users`
+      );
+
+      // Na kraju, obriši recept iz baze
+      const recipeDeletionResult = await Recipe.deleteOne({
+        _id: recipeId,
+      }).exec();
+      if (recipeDeletionResult.deletedCount === 0) {
+        console.log(`Failed to delete recipe: ${recipeId}`);
+        return res.status(404).json({ message: "Recipe deletion failed" });
+      }
+
+      console.log(
+        `Recipe and associated data deleted successfully for recipeId: ${recipeId}`
+      );
+      return res
+        .status(200)
+        .json({ message: "Recipe and associated data deleted successfully" });
+    } catch (err) {
+      console.error(`Error in deleteRecipeByIdByAdmin: ${err}`);
+      return res
+        .status(500)
+        .json({ message: "Server error: deleteRecipeByIdByAdmin" });
     }
   };
 }

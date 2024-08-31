@@ -3,13 +3,15 @@ import mongoose from "mongoose";
 import multer from "multer";
 import User from "../models/user";
 import Recipe from "../models/recipe";
+import Comment from "../models/comment";
+import Rating from "../models/rating";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 export class UserController {
   // TODO: Not used
-  adminLogin = async (req: Request, res: Response) => {
+  adminLogin = async (req: express.Request, res: express.Response) => {
     try {
       const { username, password } = req.body;
 
@@ -49,7 +51,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  userLogin = async (req: Request, res: Response) => {
+  userLogin = async (req: express.Request, res: express.Response) => {
     try {
       const { username, password } = req.body;
 
@@ -66,6 +68,12 @@ export class UserController {
       }
 
       if (user.status === "inactive") {
+        return res
+          .status(403)
+          .json({ message: "Account is inactive. Please contact support." });
+      }
+
+      if (user.status !== "active") {
         return res
           .status(403)
           .json({ message: "Account is inactive. Please contact support." });
@@ -90,9 +98,27 @@ export class UserController {
     }
   };
 
+  getAllUsers = async (req: express.Request, res: express.Response) => {
+    try {
+      const users = await User.find({ role: { $in: ["user", "chef"] } })
+        .lean()
+        .exec();
+
+      return res.status(200).json(users);
+    } catch (err) {
+      const error = err as Error;
+      console.error("Error fetching users:", error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
   // TODO: Not used
-  // Metoda za upload profilne slike
-  uploadProfilePicture = async (req: Request, res: Response) => {
+  uploadProfilePicture = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     try {
       const userId = req.params.userId;
 
@@ -139,7 +165,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  getProfilePicture = async (req: Request, res: Response) => {
+  getProfilePicture = async (req: express.Request, res: express.Response) => {
     try {
       const userId = req.params.userId;
       const user = await User.findById(userId).exec();
@@ -184,7 +210,7 @@ export class UserController {
   };
 
   // TODO: Not used
-  getUserById = async (req: Request, res: Response) => {
+  getUserById = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.params;
 
@@ -205,7 +231,7 @@ export class UserController {
     }
   };
 
-  getUserByIdPost = async (req: Request, res: Response) => {
+  getUserByIdPost = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.body; // Ako koristite POST
 
@@ -234,19 +260,81 @@ export class UserController {
     try {
       const { username } = req.body;
 
-      const userDeletionResult = await User.deleteOne({ username }).exec();
-      if (userDeletionResult.deletedCount === 0) {
+      // Pronađi korisnika po username-u
+      const user = await User.findOne({ username }).exec();
+      if (!user) {
+        console.log(`User not found: ${username}`);
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Brisanje svega što je povezano sa korisnikom
-      // await Recipe.deleteMany({ owner: username }).exec();
+      const userId = user._id;
+      console.log(`User found: ${userId}`);
 
+      // Smanji broj favorita u svim receptima koje je korisnik favorizovao
+      const updateFavoritesResult = await Recipe.updateMany(
+        { _id: { $in: user.favouriteRecepies } },
+        { $inc: { favourites: -1 } }
+      ).exec();
+      console.log(
+        `Updated favourites count for ${updateFavoritesResult.modifiedCount} recipes`
+      );
+
+      // Pronađi sve komentare i ocene koje je korisnik ostavio
+      const userComments = await Comment.find({ username }).exec();
+      const userRatings = await Rating.find({ username }).exec();
+
+      const commentIds = userComments.map((comment) => comment._id);
+      const ratingIds = userRatings.map((rating) => rating._id);
+
+      console.log(
+        `Found ${commentIds.length} comments and ${ratingIds.length} ratings to delete`
+      );
+
+      // Obrisi komentare i ocene iz baza
+      const deleteCommentsResult = await Comment.deleteMany({
+        _id: { $in: commentIds },
+      }).exec();
+      const deleteRatingsResult = await Rating.deleteMany({
+        _id: { $in: ratingIds },
+      }).exec();
+
+      console.log(
+        `Deleted ${deleteCommentsResult.deletedCount} comments and ${deleteRatingsResult.deletedCount} ratings`
+      );
+
+      // Ukloni reference na komentare i ocene u receptima
+      const removeCommentsReferencesResult = await Recipe.updateMany(
+        { comments: { $in: commentIds } },
+        { $pull: { comments: { $in: commentIds } } }
+      ).exec();
+
+      const removeRatingsReferencesResult = await Recipe.updateMany(
+        { ratings: { $in: ratingIds } },
+        { $pull: { ratings: { $in: ratingIds } } }
+      ).exec();
+
+      console.log(
+        `Removed comment references from ${removeCommentsReferencesResult.modifiedCount} recipes`
+      );
+      console.log(
+        `Removed rating references from ${removeRatingsReferencesResult.modifiedCount} recipes`
+      );
+
+      // Na kraju, obriši korisnika iz baze
+      const userDeletionResult = await User.deleteOne({ _id: userId }).exec();
+      if (userDeletionResult.deletedCount === 0) {
+        console.log(`Failed to delete user: ${userId}`);
+        return res.status(404).json({ message: "User deletion failed" });
+      }
+
+      console.log(
+        `User and associated data deleted successfully for userId: ${userId}`
+      );
       return res
         .status(200)
-        .json({ message: "User and associated recipes deleted" });
+        .json({ message: "User and associated data deleted successfully" });
     } catch (err) {
-      console.error(err);
+      console.error(`Error in deleteUserByUsernameByAdmin: ${err}`);
       return res
         .status(500)
         .json({ message: "Server error: deleteUserByUsernameByAdmin" });
@@ -254,7 +342,7 @@ export class UserController {
   };
 
   // Verifikacija lozinke korisnika
-  verifyPassword = async (req: Request, res: Response) => {
+  verifyPassword = async (req: express.Request, res: express.Response) => {
     try {
       const { username, password } = req.body;
 
@@ -277,7 +365,7 @@ export class UserController {
   };
 
   // Promena lozinke korisnika
-  changePassword = async (req: Request, res: Response) => {
+  changePassword = async (req: express.Request, res: express.Response) => {
     try {
       const { username, oldPassword, newPassword } = req.body;
 
@@ -421,6 +509,7 @@ export class UserController {
     try {
       const { firstname, lastname, username, password, email, phone } =
         req.body;
+      const isAdmin = req.query.isAdmin === "true"; // Preuzimamo isAdmin iz query parametra
 
       // Proveri da li već postoji korisnik sa istim korisničkim imenom ili e-mail adresom
       const existingUser = await User.findOne({
@@ -464,7 +553,7 @@ export class UserController {
         email,
         phone,
         role: "user",
-        status: "inactive", // User registration is inactive until approved
+        status: isAdmin ? "active" : "inactive", // Status is 'active' if admin adds and 'inactive' for regular users
       });
 
       // Save the user with async/await
@@ -528,7 +617,10 @@ export class UserController {
     }
   };
 
-  toggleFavouriteRecipe = async (req: Request, res: Response) => {
+  toggleFavouriteRecipe = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     const { userId, recipeId } = req.body;
 
     try {
@@ -565,7 +657,7 @@ export class UserController {
   };
 
   // Ažuriranje korisničkog imena
-  updateUsername = async (req: Request, res: Response) => {
+  updateUsername = async (req: express.Request, res: express.Response) => {
     try {
       const { userId, newUsername } = req.body;
 
@@ -596,7 +688,7 @@ export class UserController {
   };
 
   // Ažuriranje email adrese
-  updateEmail = async (req: Request, res: Response) => {
+  updateEmail = async (req: express.Request, res: express.Response) => {
     try {
       const { userId, newEmail } = req.body;
 
@@ -627,7 +719,7 @@ export class UserController {
   };
 
   // Ažuriranje imena (firstname)
-  updateFirstname = async (req: Request, res: Response) => {
+  updateFirstname = async (req: express.Request, res: express.Response) => {
     try {
       const { userId, newFirstname } = req.body;
 
@@ -652,7 +744,7 @@ export class UserController {
   };
 
   // Ažuriranje prezimena (lastname)
-  updateLastname = async (req: Request, res: Response) => {
+  updateLastname = async (req: express.Request, res: express.Response) => {
     try {
       const { userId, newLastname } = req.body;
 
@@ -677,7 +769,7 @@ export class UserController {
   };
 
   // Ažuriranje telefonskog broja
-  updatePhone = async (req: Request, res: Response) => {
+  updatePhone = async (req: express.Request, res: express.Response) => {
     try {
       const { userId, newPhone } = req.body;
 
@@ -698,6 +790,35 @@ export class UserController {
     } catch (error) {
       console.error("Error updating phone number:", error);
       return res.status(500).json({ message: "Server error" });
+    }
+  };
+
+  adminSearchUsers = async (req: express.Request, res: express.Response) => {
+    try {
+      const { query } = req.query;
+
+      if (!query) {
+        return res.status(400).json({ message: "Search query is required" });
+      }
+
+      // Pretraga po username ili email
+      const users = await User.find({
+        $or: [
+          { username: { $regex: query, $options: "i" } },
+          { email: { $regex: query, $options: "i" } },
+        ],
+        role: { $in: ["user", "chef"] },
+      })
+        .lean()
+        .exec();
+
+      return res.status(200).json(users);
+    } catch (err) {
+      const error = err as Error;
+      console.error("Error searching users:", error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
     }
   };
 }

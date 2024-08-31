@@ -100,7 +100,13 @@
           <li><a (click)="goHome()">Home</a></li>
           <li><a routerLink="/top-9-recipes">Top 9</a></li>
           <li><a routerLink="/favourites">Favourites</a></li>
-          <li><a routerLink="/admin-dashboard">Dashboard</a></li>
+          <li>
+            <a>Dashboards</a>
+            <ul class="sub-links">
+              <li><a routerLink="/admin-dashboard-users">Users</a></li>
+              <li><a routerLink="/admin-dashboard-recipes">Recipes</a></li>
+            </ul>
+          </li>
           <li *ngIf="!isProfileRoute()">
             <a>More</a>
             <ul class="sub-links">

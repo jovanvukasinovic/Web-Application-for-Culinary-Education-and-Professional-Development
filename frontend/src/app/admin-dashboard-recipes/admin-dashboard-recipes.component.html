@@ -1,0 +1,73 @@
+<div class="admin-dashboard-container">
+  <h1 class="dashboard-title">Recipe Management</h1>
+  <div class="actions-container">
+    <input
+      type="text"
+      class="search-input"
+      placeholder="Search by recipe name or author"
+      (input)="onSearch($event)"
+    />
+  </div>
+  <div class="recipe-list">
+    <div class="recipe-card" *ngFor="let recipe of filteredRecipes">
+      <div class="recipe-info">
+        <img
+          *ngIf="recipe.imageBase64"
+          [src]="'data:image/png;base64,' + recipe.imageBase64"
+          alt="{{ recipe.name }}"
+          class="recipe-photo"
+        />
+        <div class="recipe-details">
+          <h3>{{ recipe.name }}</h3>
+          <p><strong>Author:</strong> {{ recipe.createdBy }}</p>
+          <p>
+            <strong>Rating:</strong>
+            <span class="rating-stars">
+              <span class="star-wrapper">
+                <span
+                  class="filled-stars"
+                  [style.width.%]="(recipe.averageRating / 5) * 100"
+                  >★★★★★</span
+                >
+                <span class="empty-stars">★★★★★</span>
+              </span>
+            </span>
+          </p>
+          <p><strong>Comments:</strong> {{ recipe.comments.length }}</p>
+          <p>
+            <strong>Status: {{ recipe.status }}</strong>
+          </p>
+        </div>
+        <div class="recipe-actions">
+          <button
+            (click)="toggleRecipeStatus(recipe._id, 'active')"
+            [disabled]="recipe.status === 'active'"
+          >
+            Activate
+          </button>
+          <button
+            (click)="toggleRecipeStatus(recipe._id, 'inactive')"
+            [disabled]="recipe.status === 'inactive'"
+          >
+            Deactivate
+          </button>
+          <button (click)="openDeleteModal(recipe._id)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="showDeleteModal">
+    <div class="modal-content">
+      <h3>Are you sure you want to delete this recipe?</h3>
+      <div class="modal-actions">
+        <button class="cancel-button" (click)="closeDeleteModal()">
+          Cancel
+        </button>
+        <button class="delete-button" (click)="confirmDeleteRecipe()">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
