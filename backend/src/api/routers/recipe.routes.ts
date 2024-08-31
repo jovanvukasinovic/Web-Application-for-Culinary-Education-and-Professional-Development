@@ -11,6 +11,14 @@ recipeRouter.get("/all", (req, res) =>
   recipeController.getAllRecipes(req, res)
 );
 
+recipeRouter.get("/allRecipes", (req, res) =>
+  recipeController.getAllRecipesByAdmin(req, res)
+);
+
+recipeRouter.get("/allCandidatesRecipes", (req, res) =>
+  recipeController.getAllRecipesByChef(req, res)
+);
+
 recipeRouter.get("/sort", (req, res) => recipeController.sortRecipes(req, res));
 
 recipeRouter.get("/search", (req, res) =>
@@ -25,6 +33,10 @@ recipeRouter.post("/add", upload.single("image"), (req, res) =>
   recipeController.addNewRecipe(req, res)
 );
 
+recipeRouter.patch("/update-status/:recipeId", (req, res) =>
+  recipeController.updateRecipeStatus(req, res)
+);
+
 recipeRouter.post("/recipe/comment", (req, res) =>
   recipeController.addCommentAndRating(req, res)
 );
@@ -36,6 +48,10 @@ recipeRouter.delete("/recipe/delete-comment", (req, res) => {
   // console.log("Ovo je req.body: " + JSON.stringify(req.body, null, 2));
   recipeController.deleteComment(req, res);
 });
+
+recipeRouter.delete("/delete-recipe", (req, res) =>
+  recipeController.deleteRecipeByIdByAdmin(req, res)
+);
 
 recipeRouter.get("/top9/:category", (req, res) => {
   recipeController.getTop9Recipes(req, res);

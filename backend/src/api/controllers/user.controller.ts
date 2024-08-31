@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import multer from "multer";
 import User from "../models/user";
 import Recipe from "../models/recipe";
+import Comment from "../models/comment";
+import Rating from "../models/rating";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -258,19 +260,81 @@ export class UserController {
     try {
       const { username } = req.body;
 
-      const userDeletionResult = await User.deleteOne({ username }).exec();
-      if (userDeletionResult.deletedCount === 0) {
+      // Pronađi korisnika po username-u
+      const user = await User.findOne({ username }).exec();
+      if (!user) {
+        console.log(`User not found: ${username}`);
         return res.status(404).json({ message: "User not found" });
       }
 
-      // Brisanje svega što je povezano sa korisnikom
-      // await Recipe.deleteMany({ owner: username }).exec();
+      const userId = user._id;
+      console.log(`User found: ${userId}`);
 
+      // Smanji broj favorita u svim receptima koje je korisnik favorizovao
+      const updateFavoritesResult = await Recipe.updateMany(
+        { _id: { $in: user.favouriteRecepies } },
+        { $inc: { favourites: -1 } }
+      ).exec();
+      console.log(
+        `Updated favourites count for ${updateFavoritesResult.modifiedCount} recipes`
+      );
+
+      // Pronađi sve komentare i ocene koje je korisnik ostavio
+      const userComments = await Comment.find({ username }).exec();
+      const userRatings = await Rating.find({ username }).exec();
+
+      const commentIds = userComments.map((comment) => comment._id);
+      const ratingIds = userRatings.map((rating) => rating._id);
+
+      console.log(
+        `Found ${commentIds.length} comments and ${ratingIds.length} ratings to delete`
+      );
+
+      // Obrisi komentare i ocene iz baza
+      const deleteCommentsResult = await Comment.deleteMany({
+        _id: { $in: commentIds },
+      }).exec();
+      const deleteRatingsResult = await Rating.deleteMany({
+        _id: { $in: ratingIds },
+      }).exec();
+
+      console.log(
+        `Deleted ${deleteCommentsResult.deletedCount} comments and ${deleteRatingsResult.deletedCount} ratings`
+      );
+
+      // Ukloni reference na komentare i ocene u receptima
+      const removeCommentsReferencesResult = await Recipe.updateMany(
+        { comments: { $in: commentIds } },
+        { $pull: { comments: { $in: commentIds } } }
+      ).exec();
+
+      const removeRatingsReferencesResult = await Recipe.updateMany(
+        { ratings: { $in: ratingIds } },
+        { $pull: { ratings: { $in: ratingIds } } }
+      ).exec();
+
+      console.log(
+        `Removed comment references from ${removeCommentsReferencesResult.modifiedCount} recipes`
+      );
+      console.log(
+        `Removed rating references from ${removeRatingsReferencesResult.modifiedCount} recipes`
+      );
+
+      // Na kraju, obriši korisnika iz baze
+      const userDeletionResult = await User.deleteOne({ _id: userId }).exec();
+      if (userDeletionResult.deletedCount === 0) {
+        console.log(`Failed to delete user: ${userId}`);
+        return res.status(404).json({ message: "User deletion failed" });
+      }
+
+      console.log(
+        `User and associated data deleted successfully for userId: ${userId}`
+      );
       return res
         .status(200)
-        .json({ message: "User and associated recipes deleted" });
+        .json({ message: "User and associated data deleted successfully" });
     } catch (err) {
-      console.error(err);
+      console.error(`Error in deleteUserByUsernameByAdmin: ${err}`);
       return res
         .status(500)
         .json({ message: "Server error: deleteUserByUsernameByAdmin" });

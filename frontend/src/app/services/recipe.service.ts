@@ -15,9 +15,19 @@ export class RecipeService {
     return this.http.post<any>(`${this.apiUrl}/add`, formData);
   }
 
-  // Dohvatanje svih recepata
+  // Dohvatanje svih recepata koji su aktivni
   getAllRecipes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
+  }
+
+  // Dohvatanje svih recepata koji su aktivni i neaktivni
+  getAllRecipesByAdmin(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/allRecipes`);
+  }
+
+  // Dohvatanje svih recepata koji su neaktivni
+  getAllRecipesByChef(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/allCandidatesRecipes`);
   }
 
   getTop9Recipes(category: string): Observable<any[]> {
@@ -80,7 +90,9 @@ export class RecipeService {
   }
 
   // Delete recipe by ID
-  deleteRecipe(recipeId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/delete/${recipeId}`);
+  deleteRecipeById(recipeId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/delete-recipe`, {
+      body: { recipeId },
+    });
   }
 }

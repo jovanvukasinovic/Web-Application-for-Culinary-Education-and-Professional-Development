@@ -117,8 +117,6 @@ export class UserRegistrationComponent implements OnInit {
       isAdmin = true;
     }
 
-    alert(isAdmin);
-
     try {
       const response = await this.userService
         .registerUser(formData, isAdmin)

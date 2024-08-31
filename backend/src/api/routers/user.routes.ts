@@ -27,15 +27,15 @@ userRouter.get("/adminSearch", (req, res) => {
   userController.adminSearchUsers(req, res);
 });
 
-// Ruta za dohvatanje korisnika po korisnickom imenu
-userRouter.get("/:username", (req, res) =>
-  userController.getUserByUsername(req, res)
-);
-
 userRouter.get("/:id", (req, res) => {
   console.log(req.params); // Ovo treba da prikazuje _id
   userController.getUserById(req, res);
 });
+
+// Ruta za dohvatanje korisnika po korisnickom imenu
+userRouter.get("/:username", (req, res) =>
+  userController.getUserByUsername(req, res)
+);
 
 // Ruta za verifikaciju lozinke
 userRouter.post("/getUserByIdPost", (req, res) =>
