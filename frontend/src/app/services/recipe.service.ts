@@ -71,4 +71,16 @@ export class RecipeService {
   getRecipesByUser(userId: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/my-recipes/${userId}`);
   }
+
+  // Update recipe status
+  updateRecipeStatus(recipeId: string, status: string): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/update-status/${recipeId}`, {
+      status,
+    });
+  }
+
+  // Delete recipe by ID
+  deleteRecipe(recipeId: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${recipeId}`);
+  }
 }

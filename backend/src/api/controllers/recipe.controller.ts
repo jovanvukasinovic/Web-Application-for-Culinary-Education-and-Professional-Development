@@ -4,7 +4,6 @@ import Recipe from "../models/recipe";
 import Comment from "../models/comment";
 import Rating from "../models/rating";
 import User from "../models/user";
-import user from "../models/user";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni

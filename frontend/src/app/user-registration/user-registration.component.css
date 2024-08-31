@@ -1,4 +1,5 @@
 .registration-container {
+  min-width: 500px;
   max-width: 500px;
   margin: 50px auto;
   padding: 20px;

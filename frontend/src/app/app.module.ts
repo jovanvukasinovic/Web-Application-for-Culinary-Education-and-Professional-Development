@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminDashboardRecipesComponent } from './admin-dashboard-recipes/admin-dashboard-recipes.component';
+import { AdminDashboardUsersComponent } from './admin-dashboard-users/admin-dashboard-users.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { RecipeAddComponent } from './recipe-add/recipe-add.component';
@@ -25,7 +27,6 @@ import { FavouritesComponent } from './favourites/favourites.component';
 import { BecomeAChefComponent } from './become-a-chef/become-a-chef.component';
 import { MyRecipesComponent } from './my-recipes/my-recipes.component';
 import { CandidatesComponent } from './candidates/candidates.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -45,7 +46,8 @@ import { CommonModule } from '@angular/common';
     BecomeAChefComponent,
     MyRecipesComponent,
     CandidatesComponent,
-    AdminDashboardComponent,
+    AdminDashboardRecipesComponent,
+    AdminDashboardUsersComponent,
   ],
   imports: [
     BrowserModule,

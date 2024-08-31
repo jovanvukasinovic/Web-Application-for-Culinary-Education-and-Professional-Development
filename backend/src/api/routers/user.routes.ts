@@ -18,6 +18,15 @@ userRouter.post("/adminLogin", (req, res) =>
   userController.adminLogin(req, res)
 );
 
+// Ruta za dohvatanje svih korisnika
+userRouter.get("/all", (req, res) => userController.getAllUsers(req, res));
+
+// Ruta za pretragu korisnika po username ili email
+userRouter.get("/adminSearch", (req, res) => {
+  // console.log("ruta query:", req.query);
+  userController.adminSearchUsers(req, res);
+});
+
 // Ruta za dohvatanje korisnika po korisnickom imenu
 userRouter.get("/:username", (req, res) =>
   userController.getUserByUsername(req, res)

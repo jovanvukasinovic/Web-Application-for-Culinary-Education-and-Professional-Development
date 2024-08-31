@@ -1,0 +1,36 @@
+<div class="admin-dashboard-container">
+  <h1 class="dashboard-title">Recipe Management</h1>
+  <div class="recipe-list">
+    <div class="recipe-card" *ngFor="let recipe of recipes">
+      <div class="recipe-info">
+        <img
+          *ngIf="recipe.imageBase64"
+          [src]="'data:image/png;base64,' + recipe.imageBase64"
+          alt="{{ recipe.name }}"
+          class="recipe-photo"
+        />
+        <div class="recipe-details">
+          <h3>{{ recipe.name }}</h3>
+          <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
+          <p><strong>Status:</strong> {{ recipe.status }}</p>
+          <p><strong>Average Rating:</strong> {{ recipe.averageRating }}</p>
+        </div>
+      </div>
+      <div class="recipe-actions">
+        <button
+          (click)="toggleRecipeStatus(recipe._id, 'active')"
+          [disabled]="recipe.status === 'active'"
+        >
+          Activate
+        </button>
+        <button
+          (click)="toggleRecipeStatus(recipe._id, 'inactive')"
+          [disabled]="recipe.status === 'inactive'"
+        >
+          Deactivate
+        </button>
+        <button (click)="deleteRecipe(recipe._id)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
