@@ -119,4 +119,8 @@ userRouter.patch("/updatePhone", (req, res) =>
   userController.updatePhone(req, res)
 );
 
+userRouter.post("/become-chef", (req, res) =>
+  userController.becomeChef(req, res)
+);
+
 export default userRouter;

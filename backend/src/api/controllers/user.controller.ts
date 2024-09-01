@@ -821,4 +821,32 @@ export class UserController {
         .json({ message: "Server error", error: error.message });
     }
   };
+
+  becomeChef = async (req: express.Request, res: express.Response) => {
+    const { username } = req.body;
+
+    try {
+      const user = await User.findOne({ username });
+
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
+      }
+
+      // Update user's role to Chef
+      user.role = "chef";
+      await user.save();
+
+      // Pronađi sve recepte koje je kreirao korisnik i ažuriraj njihov status na "active"
+      await Recipe.updateMany({ createdBy: user._id }, { status: "active" });
+
+      res
+        .status(200)
+        .json({ success: true, message: "User has become a Chef" });
+    } catch (error) {
+      console.error("Error in becoming Chef:", error);
+      res.status(500).json({ success: false, message: "Server error" });
+    }
+  };
 }

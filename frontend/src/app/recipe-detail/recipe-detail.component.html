@@ -52,7 +52,7 @@
 
   <div class="description-section">
     <h2>Description</h2>
-    <p>{{ recipe.description }}</p>
+    <p [innerHTML]="formatDescription(recipe.description)"></p>
   </div>
 
   <!-- Comments and Ratings -->

@@ -33,6 +33,16 @@ recipeRouter.post("/add", upload.single("image"), (req, res) =>
   recipeController.addNewRecipe(req, res)
 );
 
+recipeRouter.post(
+  "/add-multiple",
+  upload.fields([
+    { name: "image0", maxCount: 1 },
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+  ]),
+  (req, res) => recipeController.addMultipleRecipes(req, res)
+);
+
 recipeRouter.patch("/update-status/:recipeId", (req, res) =>
   recipeController.updateRecipeStatus(req, res)
 );
@@ -64,5 +74,9 @@ recipeRouter.get("/favourites/:userId", (req, res) => {
 recipeRouter.get("/my-recipes/:userId", (req, res) => {
   recipeController.getRecipesByUser(req, res);
 });
+
+recipeRouter.get("/my-voting/:username", (req, res) =>
+  recipeController.getRecipesRatedOrCommentedByMe(req, res)
+);
 
 export default recipeRouter;

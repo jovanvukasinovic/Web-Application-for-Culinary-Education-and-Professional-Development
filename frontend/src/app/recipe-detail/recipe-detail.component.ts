@@ -48,6 +48,11 @@ export class RecipeDetailComponent implements OnInit {
     return (this.recipe.averageRating / 5) * 100;
   }
 
+  // Nova metoda za formatiranje opisa
+  formatDescription(description: string): string {
+    return description.replace(/\n/g, '<br/>');
+  }
+
   ngOnInit(): void {
     const currentUserData = localStorage.getItem('currentUser');
     this.currentUser = currentUserData ? JSON.parse(currentUserData) : null;

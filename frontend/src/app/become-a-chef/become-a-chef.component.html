@@ -1,1 +1,86 @@
-<p>become-a-chef works!</p>
+<div class="loading-indicator" *ngIf="isLoading">
+  <div class="spinner"></div>
+</div>
+
+<div class="favourites-container">
+  <div class="centered-text" *ngIf="!hasRecipes && !isLoading">
+    <p><strong>There is none of your recipes</strong></p>
+  </div>
+  <div class="centered-text" *ngIf="hasRecipes && !isLoading">
+    <p><strong>My recipes</strong></p>
+  </div>
+
+  <div class="recipe-list" *ngIf="hasRecipes">
+    <div
+      class="recipe-card"
+      *ngFor="let recipe of myRecipes"
+      (click)="viewRecipe(recipe)"
+    >
+      <img
+        *ngIf="recipe.image"
+        [src]="getImageSrc(recipe.image)"
+        alt="{{ recipe.name }}"
+      />
+
+      <div class="recipe-content">
+        <h2 class="recipe-header">
+          <span *ngIf="recipe.name">{{ recipe.name }}</span>
+          <span class="recipe-favourites">
+            &#10084; {{ recipe.favourites }}
+          </span>
+        </h2>
+        <p><strong>Category:</strong> {{ recipe.category.join(", ") }}</p>
+        <p><strong>Tags:</strong> {{ recipe.tags.join(", ") }}</p>
+        <p class="comments-section">
+          <span class="rating-stars">
+            <span class="star-wrapper">
+              <span
+                class="filled-stars"
+                [style.width.%]="(recipe.averageRating / 5) * 100"
+                >★★★★★</span
+              >
+              <span class="empty-stars">★★★★★</span>
+            </span>
+          </span>
+
+          <span class="comment-icon">
+            <i class="bi bi-chat-dots"></i>{{ recipe.comments.length }}
+          </span>
+        </p>
+        <p class="ellipsis"><strong>...</strong></p>
+      </div>
+    </div>
+    <!-- Plus button for adding a recipe -->
+    <div
+      *ngIf="canAddMoreRecipes"
+      class="add-recipe-card"
+      (click)="addRecipe()"
+    >
+      <span class="plus-icon">&#43;</span>
+    </div>
+  </div>
+
+  <!-- Notification box -->
+  <div class="notification-box" *ngIf="hasRecipes && !isRequirementsMet">
+    <p>
+      You need to rate at least 3 Chefs' recipes and have an average rating of
+      4.0 or higher for each of them.
+    </p>
+  </div>
+
+  <!-- Button for becoming a Chef -->
+  <div class="centered-text" *ngIf="isRequirementsMet">
+    <button class="become-chef-button" (click)="becomeChef()">
+      I want to be a Chef
+    </button>
+  </div>
+</div>
+
+<div *ngIf="showChefModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Congratulations!</h2>
+    <p>You have successfully become a Chef!</p>
+    <p>Login to continue!</p>
+    <button class="modal-close" (click)="closeChefModal()">Close</button>
+  </div>
+</div>

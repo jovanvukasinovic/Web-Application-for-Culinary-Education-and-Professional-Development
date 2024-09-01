@@ -1,0 +1,277 @@
+.my-recipes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.recipe-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  justify-content: center;
+}
+
+.recipe-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.2s;
+  min-width: 300px;
+  min-height: 300px;
+  max-width: 400px;
+  max-height: 400px;
+}
+
+.recipe-card:hover {
+  transform: scale(1.02);
+}
+
+.recipe-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.recipe-content {
+  padding: 15px;
+  flex-grow: 1;
+}
+
+.recipe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.recipe-name {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.recipe-favourites {
+  font-size: 0.9em;
+  color: #cc1b00;
+}
+
+.rating-stars {
+  display: inline-block;
+  position: relative;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.star-wrapper {
+  position: relative;
+  display: inline-block;
+  color: #e0e0e0;
+  white-space: nowrap;
+}
+
+.filled-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ffc107;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.empty-stars {
+  color: #e0e0e0;
+}
+
+.comments-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-icon {
+  margin-left: auto;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.comment-icon .bi-chat-dots {
+  padding-right: 5px;
+  font-size: 1.2rem;
+  color: black;
+}
+
+.ellipsis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+}
+
+.ellipsis strong {
+  font-size: 1.2rem;
+}
+
+.recipes-container .centered-text {
+  font-size: 1.3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: #652c15;
+}
+
+.add-recipe-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #652c15;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-recipe-card:hover {
+  background-color: #f0f0f0;
+}
+
+.plus-icon {
+  font-size: 3rem;
+  color: #652c15;
+}
+
+.notification-box {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #ffebcc;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.become-chef-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #bb9c7f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.become-chef-button:hover {
+  background-color: #652c15;
+}
+
+.loading-indicator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1001;
+}
+
+.loading-indicator .spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #bb9c7f;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.centered-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #652c15;
+  padding: 20px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 80%;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #652c15;
+}
+
+.modal-content p {
+  margin: 20px 0;
+  color: #333;
+}
+
+.modal-close {
+  background-color: #bb9c7f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-close:hover {
+  background-color: #652c15;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
