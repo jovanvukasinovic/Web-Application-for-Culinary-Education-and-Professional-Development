@@ -2,17 +2,24 @@
   <div class="recipe-header">
     <h1 class="recipe-title">{{ recipe.name }}</h1>
     <div class="favourites">
-      <span
-        class="favourite-icon"
-        [ngClass]="{
-          'is-favourite': currentUser && isFavourite,
-          'no-user': !currentUser
-        }"
-        [style.color]="!currentUser ? '#cc1b00' : ''"
-        (click)="currentUser ? toggleFavourite() : null"
-        >&#10084;</span
+      <ng-container
+        *ngIf="recipe.createdBy === currentUser._id; else favouriteIcon"
       >
-      <span>{{ recipe.favourites }}</span>
+        <span class="delete-icon" (click)="openDeleteRecipeModal()"> 🗑️ </span>
+      </ng-container>
+      <ng-template #favouriteIcon>
+        <span
+          class="favourite-icon"
+          [ngClass]="{
+            'is-favourite': currentUser && isFavourite,
+            'no-user': !currentUser
+          }"
+          [style.color]="!currentUser ? '#cc1b00' : ''"
+          (click)="currentUser ? toggleFavourite() : null"
+          >&#10084;</span
+        >
+        <span>{{ recipe.favourites }}</span>
+      </ng-template>
     </div>
   </div>
 
@@ -214,6 +221,20 @@
     <div class="modal-actions">
       <button class="cancel-button" (click)="closeDeleteModal()">Cancel</button>
       <button class="delete-button" (click)="confirmDeleteComment()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+<!-- Modal za potvrdu brisanja recepta -->
+<div class="modal" *ngIf="showDeleteRecipeModal">
+  <div class="modal-content">
+    <h3>Are you sure you want to delete this recipe?</h3>
+    <div class="modal-actions">
+      <button class="cancel-button" (click)="closeDeleteRecipeModal()">
+        Cancel
+      </button>
+      <button class="delete-button" (click)="confirmDeleteRecipe()">
         Delete
       </button>
     </div>
