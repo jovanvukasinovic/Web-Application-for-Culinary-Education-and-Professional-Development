@@ -7,7 +7,7 @@ import User from "../models/user";
 
 export class RecipeController {
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
-  getAllRecipes = async (req: Request, res: Response) => {
+  getAllRecipes = async (req: express.Request, res: express.Response) => {
     try {
       const recipes = await Recipe.aggregate([
         { $match: { status: "active" } },
@@ -51,7 +51,7 @@ export class RecipeController {
   };
 
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
-  getAllRecipesByChef = async (req: Request, res: Response) => {
+  getAllRecipesByChef = async (req: express.Request, res: express.Response) => {
     try {
       const recipes = await Recipe.aggregate([
         { $match: { status: "inactive" } },
@@ -95,7 +95,10 @@ export class RecipeController {
   };
 
   // Funkcija za vraćanje svih recepata, sortiranih po prosečnoj oceni
-  getAllRecipesByAdmin = async (req: Request, res: Response) => {
+  getAllRecipesByAdmin = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     try {
       // Prvo povuci sve recepte
       const recipes = await Recipe.aggregate([
@@ -163,7 +166,7 @@ export class RecipeController {
   };
 
   // Dohvatanje jednog recepta po ID-u
-  getRecipeById = async (req: Request, res: Response) => {
+  getRecipeById = async (req: express.Request, res: express.Response) => {
     try {
       const { id } = req.params;
 
@@ -208,7 +211,7 @@ export class RecipeController {
   };
 
   // Funkcija za pretragu recepata sa podrškom za filtriranje i sortiranje
-  sortRecipes = async (req: Request, res: Response) => {
+  sortRecipes = async (req: express.Request, res: express.Response) => {
     try {
       const {
         mealType,
@@ -274,7 +277,7 @@ export class RecipeController {
   };
 
   // Funkcija za pretragu recepata sa podrškom za filtriranje i sortiranje
-  searchRecipes = async (req: Request, res: Response) => {
+  searchRecipes = async (req: express.Request, res: express.Response) => {
     const term = req.query.term as string;
     try {
       const recipes = await Recipe.find({
@@ -305,7 +308,7 @@ export class RecipeController {
   };
 
   // Dodavanje novog recepta
-  addNewRecipe = async (req: Request, res: Response) => {
+  addNewRecipe = async (req: express.Request, res: express.Response) => {
     try {
       const { name, category, description, ingredients, tags, createdBy } =
         req.body;
@@ -344,8 +347,62 @@ export class RecipeController {
     }
   };
 
+  addMultipleRecipes = async (req: express.Request, res: express.Response) => {
+    try {
+      const currentUser = req.body.createdBy;
+      const recipes = [];
+
+      for (let i = 0; i < 3; i++) {
+        const name = req.body[`name${i}`];
+        const category = req.body[`category${i}`]?.split(",");
+        const description = req.body[`description${i}`];
+        const ingredients = JSON.parse(req.body[`ingredients${i}`] || "[]");
+        const tags = req.body[`tags${i}`]?.split(",");
+        const image =
+          req.files && (req.files as any)[`image${i}`]
+            ? {
+                data: (req.files as any)[`image${i}`][0].buffer,
+                contentType: (req.files as any)[`image${i}`][0].mimetype,
+              }
+            : null;
+
+        if (
+          name &&
+          category &&
+          description &&
+          ingredients.length &&
+          tags &&
+          currentUser
+        ) {
+          const newRecipe = new Recipe({
+            name,
+            category,
+            description,
+            ingredients,
+            tags,
+            createdBy: currentUser,
+            image,
+            status: "inactive", // Recepti postaju aktivni tek nakon odobrenja od strane Chef-ova
+          });
+
+          recipes.push(newRecipe.save());
+        }
+      }
+
+      await Promise.all(recipes);
+
+      return res.status(201).json({ message: "Recipes added successfully" });
+    } catch (err) {
+      const error = err as Error;
+      console.error(error.message);
+      return res
+        .status(500)
+        .json({ message: "Server error", error: error.message });
+    }
+  };
+
   // Dodavanje komentara i ocene
-  addCommentAndRating = async (req: Request, res: Response) => {
+  addCommentAndRating = async (req: express.Request, res: express.Response) => {
     try {
       const { recipeId, userId, username, commentText, ratingValue } = req.body;
 
@@ -394,7 +451,10 @@ export class RecipeController {
   };
 
   // Update user comment and rating
-  updateCommentAndRating = async (req: Request, res: Response) => {
+  updateCommentAndRating = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
     const { recipeId, username, userId, commentText, ratingValue } = req.body;
 
     try {
@@ -451,7 +511,7 @@ export class RecipeController {
   };
 
   // Brisanje komentara i ocene
-  deleteComment = async (req: Request, res: Response) => {
+  deleteComment = async (req: express.Request, res: express.Response) => {
     const { recipeId, username } = req.body;
 
     // console.log(recipeId);
@@ -512,7 +572,7 @@ export class RecipeController {
     }
   };
 
-  getTop9Recipes = async (req: Request, res: Response) => {
+  getTop9Recipes = async (req: express.Request, res: express.Response) => {
     const { category } = req.params;
 
     try {
@@ -573,7 +633,7 @@ export class RecipeController {
   };
 
   // Funkcija za dohvatanje favourites recepata od strane korisnika
-  getFavouriteRecipes = async (req: Request, res: Response) => {
+  getFavouriteRecipes = async (req: express.Request, res: express.Response) => {
     const { userId } = req.params;
 
     try {
@@ -628,7 +688,7 @@ export class RecipeController {
   };
 
   // Funkcija za dohvatanje recepata kreiranih od strane korisnika
-  getRecipesByUser = async (req: Request, res: Response) => {
+  getRecipesByUser = async (req: express.Request, res: express.Response) => {
     try {
       const { userId } = req.params;
 
@@ -669,7 +729,7 @@ export class RecipeController {
   };
 
   // Funkcija za ažuriranje statusa recepta
-  updateRecipeStatus = async (req: Request, res: Response) => {
+  updateRecipeStatus = async (req: express.Request, res: express.Response) => {
     const { recipeId } = req.params;
     const { status } = req.body;
 
@@ -774,6 +834,46 @@ export class RecipeController {
       return res
         .status(500)
         .json({ message: "Server error: deleteRecipeByIdByAdmin" });
+    }
+  };
+
+  getRecipesRatedOrCommentedByMe = async (
+    req: express.Request,
+    res: express.Response
+  ) => {
+    try {
+      const { username } = req.params;
+
+      // Pronađi sve komentare koje je korisnik ostavio
+      const userComments = await Comment.find({ username: username })
+        .select("recipeId")
+        .lean()
+        .exec();
+
+      // Pronađi sve ocene koje je korisnik ostavio
+      const userRatings = await Rating.find({ username: username })
+        .select("recipeId")
+        .lean()
+        .exec();
+
+      // Izvuci sve recipeId iz komentara i ocena
+      const recipeIds = [
+        ...new Set([
+          ...userComments.map((comment) => comment.recipeId),
+          ...userRatings.map((rating) => rating.recipeId),
+        ]),
+      ];
+
+      // Pronađi sve recepte na osnovu dobijenih ID-eva
+      const recipes = await Recipe.find({ _id: { $in: recipeIds } })
+        .select("_id name category averageRating comments")
+        .lean()
+        .exec();
+
+      return res.status(200).json(recipes);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Server error" });
     }
   };
 }

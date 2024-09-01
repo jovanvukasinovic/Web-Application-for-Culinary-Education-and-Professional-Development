@@ -19,6 +19,7 @@ export class RecipeDetailComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser')!);
   isFavourite: boolean = false;
   recipeAuthor: boolean = false;
+  showDeleteRecipeModal = false;
 
   constructor(
     private recipeService: RecipeService,
@@ -46,6 +47,11 @@ export class RecipeDetailComponent implements OnInit {
 
   getStarFillPercentage(): number {
     return (this.recipe.averageRating / 5) * 100;
+  }
+
+  // Nova metoda za formatiranje opisa
+  formatDescription(description: string): string {
+    return description.replace(/\n/g, '<br/>');
   }
 
   ngOnInit(): void {
@@ -318,5 +324,30 @@ export class RecipeDetailComponent implements OnInit {
     if (userRating) {
       this.newRating = userRating.rating;
     }
+  }
+
+  // Metoda za otvaranje modala za brisanje recepta
+  openDeleteRecipeModal() {
+    this.showDeleteRecipeModal = true;
+  }
+
+  // Metoda za zatvaranje modala za brisanje recepta
+  closeDeleteRecipeModal() {
+    this.showDeleteRecipeModal = false;
+  }
+
+  // Metoda za potvrdu brisanja recepta
+  confirmDeleteRecipe() {
+    this.recipeService.deleteRecipeById(this.recipe._id).subscribe(
+      (response) => {
+        alert('Recipe successfully deleted.');
+        this.closeDeleteRecipeModal();
+        this.router.navigate(['/']); // Preusmerava na početnu stranicu nakon brisanja recepta
+      },
+      (error) => {
+        console.error('Error deleting recipe:', error);
+        alert('An error occurred while deleting the recipe. Please try again.');
+      }
+    );
   }
 }

@@ -15,6 +15,11 @@ export class RecipeService {
     return this.http.post<any>(`${this.apiUrl}/add`, formData);
   }
 
+  // Kandidovanje za Chef-a
+  addMultipleRecipes(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/add-multiple`, formData);
+  }
+
   // Dohvatanje svih recepata koji su aktivni
   getAllRecipes(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/all`);
@@ -94,5 +99,10 @@ export class RecipeService {
     return this.http.delete<any>(`${this.apiUrl}/delete-recipe`, {
       body: { recipeId },
     });
+  }
+
+  // Chef has already voted
+  getRecipesRatedOrCommentedByMe(username: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/my-voting/${username}`);
   }
 }

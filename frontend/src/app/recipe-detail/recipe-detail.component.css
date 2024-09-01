@@ -309,5 +309,14 @@ button:hover {
 
 .star-rating .star.filled {
   color: #ffc107;
-  /* Zlatna boja za popunjene zvezdice */
+}
+
+.delete-icon {
+  cursor: pointer;
+  font-size: 2rem;
+  color: #e74c3c;
+}
+
+.delete-icon:hover {
+  color: #c0392b;
 }

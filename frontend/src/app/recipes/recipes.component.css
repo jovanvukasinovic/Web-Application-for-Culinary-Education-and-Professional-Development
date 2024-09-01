@@ -147,14 +147,11 @@
 .recipe-name {
   font-weight: bold;
   font-size: 1.8rem;
-  /* Stilizuje naziv recepta */
 }
 
 .recipe-favourites {
   font-size: 0.9em;
-  /* Malo manji font za autora, može biti i bez promene */
   color: #cc1b00;
-  /* Dodavanje neutralne boje za autora */
 }
 
 .recipe-header {

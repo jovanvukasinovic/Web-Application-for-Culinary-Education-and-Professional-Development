@@ -1,1 +1,67 @@
-<p>candidates works!</p>
+<div class="candidates-container">
+  <h1 class="chef-candidates-title">Chef Candidates</h1>
+
+  <div
+    *ngFor="let candidate of candidates; let i = index"
+    class="candidate-card"
+  >
+    <h2>Candidate {{ i + 1 }}</h2>
+
+    <div class="recipe-list">
+      <div
+        *ngFor="let recipe of candidate.recipes"
+        class="recipe-card"
+        [ngClass]="{
+          'rated-commented-recipe': isRecipeRatedOrCommented(recipe._id)
+        }"
+        (click)="viewRecipe(recipe)"
+      >
+        <img
+          [src]="
+            recipe.imageBase64
+              ? 'data:image/jpeg;base64,' + recipe.imageBase64
+              : 'assets/placeholder.png'
+          "
+          alt="Recipe Image"
+        />
+        <div class="recipe-details">
+          <div class="recipe-header">
+            <h3>
+              {{ recipe.name }}
+            </h3>
+            <span class="recipe-favourites">
+              &#10084; {{ recipe.favourites }}
+            </span>
+          </div>
+          <p>
+            <strong>Category: </strong>{{ getCategoryDisplay(recipe.category) }}
+          </p>
+
+          <p><strong>Tags: </strong>{{ getTagsDisplay(recipe.tags) }}</p>
+
+          <div class="recipe-header">
+            <div class="rating-stars">
+              <span class="star-wrapper">
+                <span
+                  class="filled-stars"
+                  [style.width.%]="getStarFillPercentage(recipe)"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+                <span class="empty-stars"
+                  >&#9733;&#9733;&#9733;&#9733;&#9733;</span
+                >
+              </span>
+            </div>
+            <span class="comment-icon">
+              <i class="bi bi-chat-dots"></i> {{ recipe.comments.length }}
+            </span>
+          </div>
+          <div class="recipe-footer">
+            <span><strong>Votes: </strong>{{ recipe.comments.length }}</span>
+            <button (click)="viewRecipe(recipe)">View Recipe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -168,4 +168,10 @@ export class UserService {
       params: { query },
     });
   }
+
+  becomeChef(username: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/become-chef`, {
+      username,
+    });
+  }
 }
