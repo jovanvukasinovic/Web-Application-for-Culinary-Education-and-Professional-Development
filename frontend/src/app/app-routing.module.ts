@@ -20,24 +20,58 @@ import { CandidatesComponent } from './candidates/candidates.component';
 
 const routes: Routes = [
   { path: '', component: RecipesComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: UserRegistrationComponent },
+  { path: 'recipe/:id', component: RecipeDetailComponent },
+  { path: 'top-9-recipes', component: Top9RecipesComponent },
+
+  { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
+  {
+    path: 'register',
+    component: UserRegistrationComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'admin-login', component: AdminLoginComponent },
-  { path: 'admin-dashboard-users', component: AdminDashboardUsersComponent },
+  {
+    path: 'admin-login',
+    component: AdminLoginComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'admin-dashboard-users',
+    component: AdminDashboardUsersComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: 'admin-dashboard-recipes',
     component: AdminDashboardRecipesComponent,
+    canActivate: [AuthGuard],
   },
-  { path: 'recipe-add', component: RecipeAddComponent },
-  { path: 'recipes', component: RecipesComponent },
-  { path: 'recipe/:id', component: RecipeDetailComponent },
-  { path: 'top-9-recipes', component: Top9RecipesComponent },
-  { path: 'favourites', component: FavouritesComponent },
-  { path: 'become-a-chef', component: BecomeAChefComponent },
-  { path: 'my-recipes', component: MyRecipesComponent },
-  { path: 'candidates', component: CandidatesComponent },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: 'recipe-add',
+    component: RecipeAddComponent,
+    canActivate: [AuthGuard],
+  },
+
+  {
+    path: 'favourites',
+    component: FavouritesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'become-a-chef',
+    component: BecomeAChefComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'my-recipes',
+    component: MyRecipesComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'candidates',
+    component: CandidatesComponent,
+    canActivate: [AuthGuard],
+  },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

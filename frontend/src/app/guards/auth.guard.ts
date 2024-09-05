@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import {
+  CanActivate,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+} from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -7,13 +12,89 @@ import { CanActivate, Router } from '@angular/router';
 export class AuthGuard implements CanActivate {
   constructor(private router: Router) {}
 
-  canActivate(): boolean {
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      return true;
-    } else {
-      this.router.navigate(['/login']);
-      return false;
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    const allowedRoutesForGuest = ['login', 'register', 'admin-login'];
+
+    const allowedRoutesForUser = [
+      'profile',
+      'recipe-add',
+      'favourites',
+      'become-a-chef',
+    ];
+
+    const allowedRoutesForChef = [
+      'profile',
+      'recipe-add',
+      'favourites',
+      'my-recipes',
+      'candidates',
+    ];
+
+    const allowedRoutesForAdmin = [
+      'register',
+      'profile',
+      'admin-dashboard-users',
+      'admin-dashboard-recipes',
+      'recipe-add',
+      'favourites',
+      'my-recipes',
+      'candidates',
+    ];
+
+    // If guest (no currentUser in localStorage)
+    if (!currentUser.role) {
+      if (allowedRoutesForGuest.includes(route.routeConfig?.path || '')) {
+        return true;
+      } else {
+        this.router.navigate(['']);
+        return false;
+      }
     }
+
+    // If user
+    if (currentUser.role === 'user') {
+      if (
+        route.routeConfig?.path === 'recipe-add'
+        // && currentUser.recipesCount > 3     // TODO: To be implemented!
+      ) {
+        this.router.navigate(['']);
+        return false;
+      }
+      if (allowedRoutesForUser.includes(route.routeConfig?.path || '')) {
+        return true;
+      } else {
+        this.router.navigate(['']);
+        return false;
+      }
+    }
+
+    // If chef
+    if (currentUser.role === 'chef') {
+      if (allowedRoutesForChef.includes(route.routeConfig?.path || '')) {
+        return true;
+      } else {
+        this.router.navigate(['']);
+        return false;
+      }
+    }
+
+    // If admin
+    if (currentUser.role === 'admin') {
+      if (allowedRoutesForAdmin.includes(route.routeConfig?.path || '')) {
+        return true;
+      } else {
+        this.router.navigate(['']);
+        return false;
+      }
+    }
+
+    // Default fallback (if none of the roles match)
+    this.router.navigate(['']);
+    return false;
   }
 }
