@@ -1,6 +1,6 @@
 header {
   font-size: 1rem;
-  background-color: #bc9c7f;
+  background-color: #bb9c7f;
   color: white;
   padding-left: 15px;
   position: fixed;
@@ -110,7 +110,9 @@ header {
   /* Dropdown se pojavljuje ispod roditeljskog elementa */
   right: 0;
   text-align: right;
-  background-color: rgba(255, 123, 255, 0.75);
+  /* background-color: #bb9c7f; */
+  background-color: rgba(188, 156, 127, 0.9);
+  /*#bb9c7f;*/
   padding: 10px;
   border-radius: 5px;
   list-style-type: none;
@@ -133,11 +135,13 @@ header {
 }
 
 .sub-links a {
-  color: white;
+  background-color: #bb9c7f;
   text-decoration: none;
   display: block;
   padding: 5px 10px;
   border-radius: 3px;
+  min-width: 60px;
+  text-align: right;
 }
 
 .sub-links a:hover {
