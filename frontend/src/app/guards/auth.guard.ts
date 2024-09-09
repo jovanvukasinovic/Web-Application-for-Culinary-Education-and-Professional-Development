@@ -58,12 +58,13 @@ export class AuthGuard implements CanActivate {
 
     // If user
     if (currentUser.role === 'user') {
-      if (
-        route.routeConfig?.path === 'recipe-add'
-        // && currentUser.recipesCount > 3     // TODO: To be implemented!
-      ) {
-        this.router.navigate(['']);
-        return false;
+      if (route.routeConfig?.path === 'recipe-add') {
+        if (currentUser.recipesCount >= 3) {
+          this.router.navigate(['']);
+          return false;
+        } else {
+          return true;
+        }
       }
       if (allowedRoutesForUser.includes(route.routeConfig?.path || '')) {
         return true;

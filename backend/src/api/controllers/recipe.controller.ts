@@ -335,6 +335,13 @@ export class RecipeController {
 
       const savedRecipe = await newRecipe.save();
 
+      // Ažuriraj korisnika koji je napravio recept, dodaj novi recept u recepiesMade
+      await User.findByIdAndUpdate(
+        createdBy,
+        { $push: { recepiesMade: savedRecipe._id } }, // Dodavanje ID-a novog recepta u recepiesMade polje korisnika
+        { new: true, useFindAndModify: false } // Vrati ažuriranog korisnika
+      );
+
       return res
         .status(201)
         .json({ message: "Recipe added successfully", recipe: savedRecipe });
@@ -764,6 +771,80 @@ export class RecipeController {
   };
 
   // Funkcija za brisanje recepta
+  // deleteRecipeByIdByAdmin = async (
+  //   req: express.Request,
+  //   res: express.Response
+  // ) => {
+  //   try {
+  //     const { recipeId } = req.body;
+
+  //     // Validacija ID-a
+  //     if (!mongoose.Types.ObjectId.isValid(recipeId)) {
+  //       console.log(`Invalid recipe ID: ${recipeId}`);
+  //       return res.status(400).json({ message: "Invalid recipe ID" });
+  //     }
+
+  //     // Pronađi recept
+  //     const recipe = await Recipe.findById(recipeId).exec();
+  //     if (!recipe) {
+  //       console.log(`Recipe not found: ${recipeId}`);
+  //       return res.status(404).json({ message: "Recipe not found" });
+  //     }
+
+  //     // Pronađi sve komentare i ocene vezane za recept
+  //     const commentIds = recipe.comments;
+  //     const ratingIds = recipe.ratings;
+
+  //     console.log(
+  //       `Found ${commentIds.length} comments and ${ratingIds.length} ratings to delete for recipe ${recipeId}`
+  //     );
+
+  //     // Obrisi komentare i ocene iz baza
+  //     const deleteCommentsResult = await Comment.deleteMany({
+  //       _id: { $in: commentIds },
+  //     }).exec();
+  //     const deleteRatingsResult = await Rating.deleteMany({
+  //       _id: { $in: ratingIds },
+  //     }).exec();
+
+  //     console.log(
+  //       `Deleted ${deleteCommentsResult.deletedCount} comments and ${deleteRatingsResult.deletedCount} ratings`
+  //     );
+
+  //     // Ažuriraj favorite recepte kod svih korisnika
+  //     const updateUsersResult = await User.updateMany(
+  //       { favouriteRecepies: recipeId },
+  //       { $pull: { favouriteRecepies: recipeId } }
+  //     ).exec();
+
+  //     console.log(
+  //       `Removed recipe from favourites for ${updateUsersResult.modifiedCount} users`
+  //     );
+
+  //     // Na kraju, obriši recept iz baze
+  //     const recipeDeletionResult = await Recipe.deleteOne({
+  //       _id: recipeId,
+  //     }).exec();
+  //     if (recipeDeletionResult.deletedCount === 0) {
+  //       console.log(`Failed to delete recipe: ${recipeId}`);
+  //       return res.status(404).json({ message: "Recipe deletion failed" });
+  //     }
+
+  //     console.log(
+  //       `Recipe and associated data deleted successfully for recipeId: ${recipeId}`
+  //     );
+  //     return res
+  //       .status(200)
+  //       .json({ message: "Recipe and associated data deleted successfully" });
+  //   } catch (err) {
+  //     console.error(`Error in deleteRecipeByIdByAdmin: ${err}`);
+  //     return res
+  //       .status(500)
+  //       .json({ message: "Server error: deleteRecipeByIdByAdmin" });
+  //   }
+  // };
+
+  // Funkcija za brisanje recepta
   deleteRecipeByIdByAdmin = async (
     req: express.Request,
     res: express.Response
@@ -804,14 +885,24 @@ export class RecipeController {
         `Deleted ${deleteCommentsResult.deletedCount} comments and ${deleteRatingsResult.deletedCount} ratings`
       );
 
-      // Ažuriraj favorite recepte kod svih korisnika
-      const updateUsersResult = await User.updateMany(
+      // Ažuriraj favourite recepte kod svih korisnika
+      const updateFavouritesResult = await User.updateMany(
         { favouriteRecepies: recipeId },
         { $pull: { favouriteRecepies: recipeId } }
       ).exec();
 
       console.log(
-        `Removed recipe from favourites for ${updateUsersResult.modifiedCount} users`
+        `Removed recipe from favourites for ${updateFavouritesResult.modifiedCount} users`
+      );
+
+      // Ažuriraj recepiesMade kod svih korisnika i ukloni obrisani recept
+      const updateRecepiesMadeResult = await User.updateMany(
+        { recepiesMade: recipeId }, // Prolazimo kroz sve korisnike koji imaju ovaj recept
+        { $pull: { recepiesMade: recipeId } } // Uklanjamo ga iz recepiesMade polja
+      ).exec();
+
+      console.log(
+        `Removed recipe from recepiesMade for ${updateRecepiesMadeResult.modifiedCount} users`
       );
 
       // Na kraju, obriši recept iz baze

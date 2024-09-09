@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RecipeService } from '../services/recipe.service';
+import { UserService } from '../services/user.service';
 
 enum Tags {
   Vegetarian = 'Vegetarian',
@@ -53,7 +54,7 @@ enum Categories {
   templateUrl: './recipe-add.component.html',
   styleUrls: ['./recipe-add.component.css'],
 })
-export class RecipeAddComponent {
+export class RecipeAddComponent implements OnInit {
   name: string = '';
   category: string[] = [];
   description: string = '';
@@ -67,7 +68,52 @@ export class RecipeAddComponent {
   showAllCategories: boolean = false;
   showAllTags: boolean = false;
 
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(
+    private recipeService: RecipeService,
+    private userService: UserService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+    // Proverite da li postoje informacije o korisniku
+    if (!currentUser || !currentUser.role || !currentUser._id) {
+      console.error('Nevažeći korisnički podaci.');
+      return;
+    }
+
+    const id = currentUser._id;
+
+    // TODO: Uklanjanje trenutnog korisnika iz localStorage
+    localStorage.removeItem('currentUser');
+
+    // Dohvati korisnika iz backend-a
+    this.userService.getUserByIdPost(id).subscribe(
+      (updatedUser) => {
+        // Ažuriraj localStorage sa svežim podacima korisnika
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+
+        // Ispisivanje role i recepiesMade za proveru
+        console.log('Korisnička rola:', updatedUser.role);
+        console.log('Broj recepata:', updatedUser.recepiesMade.length);
+
+        // Proveri da li je korisnik sa rolom 'user' i da li ima >= 3 recepata
+        if (
+          updatedUser.role === 'user' &&
+          updatedUser.recepiesMade.length >= 3
+        ) {
+          // Ako je korisnik napravio 3 ili više recepata, redirektuj na početnu stranicu
+          this.router.navigate(['/']);
+        }
+      },
+      (error: any) => {
+        console.error('Greška prilikom dohvatanja korisnika:', error);
+        // Opciono, redirektuj ako korisnički podaci nisu validni
+        this.router.navigate(['/']);
+      }
+    );
+  }
 
   toggleSelection(item: string, type: 'category' | 'tags') {
     if (type === 'category') {
