@@ -340,7 +340,7 @@ export class RecipeDetailComponent implements OnInit {
   confirmDeleteRecipe() {
     this.recipeService.deleteRecipeById(this.recipe._id).subscribe(
       (response) => {
-        alert('Recipe successfully deleted.');
+        // alert('Recipe successfully deleted.');
         this.closeDeleteRecipeModal();
         this.router.navigate(['/']); // Preusmerava na početnu stranicu nakon brisanja recepta
       },

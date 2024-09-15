@@ -315,6 +315,12 @@ export class RecipeController {
 
       const parsedIngredients = JSON.parse(ingredients);
 
+      // Pronađi korisnika koji je kreirao recept
+      const user = await User.findById(createdBy);
+
+      // Proveri da li je korisnik sa ulogom "chef"
+      const status = user?.role === "chef" ? "active" : "inactive";
+
       const newRecipe = new Recipe({
         name,
         category: category.split(","),
@@ -324,6 +330,7 @@ export class RecipeController {
         createdBy,
         comments: [],
         ratings: [],
+        status,
       });
 
       if (req.file) {
