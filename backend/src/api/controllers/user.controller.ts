@@ -667,20 +667,33 @@ export class UserController {
         return res.status(409).json({ message: "Username already exists" });
       }
 
-      // Ažuriraj korisničko ime
-      const user = await User.findByIdAndUpdate(
-        userId,
-        { username: newUsername },
-        { new: true }
-      ).exec();
-
-      if (!user) {
+      // Dohvati trenutnog korisnika da sačuvaš staro korisničko ime
+      const currentUser = await User.findById(userId).exec();
+      if (!currentUser) {
         return res.status(404).json({ message: "User not found" });
       }
 
+      const oldUsername = currentUser.username; // Sačuvaj staro korisničko ime
+
+      // Ažuriraj korisničko ime
+      currentUser.username = newUsername;
+      await currentUser.save();
+
+      // Ažuriraj korisničko ime u komentarima
+      await Comment.updateMany(
+        { username: oldUsername }, // Traži komentare sa starim korisničkim imenom
+        { username: newUsername }
+      ).exec();
+
+      // Ažuriraj korisničko ime u ocenama
+      await Rating.updateMany(
+        { username: oldUsername }, // Traži ocene sa starim korisničkim imenom
+        { username: newUsername }
+      ).exec();
+
       return res
         .status(200)
-        .json({ message: "Username updated successfully", user });
+        .json({ message: "Username updated successfully", user: currentUser });
     } catch (error) {
       console.error("Error updating username:", error);
       return res.status(500).json({ message: "Server error" });
