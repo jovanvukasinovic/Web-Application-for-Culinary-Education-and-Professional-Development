@@ -40,7 +40,7 @@ textarea {
 .tags-checkboxes {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  gap: 1px;
   margin-bottom: 12px;
 }
 
