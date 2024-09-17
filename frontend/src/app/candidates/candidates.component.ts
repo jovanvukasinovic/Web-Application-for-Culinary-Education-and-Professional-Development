@@ -22,13 +22,7 @@ export class CandidatesComponent implements OnInit {
 
   loadCandidates() {
     this.recipeService.getAllRecipesByChef().subscribe((recipes: any[]) => {
-      // Grupisanje recepata po korisnicima
-      let groupedCandidates = this.groupByUser(recipes);
-
-      // Filtriramo samo korisnike čiji je role === 'user'
-      this.candidates = groupedCandidates.filter(
-        (candidate: any) => candidate.role === 'user'
-      );
+      this.candidates = this.groupByUser(recipes);
     });
   }
 
@@ -85,12 +79,5 @@ export class CandidatesComponent implements OnInit {
   voteForRecipe(recipeId: string) {
     // Logic to cast a vote
     console.log('Voted for recipe ID:', recipeId);
-  }
-
-  hasInactiveUserRecipes(candidate: any): boolean {
-    // Check if candidate has any inactive recipes and the candidate is not a chef
-    return candidate.recipes.some(
-      (recipe: any) => recipe.status === 'inactive' && candidate.role === 'user'
-    );
   }
 }
