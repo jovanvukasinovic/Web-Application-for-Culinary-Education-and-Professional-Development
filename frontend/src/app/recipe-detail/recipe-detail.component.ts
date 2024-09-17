@@ -84,7 +84,10 @@ export class RecipeDetailComponent implements OnInit {
             ? totalRating / this.recipe.ratings.length
             : 0; // ili 0, ako nema ocena
 
-        if (this.recipe.createdBy === this.currentUser._id) {
+        if (
+          this.currentUser &&
+          this.recipe.createdBy === this.currentUser._id
+        ) {
           this.recipeAuthor = true;
         }
       },

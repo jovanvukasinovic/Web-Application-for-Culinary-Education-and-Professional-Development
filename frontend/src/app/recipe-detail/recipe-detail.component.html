@@ -2,9 +2,7 @@
   <div class="recipe-header">
     <h1 class="recipe-title">{{ recipe.name }}</h1>
     <div class="favourites">
-      <ng-container
-        *ngIf="recipe.createdBy === currentUser._id; else favouriteIcon"
-      >
+      <ng-container *ngIf="recipeAuthor; else favouriteIcon">
         <span class="delete-icon" (click)="openDeleteRecipeModal()"> 🗑️ </span>
       </ng-container>
       <ng-template #favouriteIcon>
