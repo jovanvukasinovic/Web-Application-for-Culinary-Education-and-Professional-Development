@@ -13,7 +13,7 @@ export class RecipesComponent implements OnInit {
   recipes: any[] = [];
   originalRecipes: any[] = [];
   currentPage: number = 1;
-  recipesPerPage: number = 9;
+  recipesPerPage: number = 6;
   totalPages: number = 1;
   searching = false;
   sortBy: string = '';

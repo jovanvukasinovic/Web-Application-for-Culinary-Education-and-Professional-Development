@@ -10,6 +10,17 @@
     <p><strong>My recipes</strong></p>
   </div>
 
+  <div class="recipe-list" *ngIf="!hasRecipes">
+    <!-- Plus button for adding a recipe -->
+    <div
+      *ngIf="canAddMoreRecipes"
+      class="add-recipe-card"
+      (click)="addRecipe()"
+    >
+      <span class="plus-icon">&#43;</span>
+    </div>
+  </div>
+
   <div class="recipe-list" *ngIf="hasRecipes">
     <div
       class="recipe-card"
@@ -61,15 +72,15 @@
   </div>
 
   <!-- Notification box -->
-  <div class="notification-box" *ngIf="hasRecipes && !isRequirementsMet">
+  <div class="notification-box">
     <p>
-      You need to rate at least 3 Chefs' recipes and have an average rating of
-      4.0 or higher for each of them.
+      You need to post at least 3 recipes, and each recipe must be rated by at
+      least 3 Chefs with an average rating of 4.0 or higher.
     </p>
   </div>
 
   <!-- Button for becoming a Chef -->
-  <div class="centered-text" *ngIf="isRequirementsMet">
+  <div class="centered-text" *ngIf="isRequirementsMet && hasRecipes">
     <button class="become-chef-button" (click)="becomeChef()">
       I want to be a Chef
     </button>
