@@ -49,13 +49,15 @@ export class BecomeAChefComponent implements OnInit {
   }
 
   checkRequirements(): boolean {
+    if (this.myRecipes.length < 3) {
+      return false;
+    }
+
     let isCriteriaMet = true;
 
     for (const recipe of this.myRecipes) {
       const chefCommentsCount = recipe.comments.length;
-      console.log(chefCommentsCount);
       const averageRating = recipe.averageRating;
-      console.log(averageRating);
 
       if (chefCommentsCount < 3 || averageRating < 4.0) {
         isCriteriaMet = false;
