@@ -1,0 +1,1456 @@
+[{
+  "_id": {
+    "$oid": "66e9727032ed71e072d68841"
+  },
+  "recipeId": {
+    "$oid": "66e5f01ef4c9e326ca47602f"
+  },
+  "username": "milos",
+  "comment": "Recept je fenomenalan! Svi su uživali u obroku.",
+  "createdAt": {
+    "$date": "2024-09-17T12:13:36.916Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:13:36.916Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9728632ed71e072d68863"
+  },
+  "recipeId": {
+    "$oid": "66e5f0bbf4c9e326ca476043"
+  },
+  "username": "milos",
+  "comment": "Prilično jednostavan za pripremu, ali mogao bi biti ukusniji.",
+  "createdAt": {
+    "$date": "2024-09-17T12:13:58.685Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:13:58.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9729132ed71e072d68877"
+  },
+  "recipeId": {
+    "$oid": "66e682e470a0b39fbd6bb319"
+  },
+  "username": "milos",
+  "comment": "Odlično objašnjeno, a jelo je bilo savršeno.",
+  "createdAt": {
+    "$date": "2024-09-17T12:14:09.305Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:14:09.305Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9729e32ed71e072d6888c"
+  },
+  "recipeId": {
+    "$oid": "66e6834c70a0b39fbd6bb324"
+  },
+  "username": "milos",
+  "comment": "Sastojci su mi se dopali, ali postupak je mogao biti jednostavniji.",
+  "createdAt": {
+    "$date": "2024-09-17T12:14:22.635Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:14:22.635Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e972ab32ed71e072d688a0"
+  },
+  "recipeId": {
+    "$oid": "66e689051e160b0965475ba8"
+  },
+  "username": "milos",
+  "comment": "Malo komplikovan za početnike, ali vredelo je truda.",
+  "createdAt": {
+    "$date": "2024-09-17T12:14:35.095Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:14:35.095Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e972b732ed71e072d688b4"
+  },
+  "recipeId": {
+    "$oid": "66e68ae01e160b0965475bba"
+  },
+  "username": "milos",
+  "comment": "Jednostavno i ukusno! Definitivno ću praviti ponovo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:14:47.414Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:14:47.414Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e972c432ed71e072d688c8"
+  },
+  "recipeId": {
+    "$oid": "66e6a6071e160b0965475cb9"
+  },
+  "username": "milos",
+  "comment": "Jelo je ispalo previše začinjeno po mom ukusu.",
+  "createdAt": {
+    "$date": "2024-09-17T12:15:00.035Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:15:00.035Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e972dd32ed71e072d688ea"
+  },
+  "recipeId": {
+    "$oid": "66e6b7ba1e160b0965475d4e"
+  },
+  "username": "milos",
+  "comment": "Super ideja, ali zahteva dosta vremena za pripremu.",
+  "createdAt": {
+    "$date": "2024-09-17T12:15:25.551Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:15:25.551Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e972e732ed71e072d688fd"
+  },
+  "recipeId": {
+    "$oid": "66e6b8ab1e160b0965475d71"
+  },
+  "username": "milos",
+  "comment": "Predivan recept! Cela porodica je bila oduševljena.",
+  "createdAt": {
+    "$date": "2024-09-17T12:15:35.975Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:15:35.975Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9741a32ed71e072d68916"
+  },
+  "recipeId": {
+    "$oid": "66e68bda1e160b0965475bd0"
+  },
+  "username": "milos",
+  "comment": "Nisam siguran da li sam nešto pogrešno uradio, ali jelo nije ispalo kako sam očekivao.",
+  "createdAt": {
+    "$date": "2024-09-17T12:20:42.557Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:20:42.557Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9745f32ed71e072d689ba"
+  },
+  "recipeId": {
+    "$oid": "66e682e470a0b39fbd6bb319"
+  },
+  "username": "sara",
+  "comment": "Recept je odličan, sve je precizno objašnjeno.",
+  "createdAt": {
+    "$date": "2024-09-17T12:21:51.674Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:21:51.674Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9746832ed71e072d689d0"
+  },
+  "recipeId": {
+    "$oid": "66e689051e160b0965475ba8"
+  },
+  "username": "sara",
+  "comment": "Jelo je bilo u redu, ali ništa posebno.",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:00.661Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:00.661Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9747032ed71e072d689e4"
+  },
+  "recipeId": {
+    "$oid": "66e6b8681e160b0965475d66"
+  },
+  "username": "sara",
+  "comment": "Ukusno i lako za napraviti. Preporučujem!",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:08.313Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:08.313Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9747932ed71e072d689fa"
+  },
+  "recipeId": {
+    "$oid": "66e68ae01e160b0965475bba"
+  },
+  "username": "sara",
+  "comment": "Postupak je malo složen, ali se trud isplatio.",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:17.864Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:17.864Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9748032ed71e072d68a11"
+  },
+  "recipeId": {
+    "$oid": "66e6834c70a0b39fbd6bb324"
+  },
+  "username": "sara",
+  "comment": "Očekivao sam više od ovog recepta, na kraju je bio prosečan.",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:24.907Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:24.907Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9748932ed71e072d68a25"
+  },
+  "recipeId": {
+    "$oid": "66e6b74a1e160b0965475d3f"
+  },
+  "username": "sara",
+  "comment": "Jako ukusan obrok, preporučujem svima!",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:33.867Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:33.867Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9749532ed71e072d68a39"
+  },
+  "recipeId": {
+    "$oid": "66e6a6661e160b0965475ccb"
+  },
+  "username": "sara",
+  "comment": "Zahteva puno pripreme, ali krajnji rezultat je odličan.",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:45.391Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:45.391Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9749e32ed71e072d68a4f"
+  },
+  "recipeId": {
+    "$oid": "66e6a6071e160b0965475cb9"
+  },
+  "username": "sara",
+  "comment": "Malo previše začina po mom ukusu, ali je u redu.",
+  "createdAt": {
+    "$date": "2024-09-17T12:22:54.680Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:22:54.680Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e974ab32ed71e072d68a64"
+  },
+  "recipeId": {
+    "$oid": "66e68b6e1e160b0965475bc5"
+  },
+  "username": "sara",
+  "comment": "Fantastično! Brzo i ukusno, idealno za užurbane dane.",
+  "createdAt": {
+    "$date": "2024-09-17T12:23:07.442Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:23:07.442Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e974b932ed71e072d68a7a"
+  },
+  "recipeId": {
+    "$oid": "66e6b8061e160b0965475d58"
+  },
+  "username": "sara",
+  "comment": "Očekivao sam bolji rezultat, ali nije loše.",
+  "createdAt": {
+    "$date": "2024-09-17T12:23:21.146Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:23:21.146Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e974eb32ed71e072d68aa2"
+  },
+  "recipeId": {
+    "$oid": "66e68d561e160b0965475bdb"
+  },
+  "username": "sanja",
+  "comment": "Vrlo ukusan recept, svi su ga voleli!",
+  "createdAt": {
+    "$date": "2024-09-17T12:24:11.579Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:24:11.579Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e974f532ed71e072d68ab8"
+  },
+  "recipeId": {
+    "$oid": "66e6a5431e160b0965475cac"
+  },
+  "username": "sanja",
+  "comment": "Nisam baš zadovoljan, ali nije ni loše.",
+  "createdAt": {
+    "$date": "2024-09-17T12:24:21.080Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:24:21.080Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9753232ed71e072d68b40"
+  },
+  "recipeId": {
+    "$oid": "66e6b7ba1e160b0965475d4e"
+  },
+  "username": "sanja",
+  "comment": "Jednostavan i brz za pripremu, a veoma ukusan.",
+  "createdAt": {
+    "$date": "2024-09-17T12:25:22.167Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:25:22.167Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9753b32ed71e072d68b57"
+  },
+  "recipeId": {
+    "$oid": "66e6a4db1e160b0965475c96"
+  },
+  "username": "sanja",
+  "comment": "Recept je dobar, ali zahteva malo prilagođavanja.",
+  "createdAt": {
+    "$date": "2024-09-17T12:25:31.131Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:25:31.131Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9754232ed71e072d68b6d"
+  },
+  "recipeId": {
+    "$oid": "66e682e470a0b39fbd6bb319"
+  },
+  "username": "sanja",
+  "comment": "Savršeno jelo za posebne prilike. Preporučujem!",
+  "createdAt": {
+    "$date": "2024-09-17T12:25:38.123Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:25:38.123Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9754932ed71e072d68b82"
+  },
+  "recipeId": {
+    "$oid": "66e6a6d41e160b0965475cd6"
+  },
+  "username": "sanja",
+  "comment": "Dobar recept, ali mogao bi biti precizniji.",
+  "createdAt": {
+    "$date": "2024-09-17T12:25:45.729Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:25:45.729Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9755132ed71e072d68b99"
+  },
+  "recipeId": {
+    "$oid": "66e5f01ef4c9e326ca47602f"
+  },
+  "username": "sanja",
+  "comment": "Brzo, jednostavno i ukusno!",
+  "createdAt": {
+    "$date": "2024-09-17T12:25:53.700Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:25:53.700Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9756932ed71e072d68bc1"
+  },
+  "recipeId": {
+    "$oid": "66e6a6071e160b0965475cb9"
+  },
+  "username": "sanja",
+  "comment": "Recept je odličan, ali treba prilagoditi količinu začina.",
+  "createdAt": {
+    "$date": "2024-09-17T12:26:17.918Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:26:17.918Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9757232ed71e072d68bd7"
+  },
+  "recipeId": {
+    "$oid": "66e6b8ab1e160b0965475d71"
+  },
+  "username": "sanja",
+  "comment": "Savršenstvo u svakom zalogaju! Veoma sam zadovoljan.",
+  "createdAt": {
+    "$date": "2024-09-17T12:26:26.438Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:26:26.438Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9757d32ed71e072d68bf0"
+  },
+  "recipeId": {
+    "$oid": "66e5f0bbf4c9e326ca476043"
+  },
+  "username": "sanja",
+  "comment": "Nešto mi nije ispalo kako treba, ali možda je do mene.",
+  "createdAt": {
+    "$date": "2024-09-17T12:26:37.705Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:26:37.705Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9759c32ed71e072d68c12"
+  },
+  "recipeId": {
+    "$oid": "66e68d561e160b0965475bdb"
+  },
+  "username": "pera",
+  "comment": "Savršeno balansiran ukus, zaista uživala sam u svakom zalogaju!",
+  "createdAt": {
+    "$date": "2024-09-17T12:27:08.025Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:27:08.025Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e975f132ed71e072d68c54"
+  },
+  "recipeId": {
+    "$oid": "66e6b63c1e160b0965475d15"
+  },
+  "username": "pera",
+  "comment": "Recept je u redu, ali nije mi ostavio jak utisak.",
+  "createdAt": {
+    "$date": "2024-09-17T12:28:33.169Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:28:33.169Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9761232ed71e072d68cd5"
+  },
+  "recipeId": {
+    "$oid": "66e6a6d41e160b0965475cd6"
+  },
+  "username": "pera",
+  "comment": "Sviđa mi se što je brzo i lako za napraviti, idealno za užurbane dane.",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:06.403Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:06.403Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9761e32ed71e072d68cea"
+  },
+  "recipeId": {
+    "$oid": "66e6b8ab1e160b0965475d71"
+  },
+  "username": "pera",
+  "comment": "Nisam bio zadovoljan ukusom, očekivao sam više.",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:18.114Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:18.114Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9762932ed71e072d68d00"
+  },
+  "recipeId": {
+    "$oid": "66e6a6661e160b0965475ccb"
+  },
+  "username": "pera",
+  "comment": "Zaista odličan recept, sve je bilo savršeno kuvano.",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:29.009Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:29.009Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9763232ed71e072d68d17"
+  },
+  "recipeId": {
+    "$oid": "66e5f01ef4c9e326ca47602f"
+  },
+  "username": "pera",
+  "comment": "Jednostavno, ali ukusno. Dovoljno dobro za svakodnevni obrok.",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:38.930Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:38.930Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9763c32ed71e072d68d31"
+  },
+  "recipeId": {
+    "$oid": "66e5f0bbf4c9e326ca476043"
+  },
+  "username": "pera",
+  "comment": "Malo previše komplikovano za moj ukus, ali je ispalo dobro.",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:48.721Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:48.721Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9764532ed71e072d68d47"
+  },
+  "recipeId": {
+    "$oid": "66e68ae01e160b0965475bba"
+  },
+  "username": "pera",
+  "comment": "Sjajan recept, sve je bilo baš po mom ukusu!",
+  "createdAt": {
+    "$date": "2024-09-17T12:29:57.021Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:29:57.021Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9765932ed71e072d68d61"
+  },
+  "recipeId": {
+    "$oid": "66e682e470a0b39fbd6bb319"
+  },
+  "username": "pera",
+  "comment": "Jelo je bilo previše slano, morala sam da prilagodim sastojke.",
+  "createdAt": {
+    "$date": "2024-09-17T12:30:17.875Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:30:17.876Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9766432ed71e072d68d77"
+  },
+  "recipeId": {
+    "$oid": "66e6b74a1e160b0965475d3f"
+  },
+  "username": "pera",
+  "comment": "Ukusno i brzo, ovo ću sigurno praviti ponovo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:30:28.718Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:30:28.718Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9766f32ed71e072d68d8d"
+  },
+  "recipeId": {
+    "$oid": "66e6a4db1e160b0965475c96"
+  },
+  "username": "pera",
+  "comment": "Nisam impresioniran, ali je bilo solidno.",
+  "createdAt": {
+    "$date": "2024-09-17T12:30:39.557Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:30:39.557Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9767f32ed71e072d68da5"
+  },
+  "recipeId": {
+    "$oid": "66e6b7ba1e160b0965475d4e"
+  },
+  "username": "pera",
+  "comment": "Vrlo lagan recept i lepo je ispalo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:30:55.664Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:30:55.664Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9768932ed71e072d68dba"
+  },
+  "recipeId": {
+    "$oid": "66e6b6bb1e160b0965475d24"
+  },
+  "username": "pera",
+  "comment": "Malo više začina bi popravilo ukupan dojam, ali nije loše.",
+  "createdAt": {
+    "$date": "2024-09-17T12:31:05.798Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:31:05.798Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9769532ed71e072d68dd2"
+  },
+  "recipeId": {
+    "$oid": "66e6a5431e160b0965475cac"
+  },
+  "username": "pera",
+  "comment": "Jedan od najboljih recepata koje sam probala, svaka čast!",
+  "createdAt": {
+    "$date": "2024-09-17T12:31:17.666Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:31:17.666Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e976a732ed71e072d68df0"
+  },
+  "recipeId": {
+    "$oid": "66e6834c70a0b39fbd6bb324"
+  },
+  "username": "pera",
+  "comment": "Treba više vremena nego što sam očekivao, ali je vredelo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:31:35.242Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:31:35.242Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9772432ed71e072d68ea3"
+  },
+  "recipeId": {
+    "$oid": "66e6b74a1e160b0965475d3f"
+  },
+  "username": "milica",
+  "comment": "Prosečno jelo, ništa posebno.",
+  "createdAt": {
+    "$date": "2024-09-17T12:33:40.286Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:33:40.286Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9772c32ed71e072d68eb9"
+  },
+  "recipeId": {
+    "$oid": "66e68ae01e160b0965475bba"
+  },
+  "username": "milica",
+  "comment": "Jednostavan za pripremu i vrlo ukusan!",
+  "createdAt": {
+    "$date": "2024-09-17T12:33:48.876Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:33:48.876Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9773532ed71e072d68ecf"
+  },
+  "recipeId": {
+    "$oid": "66e6a6d41e160b0965475cd6"
+  },
+  "username": "milica",
+  "comment": "Jelo je ispalo savršeno, vrlo sam zadovoljna.",
+  "createdAt": {
+    "$date": "2024-09-17T12:33:57.142Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:33:57.142Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9774732ed71e072d68ef4"
+  },
+  "recipeId": {
+    "$oid": "66e6b8ab1e160b0965475d71"
+  },
+  "username": "milica",
+  "comment": "Prilično obično, ali zgodno za brzi obrok.",
+  "createdAt": {
+    "$date": "2024-09-17T12:34:15.971Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:34:15.971Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9775832ed71e072d68f0f"
+  },
+  "recipeId": {
+    "$oid": "66e6a6071e160b0965475cb9"
+  },
+  "username": "milica",
+  "comment": "Zaista ukusan obrok, uživali smo u svakom zalogaju!",
+  "createdAt": {
+    "$date": "2024-09-17T12:34:32.651Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:34:32.651Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9776532ed71e072d68f25"
+  },
+  "recipeId": {
+    "$oid": "66e689051e160b0965475ba8"
+  },
+  "username": "milica",
+  "comment": "Previše komplikovano za ono što nudi na kraju.",
+  "createdAt": {
+    "$date": "2024-09-17T12:34:45.649Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:34:45.649Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9777132ed71e072d68f40"
+  },
+  "recipeId": {
+    "$oid": "66e68bda1e160b0965475bd0"
+  },
+  "username": "milica",
+  "comment": "Jedan od mojih omiljenih recepata, sve je savršeno ispalo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:34:57.134Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:34:57.134Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9777c32ed71e072d68f5e"
+  },
+  "recipeId": {
+    "$oid": "66e6a6661e160b0965475ccb"
+  },
+  "username": "milica",
+  "comment": "Moglo bi biti jednostavnije, ali ukus je dobar.",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:08.153Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:08.153Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9778732ed71e072d68f79"
+  },
+  "recipeId": {
+    "$oid": "66e68d561e160b0965475bdb"
+  },
+  "username": "milica",
+  "comment": "Nije loše, ali sam očekivao bogatiji ukus.",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:19.665Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:19.665Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9778f32ed71e072d68f8f"
+  },
+  "recipeId": {
+    "$oid": "66e6b8681e160b0965475d66"
+  },
+  "username": "milica",
+  "comment": "Ukusno i brzo, savršeno za večeru.",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:27.100Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:27.100Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e9779732ed71e072d68fa5"
+  },
+  "recipeId": {
+    "$oid": "66e68b6e1e160b0965475bc5"
+  },
+  "username": "milica",
+  "comment": "Recept je solidan, ali fali mu nešto da bude vrhunski.",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:35.362Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:35.362Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e977a032ed71e072d68fbf"
+  },
+  "recipeId": {
+    "$oid": "66e6b7ba1e160b0965475d4e"
+  },
+  "username": "milica",
+  "comment": "Vrlo dobar recept, lako je slediti uputstva.",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:44.875Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:44.875Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e977ac32ed71e072d68fdb"
+  },
+  "recipeId": {
+    "$oid": "66e6834c70a0b39fbd6bb324"
+  },
+  "username": "milica",
+  "comment": "Ispalo je odlično, definitivno preporučujem!",
+  "createdAt": {
+    "$date": "2024-09-17T12:35:56.388Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:35:56.388Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e977b432ed71e072d68ff3"
+  },
+  "recipeId": {
+    "$oid": "66e5f0bbf4c9e326ca476043"
+  },
+  "username": "milica",
+  "comment": "Malo mi je trebalo da uhvatim ritam, ali je vredelo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:36:04.975Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:36:04.975Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e977bc32ed71e072d69009"
+  },
+  "recipeId": {
+    "$oid": "66e6b6bb1e160b0965475d24"
+  },
+  "username": "milica",
+  "comment": "Ukusno, ali zahteva dosta vremena za pripremu.",
+  "createdAt": {
+    "$date": "2024-09-17T12:36:12.090Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:36:12.090Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979cdf8c9c578a2351fcb"
+  },
+  "recipeId": {
+    "$oid": "66e6b9b11e160b0965475dad"
+  },
+  "username": "jovan",
+  "comment": "Tvoj recept je fantastično osmišljen! Svi koraci su jasno objašnjeni, a kombinacija sastojaka je zaista jedinstvena. Uz malo dodatne pažnje prema detaljima, verujem da imaš sve što je potrebno da postaneš odličan Chef!",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:01.361Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:01.361Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979d9f8c9c578a2351fe1"
+  },
+  "recipeId": {
+    "$oid": "66e6b9fb1e160b0965475dbc"
+  },
+  "username": "jovan",
+  "comment": "Impresioniran sam tvojim kulinarskim veštinama. Tvoj recept pokazuje kreativnost i tehničku preciznost. Međutim, preporučio bih malo više fokusiranja na prezentaciju, jer je to važan deo chef-ovskog posla.",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:13.355Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:13.355Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979e0f8c9c578a2351ff8"
+  },
+  "recipeId": {
+    "$oid": "66e6bab31e160b0965475de0"
+  },
+  "username": "jovan",
+  "comment": "Tvoj recept je bio ukusan i inovativan. Posebno mi se dopalo kako si kombinovao sastojke na neočekivan način. Ipak, smatram da bi bilo korisno da dodaš više informacija o mogućim varijacijama recepta.",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:20.828Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:20.828Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979e7f8c9c578a235200e"
+  },
+  "recipeId": {
+    "$oid": "66e6ba451e160b0965475dcc"
+  },
+  "username": "jovan",
+  "comment": "Sjajno izveden recept! Detaljno si obradio svaki korak, što pomaže korisnicima da se ne izgube. Ako nastaviš sa ovakvim entuzijazmom i posvećenošću, vidim te kao budućeg Chefa.",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:27.786Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:27.786Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979f3f8c9c578a2352024"
+  },
+  "recipeId": {
+    "$oid": "66e6baf11e160b0965475dec"
+  },
+  "username": "jovan",
+  "comment": "Vrlo interesantno jelo! Kombinacija ukusa je bila iznenađujuća i jako prijatna. Međutim, bilo bi sjajno da obratiš više pažnje na teksture u sledećim receptima, jer se to često gleda kod Chef-a.",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:39.879Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:39.879Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e979fef8c9c578a235203a"
+  },
+  "recipeId": {
+    "$oid": "66e6bb7a1e160b0965475e07"
+  },
+  "username": "jovan",
+  "comment": "Tvoj recept pokazuje veliki potencijal. Sviđa mi se kako si pristupio tradicionalnom jelu s modernim twistom. Uz malo vežbe u postavljanju preciznijih mera sastojaka, mogao bi postati Chef bez problema.",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:50.306Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:50.306Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97a07f8c9c578a2352050"
+  },
+  "recipeId": {
+    "$oid": "66e6bc911e160b0965475e32"
+  },
+  "username": "jovan",
+  "comment": "Impresioniran sam koliko si pažnje posvetio sitnim detaljima u ovom receptu. Sve je lepo usklađeno i jelo je bilo izuzetno ukusno. Samo nastavi u tom pravcu, Chef pozicija ti je nadohvat ruke!",
+  "createdAt": {
+    "$date": "2024-09-17T12:45:59.976Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:45:59.976Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97a10f8c9c578a2352066"
+  },
+  "recipeId": {
+    "$oid": "66e6bbe51e160b0965475e14"
+  },
+  "username": "jovan",
+  "comment": "Tvoj recept je bio pravo osveženje. Originalan, ali ipak klasičan. Ako uspeš da dodatno pojednostaviš postupak, siguran sam da će ti šanse za Chefa značajno porasti.",
+  "createdAt": {
+    "$date": "2024-09-17T12:46:08.391Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:46:08.391Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97a1af8c9c578a235207e"
+  },
+  "recipeId": {
+    "$oid": "66e6bc391e160b0965475e1f"
+  },
+  "username": "jovan",
+  "comment": "Recept ti je zaista jak, posebno u smislu balansa ukusa i prezentacije. Ukus jela je bio perfektan, ali bi neki koraci mogli biti preciznije objašnjeni kako bi bili razumljiviji za sve.",
+  "createdAt": {
+    "$date": "2024-09-17T12:46:18.197Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:46:18.197Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97a62f8c9c578a23520ec"
+  },
+  "recipeId": {
+    "$oid": "66e68bda1e160b0965475bd0"
+  },
+  "username": "jovan",
+  "comment": "Super recept!",
+  "createdAt": {
+    "$date": "2024-09-17T12:47:30.467Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:47:30.467Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97a97f8c9c578a2352158"
+  },
+  "recipeId": {
+    "$oid": "66e6b9fb1e160b0965475dbc"
+  },
+  "username": "dejan",
+  "comment": "Recept ti je vrlo profesionalno napisan i lako razumljiv. Kao budući Chef, važno je da nastaviš da usavršavaš tehniku. Već sada si na odličnom putu!",
+  "createdAt": {
+    "$date": "2024-09-17T12:48:23.479Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:48:23.479Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97aa1f8c9c578a2352179"
+  },
+  "recipeId": {
+    "$oid": "66e6b9b11e160b0965475dad"
+  },
+  "username": "dejan",
+  "comment": "Fantastičan balans ukusa i tekstura! Vidim veliki potencijal u tvojim receptima. Možda bi sledeći korak bio eksperimentisanje sa začinima i neočekivanim kombinacijama.",
+  "createdAt": {
+    "$date": "2024-09-17T12:48:33.132Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:48:33.132Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97aaaf8c9c578a2352191"
+  },
+  "recipeId": {
+    "$oid": "66e6ba451e160b0965475dcc"
+  },
+  "username": "dejan",
+  "comment": "Odličan recept! Dobro strukturisan i jelo je ispalo fantastično. Verujem da si vrlo blizu nivoa Chefa, samo nastavi da radiš na tehnici i preciznosti.",
+  "createdAt": {
+    "$date": "2024-09-17T12:48:42.263Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:48:42.263Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ab1f8c9c578a23521a9"
+  },
+  "recipeId": {
+    "$oid": "66e6baf11e160b0965475dec"
+  },
+  "username": "dejan",
+  "comment": "Tvoj pristup je vrlo kreativno osmišljen i inspirativan. Ako nastaviš sa ovakvim inovativnim idejama i razvijanjem tehničkih veština, bez sumnje ćeš postati Chef!",
+  "createdAt": {
+    "$date": "2024-09-17T12:48:49.205Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:48:49.205Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ab8f8c9c578a23521c2"
+  },
+  "recipeId": {
+    "$oid": "66e6bab31e160b0965475de0"
+  },
+  "username": "dejan",
+  "comment": "Recept ti je fantastičan, posebno način na koji si istakao osnovne ukuse. Možda bi mogao raditi na prezentaciji jela, jer je to važno za Chef-ove standarde.",
+  "createdAt": {
+    "$date": "2024-09-17T12:48:56.878Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:48:56.878Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ac1f8c9c578a23521dc"
+  },
+  "recipeId": {
+    "$oid": "66e6bc391e160b0965475e1f"
+  },
+  "username": "dejan",
+  "comment": "Bravo! Tvoj recept je bio jedno pravo kulinarsko iskustvo. Sa malim doradama u terminologiji i koracima, verujem da ćeš bez problema stići do Chef nivoa.",
+  "createdAt": {
+    "$date": "2024-09-17T12:49:05.118Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:49:05.118Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ad2f8c9c578a23521f4"
+  },
+  "recipeId": {
+    "$oid": "66e6bc911e160b0965475e32"
+  },
+  "username": "dejan",
+  "comment": "Oduševljen sam kako si prezentovao svoj recept. Pored toga, ukus je bio izvanredan. Samo tako nastavi i Chef pozicija će ti ubrzo biti dodeljena!",
+  "createdAt": {
+    "$date": "2024-09-17T12:49:22.402Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:49:22.402Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ae7f8c9c578a235220c"
+  },
+  "recipeId": {
+    "$oid": "66e6bb7a1e160b0965475e07"
+  },
+  "username": "dejan",
+  "comment": "Solidan recept, sve je bilo jasno i detaljno objašnjeno. Ipak, preporučio bih da dodaš više saveta za korisnike kako bi mogli lakše prilagoditi recept svojim potrebama.",
+  "createdAt": {
+    "$date": "2024-09-17T12:49:43.507Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:49:43.508Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97aeff8c9c578a2352224"
+  },
+  "recipeId": {
+    "$oid": "66e6bbe51e160b0965475e14"
+  },
+  "username": "dejan",
+  "comment": "Recept ti je vrlo dobro osmišljen. Posebno mi se dopalo kako si balansirao složene ukuse. Sa malim poboljšanjima, siguran sam da ćeš uskoro biti Chef.",
+  "createdAt": {
+    "$date": "2024-09-17T12:49:51.435Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:49:51.435Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b2af8c9c578a23522a9"
+  },
+  "recipeId": {
+    "$oid": "66e6ba451e160b0965475dcc"
+  },
+  "username": "ivan",
+  "comment": "Tvoj recept je bio prelep spoj tradicionalnih i modernih ukusa. Prezentacija je takođe bila odlična, što je važna osobina za Chefa.",
+  "createdAt": {
+    "$date": "2024-09-17T12:50:50.923Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:50:50.923Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b31f8c9c578a23522c2"
+  },
+  "recipeId": {
+    "$oid": "66e6b9b11e160b0965475dad"
+  },
+  "username": "ivan",
+  "comment": "Vrlo dobro objašnjen recept sa odličnim krajnjim rezultatom. Preporučujem ti da poradiš na brzini pripreme, što je važno za profesionalni nivo.",
+  "createdAt": {
+    "$date": "2024-09-17T12:50:57.883Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:50:57.883Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b3bf8c9c578a23522da"
+  },
+  "recipeId": {
+    "$oid": "66e6bc911e160b0965475e32"
+  },
+  "username": "ivan",
+  "comment": "Recept je bio fantastičan, ali preporučio bih više eksperimentisanja sa različitim tehnikama kuvanja. Ovo će ti pomoći da se istakneš kao budući Chef.",
+  "createdAt": {
+    "$date": "2024-09-17T12:51:07.242Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:51:07.242Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b49f8c9c578a23522f2"
+  },
+  "recipeId": {
+    "$oid": "66e6bb7a1e160b0965475e07"
+  },
+  "username": "ivan",
+  "comment": "Jako zanimljiv recept sa sjajnim balansom ukusa. Ako uspeš da podigneš nivo kreativnosti i tehnike, bez sumnje ćeš postati Chef.",
+  "createdAt": {
+    "$date": "2024-09-17T12:51:21.763Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:51:21.763Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b4ff8c9c578a235230c"
+  },
+  "recipeId": {
+    "$oid": "66e6bc391e160b0965475e1f"
+  },
+  "username": "ivan",
+  "comment": "Tvoj recept je bio pravo iznenađenje, vrlo detaljan i profesionalan. Ako nastaviš da radiš na tehnikama, Chef titula ti je garantovana.",
+  "createdAt": {
+    "$date": "2024-09-17T12:51:27.803Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:51:27.803Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b5ef8c9c578a2352325"
+  },
+  "recipeId": {
+    "$oid": "66e6bab31e160b0965475de0"
+  },
+  "username": "ivan",
+  "comment": "Sjajan balans sastojaka i odlična prezentacija. Vidim veliki potencijal, samo nastavi sa usavršavanjem i sigurno ćeš postati Chef.",
+  "createdAt": {
+    "$date": "2024-09-17T12:51:42.338Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:51:42.338Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97b9cf8c9c578a2352396"
+  },
+  "recipeId": {
+    "$oid": "66e6b9fb1e160b0965475dbc"
+  },
+  "username": "ivana",
+  "comment": "Odličan recept, ali bi bilo korisno da obratiš pažnju na vreme pripreme i korišćenje alternativnih sastojaka. To su stvari koje Chef mora uzeti u obzir.",
+  "createdAt": {
+    "$date": "2024-09-17T12:52:44.304Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:52:44.304Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97ba2f8c9c578a23523ae"
+  },
+  "recipeId": {
+    "$oid": "66e6ba451e160b0965475dcc"
+  },
+  "username": "ivana",
+  "comment": "Tvoj recept je bio pravo kulinarsko osveženje. Sa malo više rada na tehničkim detaljima, siguran sam da možeš postati odličan Chef.",
+  "createdAt": {
+    "$date": "2024-09-17T12:52:50.834Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:52:50.834Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97bb0f8c9c578a23523c6"
+  },
+  "recipeId": {
+    "$oid": "66e6bc911e160b0965475e32"
+  },
+  "username": "ivana",
+  "comment": "Vrlo lepo osmišljeno jelo, a ukus je bio fenomenalan. Prezentacija ti je na visokom nivou, što je ključni aspekt za Chef poziciju.",
+  "createdAt": {
+    "$date": "2024-09-17T12:53:04.122Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:53:04.122Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97bbef8c9c578a23523eb"
+  },
+  "recipeId": {
+    "$oid": "66e6bbe51e160b0965475e14"
+  },
+  "username": "ivana",
+  "comment": "Tvoj recept je bio vrlo originalan, ali savetujem ti da poradiš na strukturiranju koraka kako bi bio lakše razumljiv za širu publiku.",
+  "createdAt": {
+    "$date": "2024-09-17T12:53:18.602Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:53:18.602Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97bd0f8c9c578a2352413"
+  },
+  "recipeId": {
+    "$oid": "66e6bc391e160b0965475e1f"
+  },
+  "username": "ivana",
+  "comment": "Sjajno urađen recept, sve je jasno i precizno. Ako nastaviš da razvijaš tehničke veštine, pozicija Chefa ti je nadomak ruke.",
+  "createdAt": {
+    "$date": "2024-09-17T12:53:36.020Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:53:36.020Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "66e97bdcf8c9c578a235242c"
+  },
+  "recipeId": {
+    "$oid": "66e6bab31e160b0965475de0"
+  },
+  "username": "ivana",
+  "comment": "Ovaj recept pokazuje tvoj veliki potencijal. Balans ukusa i jednostavnost pripreme su ti na visokom nivou. Samo nastavi u istom pravcu!",
+  "createdAt": {
+    "$date": "2024-09-17T12:53:48.176Z"
+  },
+  "updateAt": {
+    "$date": "2024-09-17T12:53:48.176Z"
+  }
+}]
